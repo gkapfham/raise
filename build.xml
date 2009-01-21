@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<project name="raise" basedir="." default="compile"> 
+
+    <!-- Internal resources needed to get DIATOMS to work correctly -->
+    <property name="dir.build" value="build"/>
+    <property name="dir.src" value="src"/>
+    <property name="dir.lib" value="lib"/>	
+
+    <path id="classpath.project">
+
+        <!-- Resources needed in classpath to get DIATOMS to work -->
+        <pathelement location="${dir.build}"/>
+		<pathelement location="${dir.lib}/ant.jar"/>
+        <pathelement location="${dir.lib}/xstream-1.1.3.jar"/>
+        <pathelement location="${dir.lib}/${dir.xstream}/lib/xpp3-1.1.3.4d_b4_min.jar/"/>
+        <pathelement location="${dir.src}"/>
+	</path>
+
+    <target name="prepare">
+        <mkdir dir="${dir.build}"/>
+    </target>
+    
+	<target  name="clean"
+        description="Deletes the 'build' directory.">
+
+      <delete dir="${dir.build}"/>
+    </target>
+
+    <!-- IMPORTANT NOTE: This excludes the code that performs the 
+         test coverage monitoring because this is all written with 
+         AspectJ and thus there is no need to compile it.  Down the 
+         road, if all of the .java files inside of this directory are
+         not Aspects, then we might need to change this wildcard. -->
+
+   
+<!--  This compiles only the things necessary for the reduction package -->
+
+	<target name="compileReduce" 
+         description="Compiles all source files.">
+        <javac srcdir="${dir.src}" destdir="${dir.build}"
+		debug = "true" debuglevel = "lines,var,source" 
+		source = "1.5"
+                includes="raise/reduce/**.java">
+            <classpath refid="classpath.project"/>
+        </javac>
+    </target>
+		
+
+  <!--  Tests only the SetCover class.  -->
+	<target name="testSetCover" depends="compileReduce">
+         <junit
+            printsummary="yes"
+            haltonfailure="yes"
+            haltonerror="yes"
+            fork="yes"
+				maxmemory="512m" >
+
+            <classpath refid="classpath.project"/>
+            <formatter type="plain" usefile="false"/>
+            <batchtest fork="no" todir="${dir.build}">
+                <fileset dir="${dir.src}">
+                    <include name="raise/reduce/TestSetCover.java"/>
+		</fileset>
+            </batchtest>
+        </junit>
+   </target>
+     
+</project>
