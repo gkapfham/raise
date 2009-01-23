@@ -6,8 +6,8 @@
  *   THIS FILE IS NO LONGER NEEDED AS OF 06/04/08
  *
  *--------------------------------------------------------------------*/
- 
- package raise.reduce;
+
+package raise.reduce;
  
  import java.util.LinkedHashSet;
  import java.util.Iterator;
