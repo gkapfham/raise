@@ -1,4 +1,5 @@
 /*---------------------------------------------------------------------
+/*---------------------------------------------------------------------
  *  File: $Id: SetCover.java,v 1.46 2007/03/10 21:02:22 gkapfham Exp $   
  *  Version:  $Revision: 1.46 $
  *
@@ -8,7 +9,7 @@
 
 
 /*   The following methods were commented out by Adam M. Smith to 
- *   removed Mathematica dependencies.
+ *   remove Mathematica dependencies.
  *
  *   public double getHarmonicNumberBound(boolean useTMax)
  *   
@@ -158,6 +159,7 @@ public class SetCover implements Cloneable, Serializable
 	reductionTime = (long)0;
 	prioritizationTime = (long)0;
 
+	
 // 	requirementSubsetUniverse = 
 // 	    Collections.synchronizedSet(new LinkedHashSet());
 // 	testSubsets = 
@@ -222,7 +224,7 @@ public class SetCover implements Cloneable, Serializable
     	pristeneCopyByteArray = this.createFastByteArrayOutputStream();
 	
 	}
-	
+    
 	public void restoreSetCover()
     {
        	SetCover restoration=null;
@@ -386,7 +388,8 @@ public class SetCover implements Cloneable, Serializable
 	 		System.out.println("File "+fileName+" not found");
 	 	}
 	 	return ((SetCover) xstream.fromXML((InputStream) input));
-	 }
+		
+	}
 
 	/**
 	 * Constructs an instance of SetCover from a binary matrix coverage
@@ -397,7 +400,7 @@ public class SetCover implements Cloneable, Serializable
 	 * @author Adam M. Smith
 	 */
 	 
-	 public static SetCover constructSetCoverFromBinary(String matrix, String time) {
+	 public static SetCover constructSetCoverFromMatrix(String matrix, String time) {
 	 	 	
 	 	 SetCover cover = new SetCover();
 	 	 	
@@ -5321,9 +5324,17 @@ public class SetCover implements Cloneable, Serializable
   */
 		
 	
+	public void reduceUsingGreedy(String metric)
+	{
+		this.reduceUsingGreedy(metric, true);
+	}
+	
 	// This method performs the Greedy reduction algorithm
-	public void reduceUsingGreedy(String metric) 
+	public void reduceUsingGreedy(String metric, boolean restore) 
 	{	
+	//	if(restore)
+		//	this.savePristeneCopyByteArray();
+		
 		long start = System.currentTimeMillis();
 		
 		// Check to see if the metric value is legit.
@@ -5388,12 +5399,17 @@ public class SetCover implements Cloneable, Serializable
 		long stop = System.currentTimeMillis();
 		
 		reductionTime = stop - start;
+	
+		//if(restore)
+			//this.restoreSetCover();
 	} // Closes method
 
 	// Prioritizes the SetCover object using repeated greedy reduction.
 	// Takes a string metric parameter that defines the greedy choice.
 	public void prioritizeUsingGreedy(String metric) 
 	{
+		//this.savePristeneCopyByteArray();
+		
 		long start = System.currentTimeMillis();
 	
 		// Check to see if the metric value is legit.
@@ -5420,7 +5436,7 @@ public class SetCover implements Cloneable, Serializable
 			remainingTests = new LinkedHashSet();			
 			
 			// Reduce the current SetCover
-			reduceUsingGreedy(metric);
+			reduceUsingGreedy(metric,false);
 						
 			// Add the reduction results to the prioritizedSets list
 			prioritizedSets.addAll(coverPickSets);	
@@ -5474,6 +5490,8 @@ public class SetCover implements Cloneable, Serializable
 		long stop = System.currentTimeMillis();
 		
 		prioritizationTime = stop-start;
+		
+		//this.restoreSetCover();
 	}
 	
 	/**************************************************************************
@@ -5585,8 +5603,16 @@ public class SetCover implements Cloneable, Serializable
   *
   */
 
-	public void reduceUsingDelayedGreedy(String metric) 
+	public void reduceUsingDelayedGreedy(String metric)
+	{
+		this.reduceUsingDelayedGreedy(metric,true);
+	}
+	
+	public void reduceUsingDelayedGreedy(String metric, boolean restore) 
 	{	
+		//if(restore)
+			//	this.savePristeneCopyByteArray();
+		
 		long start = System.currentTimeMillis();
 		
 		// first build the active SingleTest list
@@ -6044,10 +6070,15 @@ public class SetCover implements Cloneable, Serializable
 		long stop = System.currentTimeMillis();
 		
 		reductionTime = stop-start;
+	
+		//if(restore)
+			//this.restoreSetCover();
 	} // Closes the method
 
 	public void prioritizeUsingDelayedGreedy(String metric) 
 	{
+		//this.savePristeneCopyByteArray();
+		
 		long start = System.currentTimeMillis();
 		
 		// This will be a copy of 'this' SetCover object
@@ -6098,7 +6129,7 @@ public class SetCover implements Cloneable, Serializable
 			remainingTests = new LinkedHashSet();			
 			
 			// Reduce the current SetCover
-			workingCover.reduceUsingDelayedGreedy(metric);
+			workingCover.reduceUsingDelayedGreedy(metric,false);
 			
 			// Update the number of times the reduction algorithm has been run.
 			i++;	
@@ -6235,6 +6266,8 @@ public class SetCover implements Cloneable, Serializable
 		long stop = System.currentTimeMillis();
 		
 		prioritizationTime = stop-start;
+		
+	//	this.restoreSetCover();
 	
 	}
 	
@@ -6521,7 +6554,7 @@ public class SetCover implements Cloneable, Serializable
 	 * metric to choose between the covering test cases. The HGS reducer 
 	 * continues by iteratively examining the covering test sizes of increasing
 	 * cardinality until all of the requirements are covered. When tests tie in
-	 * coverage, time, or ratio the HGS algorithm “looks ahead” in order to
+	 * coverage, time, or ratio the HGS algorithm 'looks ahead' in order to
 	 * determine how the tests fare in covering requirements with more covering
 	 * tests.  If HGS performs the maximum number of allowed look aheads 
 	 * without identifying the best test case, the algorithm arbitrarily 

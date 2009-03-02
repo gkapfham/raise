@@ -55,7 +55,7 @@ public class TestSetCover extends TestCase
 	 
 	 public void testProperNumberOfRequirementsAndTests()
 	 {
-	 	cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/AdamCoverage.dat","data/raise/reduce/setCovers/AdamTime.dat");
+	 	cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/AdamCoverage.dat","data/raise/reduce/setCovers/AdamTime.dat");
 	 	
 	 	assertEquals(8,(cover.getRequirementSubsetUniverse()).size());
 	 	assertEquals(6,(cover.getTestSubsets()).size());
@@ -148,7 +148,7 @@ public class TestSetCover extends TestCase
 		cover2.addSingleTestSubset(STS5);
 	 
 	 
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/AdamCoverage.dat","data/raise/reduce/setCovers/AdamTime.dat");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/AdamCoverage.dat","data/raise/reduce/setCovers/AdamTime.dat");
 	 
 	 	assertEquals(cover.toString(),cover2.toString());
 	}	 
@@ -242,7 +242,7 @@ public class TestSetCover extends TestCase
 		cover.addSingleTestSubset(STS4);
 		cover.addSingleTestSubset(STS5);
 	
-		cover2 = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/WalcottCoverage.dat","data/raise/reduce/setCovers/WalcottTime.dat");
+		cover2 = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/WalcottCoverage.dat","data/raise/reduce/setCovers/WalcottTime.dat");
 		
 		assertEquals(cover.toString(),cover2.toString());
 	}
@@ -312,7 +312,7 @@ public class TestSetCover extends TestCase
 		cover.addSingleTestSubset(STS3);
 		cover.addSingleTestSubset(STS4);
 	
-		cover2 = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/TallamGuptaCoverage.dat","data/raise/reduce/setCovers/TallamGuptaTime.dat");
+		cover2 = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/TallamGuptaCoverage.dat","data/raise/reduce/setCovers/TallamGuptaTime.dat");
 		
 		assertEquals(cover.toString(),cover2.toString());
 	}
@@ -407,7 +407,7 @@ public class TestSetCover extends TestCase
 		cover.addSingleTestSubset(STS5);
 		cover.addSingleTestSubset(STS6);
 	
-		cover2 = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/HGSCoverage.dat","data/raise/reduce/setCovers/HGSTime.dat");
+		cover2 = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/HGSCoverage.dat","data/raise/reduce/setCovers/HGSTime.dat");
 		
 		assertEquals(cover.toString(),cover2.toString());
 	}
@@ -416,12 +416,103 @@ public class TestSetCover extends TestCase
 	{
 		try
 		{
-			cover = SetCover.constructSetCoverFromBinary("","");
+			cover = SetCover.constructSetCoverFromMatrix("","");
 		}
 		catch (Exception e){}
 		
 	}
 	
+	/*// This is for a feature that has not been included yet.
+	public void testRestorationAdamExample()
+	{
+		SingleTest test0 = new SingleTest("SingleTest0",0,4.0);
+		SingleTest test1 = new SingleTest("SingleTest1",1,1.0);
+		SingleTest test2 = new SingleTest("SingleTest2",2,5.0);
+		SingleTest test3 = new SingleTest("SingleTest3",3,2.0);
+		SingleTest test4 = new SingleTest("SingleTest4",4,3.0);
+		SingleTest test5 = new SingleTest("SingleTest5",5,2.0);
+
+		RequirementSubset req0 = new RequirementSubset("RequirementSubset0",0);
+		RequirementSubset req1 = new RequirementSubset("RequirementSubset1",1);
+		RequirementSubset req2 = new RequirementSubset("RequirementSubset2",2);
+		RequirementSubset req3 = new RequirementSubset("RequirementSubset3",3);
+		RequirementSubset req4 = new RequirementSubset("RequirementSubset4",4);
+		RequirementSubset req5 = new RequirementSubset("RequirementSubset5",5);
+		RequirementSubset req6 = new RequirementSubset("RequirementSubset6",6);
+		RequirementSubset req7 = new RequirementSubset("RequirementSubset7",7);
+	
+		SingleTestSubset STS0 = new SingleTestSubset(test0);
+		SingleTestSubset STS1 = new SingleTestSubset(test1);
+		SingleTestSubset STS2 = new SingleTestSubset(test2);
+		SingleTestSubset STS3 = new SingleTestSubset(test3);
+		SingleTestSubset STS4 = new SingleTestSubset(test4);
+		SingleTestSubset STS5 = new SingleTestSubset(test5);
+
+		// add SingleTests to requirementSubsets
+		req0.addCoveringTest(test0);		
+		req0.addCoveringTest(test1);		
+		req0.addCoveringTest(test2);		
+		req0.addCoveringTest(test5);		
+		req1.addCoveringTest(test1);		
+		req1.addCoveringTest(test2);		
+		req1.addCoveringTest(test3);		
+		req1.addCoveringTest(test5);		
+		req2.addCoveringTest(test0);		
+		req3.addCoveringTest(test4);		
+		req3.addCoveringTest(test5);		
+		req4.addCoveringTest(test1);		
+		req4.addCoveringTest(test2);		
+		req5.addCoveringTest(test1);		
+		req5.addCoveringTest(test3);		
+		req6.addCoveringTest(test4);		
+		req6.addCoveringTest(test5);		
+		req7.addCoveringTest(test4);		
+						
+		// add requirementsubsets to STSs
+		STS0.addRequirementSubset(req0);
+		STS0.addRequirementSubset(req2);
+		STS1.addRequirementSubset(req0);
+		STS1.addRequirementSubset(req1);
+		STS1.addRequirementSubset(req4);
+		STS1.addRequirementSubset(req5);
+		STS2.addRequirementSubset(req0);
+		STS2.addRequirementSubset(req1);
+		STS2.addRequirementSubset(req4);
+		STS3.addRequirementSubset(req1);
+		STS3.addRequirementSubset(req5);
+		STS4.addRequirementSubset(req3);
+		STS4.addRequirementSubset(req6);
+		STS4.addRequirementSubset(req7);
+		STS5.addRequirementSubset(req0);
+		STS5.addRequirementSubset(req1);
+		STS5.addRequirementSubset(req3);
+		STS5.addRequirementSubset(req6);
+		
+		// add requirementSubsets to the cover
+		cover2.addRequirementSubset(req0);
+		cover2.addRequirementSubset(req1);
+		cover2.addRequirementSubset(req2);
+		cover2.addRequirementSubset(req3);
+		cover2.addRequirementSubset(req4);
+		cover2.addRequirementSubset(req5);
+		cover2.addRequirementSubset(req6);
+		cover2.addRequirementSubset(req7);
+	
+	
+		// add SingleTestSubset to cover
+		cover2.addSingleTestSubset(STS0);
+		cover2.addSingleTestSubset(STS1);
+		cover2.addSingleTestSubset(STS2);
+		cover2.addSingleTestSubset(STS3);
+		cover2.addSingleTestSubset(STS4);
+		cover2.addSingleTestSubset(STS5);
+		
+		cover2.reduceUsingGreedy("ratio");
+		cover2.reduceUsingGreedy("ratio");
+		
+	}
+	
+	*/
 	public void testCECalculatorAdamExample()
 	{
 		
@@ -511,6 +602,12 @@ public class TestSetCover extends TestCase
 		
 		//System.out.println("CE of "+printIntArray(order)+" is "+cover2.getCE(order));
 		assertEquals(cover2.getCE(order),(float) 0.5);
+		
+		cover2.savePristeneCopyByteArray();
+		cover2.reduceUsingDelayedGreedy("ratio");
+		cover2.restoreSetCover();
+		assertEquals(cover2.getCE(order),(float) 0.5);
+		
 	}
 	
 	public void testCECalculatorReverseAdamExample()
@@ -610,14 +707,14 @@ public class TestSetCover extends TestCase
 	// See the clone method in SetCover for more info.
 	public void testCloneSameString()
 	{
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/AdamCoverage.dat","data/raise/reduce/setCovers/AdamTime.dat");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/AdamCoverage.dat","data/raise/reduce/setCovers/AdamTime.dat");
 		
 		assertEquals(cover.toString(),(cover.clone()).toString());
 	}  
 	
 	public void testPristeneCopySameString()
 	{
-		cover = SetCover.constructSetCoverFromBinary(
+		cover = SetCover.constructSetCoverFromMatrix(
 		"data/raise/reduce/setCovers/AdamCoverage.dat",
 		"data/raise/reduce/setCovers/AdamTime.dat");
 
@@ -633,7 +730,7 @@ public class TestSetCover extends TestCase
 	/* Not done
 	public void testPristeneCopySameResultsAdamExampleReduction()
 	{
-		cover = SetCover.constructSetCoverFromBinary(
+		cover = SetCover.constructSetCoverFromMatrix(
 		"data/raise/reduce/setCovers/AdamCoverage.dat",
 		"data/raise/reduce/setCovers/AdamTime.dat");
 
@@ -655,7 +752,7 @@ public class TestSetCover extends TestCase
 	 ************************************************************************/
 	public void testGreedyReduceCoverageAdamExample()
 	{
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/AdamCoverage.dat","data/raise/reduce/setCovers/AdamTime.dat");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/AdamCoverage.dat","data/raise/reduce/setCovers/AdamTime.dat");
 		
 		cover.reduceUsingGreedy("coverage");
 		covered = cover.getCoverPickSets();
@@ -669,7 +766,7 @@ public class TestSetCover extends TestCase
 	
 	public void testGreedyReduceTimeAdamExample()
 	{
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/AdamCoverage.dat","data/raise/reduce/setCovers/AdamTime.dat");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/AdamCoverage.dat","data/raise/reduce/setCovers/AdamTime.dat");
 		
 		cover.reduceUsingGreedy("time");
 		covered = cover.getCoverPickSets();
@@ -685,7 +782,7 @@ public class TestSetCover extends TestCase
 
 	public void testGreedyReduceRatioAdamExample()
 	{
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/AdamCoverage.dat","data/raise/reduce/setCovers/AdamTime.dat");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/AdamCoverage.dat","data/raise/reduce/setCovers/AdamTime.dat");
 		
 		
 		cover.reduceUsingGreedy("ratio");
@@ -701,7 +798,7 @@ public class TestSetCover extends TestCase
 	///////////////////////////////////////
 	 	public void testGreedyPrioritizeCoverageAdamExample()
 	{
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/AdamCoverage.dat","data/raise/reduce/setCovers/AdamTime.dat");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/AdamCoverage.dat","data/raise/reduce/setCovers/AdamTime.dat");
 		
 		
 		cover.prioritizeUsingGreedy("coverage");
@@ -719,7 +816,7 @@ public class TestSetCover extends TestCase
 
 	public void testGreedyPrioritizeTimeAdamExample()
 	{
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/AdamCoverage.dat","data/raise/reduce/setCovers/AdamTime.dat");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/AdamCoverage.dat","data/raise/reduce/setCovers/AdamTime.dat");
 		
 		
 		cover.prioritizeUsingGreedy("time");
@@ -736,7 +833,7 @@ public class TestSetCover extends TestCase
 }
 	public void testGreedyPrioritizeRatioAdamExample()
 	{
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/AdamCoverage.dat","data/raise/reduce/setCovers/AdamTime.dat");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/AdamCoverage.dat","data/raise/reduce/setCovers/AdamTime.dat");
 		
 		
 		cover.prioritizeUsingGreedy("ratio");
@@ -1786,7 +1883,7 @@ public void testDelayedGreedyReduceUsingTallamGuptaExampleTime()
 	{
 		// this example never is without a test or requirement eliminiation 
 		// so the answer will be the same as coverage
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/TallamGuptaCoverage.dat","data/raise/reduce/setCovers/TallamGuptaTime.dat");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/TallamGuptaCoverage.dat","data/raise/reduce/setCovers/TallamGuptaTime.dat");
 			
 		cover.reduceUsingDelayedGreedy("time");
 		covered = cover.getCoverPickSets();
@@ -1812,7 +1909,7 @@ public void testDelayedGreedyReduceUsingTallamGuptaExampleTime()
 	public void testDelayedGreedyReduceUsingHarroldGuptaSoffaExampleTime() 
 	{
 	
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/HGSCoverage.dat","data/raise/reduce/setCovers/HGSTime.dat");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/HGSCoverage.dat","data/raise/reduce/setCovers/HGSTime.dat");
 		
 		cover.reduceUsingDelayedGreedy("time");
 			covered = cover.getCoverPickSets();
@@ -1839,7 +1936,7 @@ public void testDelayedGreedyReduceUsingTallamGuptaExampleTime()
 public void testDelayedGreedyPrioritizeUsingHarroldGuptaSoffaExampleTime() 
 	{
 	
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/HGSCoverage.dat","data/raise/reduce/setCovers/HGSTime.dat");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/HGSCoverage.dat","data/raise/reduce/setCovers/HGSTime.dat");
 		
 		cover.prioritizeUsingDelayedGreedy("time");
 			covered = cover.getPrioritizedSets();
@@ -1869,7 +1966,7 @@ public void testDelayedGreedyPrioritizeUsingTallamGuptaExampleTime()
 	{
 		// this example never is without a test or requirement eliminiation 
 		// so the answer will be the same as coverage
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/TallamGuptaCoverage.dat","data/raise/reduce/setCovers/TallamGuptaTime.dat");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/TallamGuptaCoverage.dat","data/raise/reduce/setCovers/TallamGuptaTime.dat");
 			
 		cover.prioritizeUsingDelayedGreedy("time");
 		covered = cover.getPrioritizedSets();
@@ -1902,7 +1999,7 @@ public void testDelayedGreedyPrioritizeUsingTallamGuptaExampleTime()
 
 	public void testNoNullsMatrixrlll5() 
 	{
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/matrix-rlll5","data/raise/reduce/setCovers/time-rlll5");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/matrix-rlll5","data/raise/reduce/setCovers/time-rlll5");
 		
 		Iterator testSubsetsIterator = cover.getTestSubsets().iterator();
 		
@@ -1916,13 +2013,13 @@ public void testDelayedGreedyPrioritizeUsingTallamGuptaExampleTime()
 
 	public void testDelayedGreedyreduceUsingDelayedGreedyHugeExampleCoverage() 
 	{
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/matrix-rlll5","data/raise/reduce/setCovers/time-rlll5");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/matrix-rlll5","data/raise/reduce/setCovers/time-rlll5");
 
 		cover.reduceUsingDelayedGreedy("coverage");
 		
 		covered = cover.getCoverPickSets();
 
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/matrix-rlll5","data/raise/reduce/setCovers/time-rlll5");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/matrix-rlll5","data/raise/reduce/setCovers/time-rlll5");
 		
 		assertTrue(cover.coversRequirementSubsetUniverse(covered));
 		
@@ -1942,13 +2039,13 @@ public void testDelayedGreedyPrioritizeUsingTallamGuptaExampleTime()
 	
 	public void testDelayedGreedyreduceUsingDelayedGreedyHugeExampleTime() 
 	{
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/matrix-rlll5","data/raise/reduce/setCovers/time-rlll5");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/matrix-rlll5","data/raise/reduce/setCovers/time-rlll5");
 
 		cover.reduceUsingDelayedGreedy("time");
 		
 		covered = cover.getCoverPickSets();
 
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/matrix-rlll5","data/raise/reduce/setCovers/time-rlll5");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/matrix-rlll5","data/raise/reduce/setCovers/time-rlll5");
 		
 		assertTrue(cover.coversRequirementSubsetUniverse(covered));
 		
@@ -1968,7 +2065,7 @@ public void testDelayedGreedyPrioritizeUsingTallamGuptaExampleTime()
 	
 	public void testDelayedGreedyReduceRatioAdamExample()
 	{
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/AdamCoverage.dat","data/raise/reduce/setCovers/AdamTime.dat");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/AdamCoverage.dat","data/raise/reduce/setCovers/AdamTime.dat");
 		
 		cover.reduceUsingDelayedGreedy("coverage");
 		covered = cover.getCoverPickSets();
@@ -1980,13 +2077,13 @@ public void testDelayedGreedyPrioritizeUsingTallamGuptaExampleTime()
 	}
 	public void testDelayedGreedyreduceUsingDelayedGreedyHugeExampleRatio() 
 	{
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/matrix-rlll5","data/raise/reduce/setCovers/time-rlll5");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/matrix-rlll5","data/raise/reduce/setCovers/time-rlll5");
 
 		cover.reduceUsingDelayedGreedy("ratio");
 		
 		covered = cover.getCoverPickSets();
 
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/matrix-rlll5","data/raise/reduce/setCovers/time-rlll5");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/matrix-rlll5","data/raise/reduce/setCovers/time-rlll5");
 		
 		assertTrue(cover.coversRequirementSubsetUniverse(covered));
 		
@@ -4613,7 +4710,7 @@ public void testHarroldGuptaSoffaPrioritizeUsingWalcottExampleLA1() {
 **********************************************************************************************************************/
 
 public void testHarroldGuptaSoffaReduceUsingTallamGuptaExampleTimeLA0() {
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/TallamGuptaCoverage.dat","data/raise/reduce/setCovers/TallamGuptaTime.dat");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/TallamGuptaCoverage.dat","data/raise/reduce/setCovers/TallamGuptaTime.dat");
 	
 		cover.reduceUsingHarroldGuptaSoffa("time",0);
 		covered = cover.getCoverPickSets();
@@ -4637,7 +4734,7 @@ public void testHarroldGuptaSoffaReduceUsingTallamGuptaExampleTimeLA0() {
 	}	
 
 public void testHarroldGuptaSoffaReduceUsingHarroldGuptaSoffaExampleTimeLA0() {
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/HGSCoverage.dat","data/raise/reduce/setCovers/HGSTime.dat");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/HGSCoverage.dat","data/raise/reduce/setCovers/HGSTime.dat");
 	
 		cover.reduceUsingHarroldGuptaSoffa("time",0);
 		covered = cover.getCoverPickSets();
@@ -4662,7 +4759,7 @@ public void testHarroldGuptaSoffaReduceUsingHarroldGuptaSoffaExampleTimeLA0() {
 	}		
 	
 	public void testHarroldGuptaSoffaPrioritizeUsingHarroldGuptaSoffaExampleTimeLA0() {
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/HGSCoverage.dat","data/raise/reduce/setCovers/HGSTime.dat");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/HGSCoverage.dat","data/raise/reduce/setCovers/HGSTime.dat");
 
 		cover.prioritizeUsingHarroldGuptaSoffa("time",0);
 		covered = cover.getPrioritizedSets();
@@ -4680,7 +4777,7 @@ public void testHarroldGuptaSoffaReduceUsingHarroldGuptaSoffaExampleTimeLA0() {
 		
 	//		System.out.println("*****\n\n");
 	
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/HGSCoverage.dat","data/raise/reduce/setCovers/HGSTime.dat");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/HGSCoverage.dat","data/raise/reduce/setCovers/HGSTime.dat");
 	
 		assertTrue(cover.coversRequirementSubsetUniverse(covered));
 
@@ -4694,12 +4791,12 @@ public void testHarroldGuptaSoffaReduceUsingHarroldGuptaSoffaExampleTimeLA0() {
 	}				
 	
 public void testHarroldGuptaSoffaReduceUsingHugeExampleRatioLA0() {
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/matrix-rlll5","data/raise/reduce/setCovers/time-rlll5");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/matrix-rlll5","data/raise/reduce/setCovers/time-rlll5");
 
 		cover.reduceUsingHarroldGuptaSoffa("ratio",0);
 		covered = cover.getCoverPickSets();
 
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/matrix-rlll5","data/raise/reduce/setCovers/time-rlll5");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/matrix-rlll5","data/raise/reduce/setCovers/time-rlll5");
 		
 		assertTrue(cover.coversRequirementSubsetUniverse(covered));
 		
@@ -5600,7 +5697,7 @@ public void test2OptimalPrioritizeUsingWalcottExampleCoverage() {
 	public void test2OptimalReduceUsingTallamGuptaExampleRatio()
 		{
 	
-			cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/TallamGuptaCoverage.dat","data/raise/reduce/setCovers/TallamGuptaTime.dat");
+			cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/TallamGuptaCoverage.dat","data/raise/reduce/setCovers/TallamGuptaTime.dat");
 			
 			cover.reduceUsing2Optimal("ratio");
 			covered = cover.getCoverPickSets();
@@ -5627,7 +5724,7 @@ public void test2OptimalPrioritizeUsingWalcottExampleCoverage() {
 	public void test2OptimalReduceUsingHarroldGuptaSoffaExampleRatio() 
 	{
 	
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/HGSCoverage.dat","data/raise/reduce/setCovers/HGSTime.dat");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/HGSCoverage.dat","data/raise/reduce/setCovers/HGSTime.dat");
 		
 		cover.reduceUsing2Optimal("ratio");
 			covered = cover.getCoverPickSets();
@@ -5655,7 +5752,7 @@ public void test2OptimalPrioritizeUsingWalcottExampleCoverage() {
 	public void test2OptimalReduceUsingTallamGuptaExampleTime()
 	{
 	
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/TallamGuptaCoverage.dat","data/raise/reduce/setCovers/TallamGuptaTime.dat");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/TallamGuptaCoverage.dat","data/raise/reduce/setCovers/TallamGuptaTime.dat");
 			
 		cover.reduceUsing2Optimal("time");
 		covered = cover.getCoverPickSets();
@@ -5681,13 +5778,13 @@ public void test2OptimalPrioritizeUsingWalcottExampleCoverage() {
 	}
 	
 public void test2OptimalReduceUsing2OptimalayHugeExampleRatio() {
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/matrix-rlll5","data/raise/reduce/setCovers/time-rlll5");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/matrix-rlll5","data/raise/reduce/setCovers/time-rlll5");
 
 		cover.reduceUsing2Optimal("ratio");
 		
 		covered = cover.getCoverPickSets();
 
-		cover = SetCover.constructSetCoverFromBinary("data/raise/reduce/setCovers/matrix-rlll5","data/raise/reduce/setCovers/time-rlll5");
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/matrix-rlll5","data/raise/reduce/setCovers/time-rlll5");
 		
 		assertTrue(cover.coversRequirementSubsetUniverse(covered));
 		
