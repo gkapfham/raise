@@ -366,7 +366,41 @@ public class SetCover implements Cloneable, Serializable
       g.saveCoverageData(coverage);
 	}
 
-
+	/**
+	 * This method takes a LinkedHashSet of SingleTest objects and returns 
+	 * an integer array of the indices of those objects
+	 * 
+	 * @author Adam M. Smith
+	 */
+	
+	public static int[] getIndecesFromSingleTestList(LinkedHashSet<SingleTest> list)
+	{
+		int[] indeces = new int[list.size()];
+		Iterator listIt = list.iterator();
+	
+		for(int i = 0; i<list.size();i++)
+			indeces[i] = ( (SingleTest) listIt.next()).getIndex();
+		
+		return indeces;
+	}
+	
+	/**
+	 * This method takes a LinkedHashSet of SingleTestSubset objects and returns 
+	 * an integer array of the indices of the SingleTest objects that they represent.
+	 * 
+	 * @author Adam M. Smith
+	 */
+	public static int[] getIndecesFromSingleTestSubsetList(LinkedHashSet<SingleTestSubset> list)
+	{
+		int[] indeces = new int[list.size()];
+		Iterator listIt = list.iterator();
+	
+		for(int i = 0; i<list.size();i++)
+			indeces[i] = ( (SingleTestSubset) listIt.next()).getTest().getIndex();
+		
+		return indeces;
+	}
+	
 	/**
 	 * Constructs an instance of SetCover from an xml file.
 	 * 
