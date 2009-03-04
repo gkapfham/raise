@@ -2084,8 +2084,10 @@ public class SetCover implements Cloneable, Serializable
      *  Algorithms_.  This is a O(m*n) algorithm and it can be extended
      *  to perform regression test suite prioritization as well.
      *  
+     *  This is an old version.  The new version appears below. - AMS
      *  @author Gregory M. Kapfhammer 12/5/2005
      */
+    /*
     public Set prioritizeUsingGreedy()
     {
 
@@ -2223,7 +2225,7 @@ public class SetCover implements Cloneable, Serializable
 	return prioritizedSet;
 
     }
-
+*/
 
 	/**
      *  Uses repeated calls to the reduceUsingGreedy method in order
@@ -2395,6 +2397,7 @@ public class SetCover implements Cloneable, Serializable
      * 
      *  This is the old method, the new one is below.  --A.M.S. 08
      */
+    /*
     public Set reduceUsingGreedy()
     {
 
@@ -2720,7 +2723,7 @@ public class SetCover implements Cloneable, Serializable
 
     }
    
-
+*/
 
  	/**								CLONE
      *  Approximates the solution to the SetCover instance using the 
