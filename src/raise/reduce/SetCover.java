@@ -373,15 +373,15 @@ public class SetCover implements Cloneable, Serializable
 	 * @author Adam M. Smith
 	 */
 	
-	public static int[] getIndecesFromSingleTestList(LinkedHashSet<SingleTest> list)
+	public static int[] getIndicesFromSingleTestList(LinkedHashSet<SingleTest> list)
 	{
-		int[] indeces = new int[list.size()];
+		int[] indices = new int[list.size()];
 		Iterator listIt = list.iterator();
 	
 		for(int i = 0; i<list.size();i++)
-			indeces[i] = ( (SingleTest) listIt.next()).getIndex();
+			indices[i] = ( (SingleTest) listIt.next()).getIndex();
 		
-		return indeces;
+		return indices;
 	}
 	
 	/**
@@ -390,15 +390,15 @@ public class SetCover implements Cloneable, Serializable
 	 * 
 	 * @author Adam M. Smith
 	 */
-	public static int[] getIndecesFromSingleTestSubsetList(LinkedHashSet<SingleTestSubset> list)
+	public static int[] getIndicesFromSingleTestSubsetList(LinkedHashSet<SingleTestSubset> list)
 	{
-		int[] indeces = new int[list.size()];
+		int[] indices = new int[list.size()];
 		Iterator listIt = list.iterator();
 	
 		for(int i = 0; i<list.size();i++)
-			indeces[i] = ( (SingleTestSubset) listIt.next()).getTest().getIndex();
+			indices[i] = ( (SingleTestSubset) listIt.next()).getTest().getIndex();
 		
-		return indeces;
+		return indices;
 	}
 	
 	/**
