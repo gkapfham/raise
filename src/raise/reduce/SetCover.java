@@ -310,8 +310,44 @@ public class SetCover implements Cloneable, Serializable
 	return cover;
 
     }
-
-	/**
+    
+    /**
+     * This method returns the execution time of a LinkedHashSet
+     * of SingleTest objects
+     * 
+     * @author Adam M. Smith
+     */
+    public static double getExecutionTimeSingleTestList(LinkedHashSet<SingleTest> list)
+    {
+    	float time=0;
+    
+    	Iterator listIt = list.iterator();
+    	
+    	for(int i = 0;i<list.size();i++)
+    		time += ((SingleTest) listIt.next()).getCost();
+        	
+    	return time;
+    }
+    
+    /**
+     * This method returns the execution time of a LinkedHashSet
+     * of SingleTest objects
+     * 
+     * @author Adam M. Smith
+     */
+    public static double getExecutionTimeSingleTestSubsetList(LinkedHashSet<SingleTestSubset> list)
+    {
+    	float time=0;
+    
+    	Iterator listIt = list.iterator();
+    	
+    	for(int i = 0;i<list.size();i++)
+    		time += ((SingleTestSubset) listIt.next()).getTest().getCost();
+        	
+    	return time;
+    }
+    
+    /**
 	 *	Checks to see if the given LinkedHashSet of SingleTests 
 	 * covers the requirementSubsetUnivers
 	 *
