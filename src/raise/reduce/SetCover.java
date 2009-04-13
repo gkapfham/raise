@@ -23,17 +23,6 @@
 
 package raise.reduce;
 
-import java.util.Set;
-import java.util.HashSet;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedHashMap;
-import java.util.Iterator;
-import java.util.Random;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.ConcurrentModificationException;
 import java.util.*;
 
 import java.util.regex.Pattern;
@@ -41,6 +30,9 @@ import java.util.regex.Matcher;
 
 import java.lang.Cloneable;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.io.Serializable;
 import java.io.IOException;
 import java.io.ByteArrayInputStream;
@@ -474,8 +466,8 @@ public class SetCover implements Cloneable, Serializable
 	 	 	
 	 	 SetCover cover = new SetCover();
 	 	 	
-	 	// Initialize tests to -1 because of the summary column.  The first row is popped before
-	 	// counting so it starts at 0
+	 	// Initialize tests to -1 because of the summary column.  The first row
+	 	// is popped before counting so it starts at 0
 		int numTests = -1;
 		int numReqs = 0;
 	
@@ -539,8 +531,7 @@ public class SetCover implements Cloneable, Serializable
 			SingleTest currentTest = new SingleTest("SingleTest"+i,i,testCost);
 			singleTests.add(currentTest);
 			singleTestSubsets.add(new SingleTestSubset(currentTest));
-		}
-		
+		}		
 		
 		// reset the scanner
 		try 
@@ -7181,7 +7172,89 @@ public class SetCover implements Cloneable, Serializable
 		prioritizationTime = stop-start;
 	
 	}
+	
+	
 		
+	/*
+	 * Saves the time file for the new prioritization
+	 * 
+	 */
+	
+	public void saveNewInfo(LinkedHashSet tests, String matrixFileName,String timeFileName)
+	{
+		// Declare the printstreams
+		PrintStream timeOutFile = null;
+		PrintStream matrixOutFile = null;
+        
+		// declare the matrix to print out
+		int[][] matrix = new int[this.getRequirementSubsetUniverse().size()+1][this.getTestSubsets().size()]; 
+		
+		 // Instantiate the printstreams
+		try 
+        {
+        	timeOutFile = new PrintStream(new FileOutputStream(timeFileName));
+        	matrixOutFile = new PrintStream(new FileOutputStream(matrixFileName));
+        } 
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+ 
+        // print the header to the time file
+        timeOutFile.println("NameTTD"+"\t"+"Time");
+        
+        // Create an iterator through the tests that were passed in.
+        Iterator it = tests.iterator();
+        
+        // For each tests
+        int testCounter = 0;
+        
+        while(it.hasNext())
+        { 
+        	// Get the next test
+        	SingleTest nextTest = (SingleTest) it.next();
+        	
+        	// print into the time file
+        	timeOutFile.println(nextTest.getIndex()+"\t"+nextTest.getCost());
+        	
+        	// get the singleTestSubset
+        	SingleTestSubset sts = this.getSingleTestSubsetFromSingleTest(nextTest);
+        	
+        	// Get an iterator
+        	Iterator stsIt = sts.getRequirementSubsetSet().iterator();
+        	
+        	// build the matrix
+        	
+        	while(stsIt.hasNext())
+        	{
+        		int rsIndex = ((RequirementSubset)stsIt.next()).getIndex();
+        		matrix[rsIndex][testCounter] = 1;
+        		matrix[rsIndex][matrix[0].length-1]++;
+        		matrix[matrix.length-1][testCounter]++;
+        	}
+        
+        	testCounter++;
+        }
+        
+        // Done writing to the time file
+        timeOutFile.close();
+        
+        for(int i = 0; i < matrix.length; i++)
+        {
+        	for(int j = 0; j < matrix[0].length; j++)
+        	{
+        		matrixOutFile.print(matrix[i][j]);
+        		if(j != matrix[0].length - 1)
+        		{
+        			matrixOutFile.print(" ");
+        		}
+        	}
+        	if(i!=matrix.length-1)
+        		matrixOutFile.println("");
+        }
+         
+        matrixOutFile.close();
+	}
+	
 } // Closes class	
 	
 	
