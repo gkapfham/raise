@@ -99,16 +99,13 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
     		order[i] = i;
     	int[] originalOrder = order.clone();
     	
-    	for(int i = 0; i < 50; i++)
+    	for(int i = 0; i < 20; i++)
     	{
     		shuffle(order);
     		lines.add(new StepFunctionLine(sc, order , new Color(100,100,100),2));
     	}
     	
-   	  	lines.add(new StepFunctionLine(sc,originalOrder,new Color(0,0,255),4));
-    	
-    	
-    	
+   	  	lines.add(new StepFunctionLine(sc,originalOrder,new Color(0,0,255),4));    	
     }
 	
 	/*
@@ -130,7 +127,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
         g2d.setRenderingHints(rh);
 
         // Set the font for displaying the text information on the screen.
-	    g2d.setFont(new Font("Purisa", Font.PLAIN, 26));
+	    g2d.setFont(new Font("Purisa", Font.PLAIN, 12));
 	    
 	    // Set to white and fill the plot window
 	    g2d.setColor(new Color(255, 255, 255));
@@ -141,17 +138,20 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
 	    g2d.setColor(new Color(200, 200, 200));
 	    g2d.fillRect(0, 0, infoWidth, windowHeight);
 	    
+	    // Draw the plot info
+	    
+	    
 	    for(StepFunctionLine l : lines)
-	    	{
-	    		l.setGraphics(g2d);
-	    		l.drawStep();	    	
-	    	}
+    	{
+    		l.setGraphics(g2d);
+    		l.drawStep();	    	
+    	}
 	    
-	    Insets insets = getInsets();
-
-	    
-	    //System.out.println("Insets: "+insets.left+" "+insets.right + " "+ insets.top + " "+insets.bottom);
-	 }
+	    g2d.setColor(new Color(0,0,0));
+	    g2d.drawString("Test Suite: RPMatrix.dat and RPTime.dat", 17,30);
+	    g2d.drawString("Test Cases: "+lines.get(0).getNumTests(), 17, 50);
+	    g2d.drawString("Execution Time: " + lines.get(0).getExecutionTime()+ " ms", 17, 70);
+	}
 	
 	public static void main(String[] args)
 	{

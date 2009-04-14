@@ -18,6 +18,8 @@ public class StepFunctionLine {
 	int[] y;
 	
 	float ce;
+	int numTests;
+	double executionTime;
 	
 	Color color;
 	
@@ -93,11 +95,30 @@ public class StepFunctionLine {
 		
 		ce = ((float)sum)/((float)height*(float)totalTime);
 		
+		this.numTests = x.length-1;
+		
 		this.color = color;
 		this.lineWidth = width;
 		
+		this.executionTime = SetCover.getExecutionTimeSingleTestSubsetList(cover.getTestSubsets());
+		
 	}
 
+	public double getExecutionTime()
+	{
+		return executionTime;
+	}
+	
+	public int getNumTests()
+	{
+		return numTests;
+	}
+	
+	public float getCE()
+	{
+		return ce;
+	}
+	
 	/**
 	 * Set the graphics2d object. 
 	 * @param g2d
