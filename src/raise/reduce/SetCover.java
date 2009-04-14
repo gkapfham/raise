@@ -123,14 +123,14 @@ public class SetCover implements Cloneable, Serializable
 
     /** The seed that we should use for randomizer */
     public static long chosenSeed;
-
 	
 	/** The results of reduction */
 	private LinkedHashSet coverPickSets;
 	
 	/** The results of reduction */
 	private LinkedHashSet prioritizedSets;
-    
+
+		
     /**
      *  Default constructor that initializes all sets to the empty set.
      *  
@@ -453,6 +453,7 @@ public class SetCover implements Cloneable, Serializable
 		
 	}
 
+	 
 	/**
 	 * Constructs an instance of SetCover from a binary matrix coverage
 	 * representation.
