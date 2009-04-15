@@ -9,7 +9,7 @@
     <path id="classpath.project">
 
         <!-- Resources needed in classpath to get DIATOMS to work -->
-        <pathelement location="${dir.build}"/>
+       	<pathelement location="${dir.build}"/>
 		<pathelement location="${dir.lib}/ant.jar"/>
         <pathelement location="${dir.lib}/xstream-1.1.3.jar"/>
         <pathelement location="${dir.lib}/${dir.xstream}/lib/xpp3-1.1.3.4d_b4_min.jar/"/>
@@ -27,27 +27,35 @@
       <delete dir="${dir.build}"/>
     </target>
 
-    <!-- IMPORTANT NOTE: This excludes the code that performs the 
-         test coverage monitoring because this is all written with 
-         AspectJ and thus there is no need to compile it.  Down the 
-         road, if all of the .java files inside of this directory are
-         not Aspects, then we might need to change this wildcard. -->
-
-   
-<!--  This compiles only the things necessary for the reduction package -->
-
-	<target name="compile" 
+  	<target name="compile" 
          description="Compiles all source files.">
         <javac srcdir="${dir.src}" destdir="${dir.build}"
 		debug = "true" debuglevel = "lines,var,source" 
 		source = "1.5"
-                includes="raise/reduce/**.java">
-            <classpath refid="classpath.project"/>
+                includes="raise/reduce/**.java,raise/cev/**.java">
+           <classpath refid="${classpath.project}"/> 
         </javac>
     </target>
-		
-
-  <!--  Tests only the SetCover class.  -->
+	
+	<target name = "compileVis"
+		description="Compiles the visualization package.">
+		<javac srcdir="${dir.src}" destdir="${dir.build}"
+		debug = "true" debuglevel = "lines,var,source" 
+		source = "1.5"
+                includes="raise/cev/**.java">
+            <classpath refid="${classpath.project}"/>
+        </javac>
+    </target>		
+	
+	<target name="RunVis" depends = "compileVis" 
+			description="Run the visualization.">
+		<java classname = "raise.cev.CoverageEffectivenessVisualization" 
+			fork = "true">
+		<classpath refid="classpath.project"/>
+		</java>
+	</target>
+						
+	<!--  Tests only the SetCover class.  -->
 	<target name="testSetCover" depends="compile"
 		description="Executes the JUnit test suite for the raise package.">
 		
@@ -58,7 +66,7 @@
             fork="yes"
 				maxmemory="512m" >
 
-            <classpath refid="classpath.project"/>
+             <classpath refid="classpath.project"/> 
             <formatter type="plain" usefile="false"/>
             <batchtest fork="no" todir="${dir.build}">
                 <fileset dir="${dir.src}">

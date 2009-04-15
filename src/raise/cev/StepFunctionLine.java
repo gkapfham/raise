@@ -31,7 +31,7 @@ public class StepFunctionLine {
 	 * Constructor
 	 */
 	@SuppressWarnings("unchecked")
-	public StepFunctionLine(SetCover cover, int[] order, Color color, float width)
+	public StepFunctionLine(SetCover cover, int[] order, Color color, float width, int boxWidth, int boxHeight, int startX, int startY)
 	{		
 		int height = 0;
 		int sum = 0;
@@ -41,8 +41,8 @@ public class StepFunctionLine {
 		x = new int[cover.getTestSubsets().size()+1];
 		y = new int[cover.getTestSubsets().size()+1];
 		
-		x[0] = 0;
-		y[0] = 0;
+		x[0] = startX;
+		y[0] = startY;
 		
 		LinkedHashSet<SingleTest> tempTestList = new LinkedHashSet();
 		
@@ -69,8 +69,8 @@ public class StepFunctionLine {
 					// Move forward and sum
 					totalTime += thisTestSubset.getTest().getCost();
 					
-					x[i+1] = (int) ((((float)totalTime - 0)/((float)execTime - 0))*575);
-					
+					x[i+1] = startX + (int) ((((float)totalTime - 0)/((float)execTime - 0))*boxWidth);
+										
 					// Update height.  
 					Iterator<RequirementSubset> requirementsIterator = 
 						thisTestSubset.getRequirementSubsetSet().iterator();
@@ -86,8 +86,7 @@ public class StepFunctionLine {
 							covered[reqIndex] = 1;
 						}
 					}
-					y[i+1] = (int) ((((float)height - 0 )/((float)numReqs - 0))*575);
-					
+					y[i+1] = startY - (int) ((((float)height - 0 )/((float)numReqs - 0))*boxHeight);
 					break;
 				}
 			}	
@@ -134,16 +133,13 @@ public class StepFunctionLine {
 	public void drawStep()
 	{
 		g2d.setColor(color);
-		g2d.setStroke(new BasicStroke(lineWidth));	
+		g2d.setStroke(new BasicStroke(lineWidth,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND));	
 		
 		for(int i = 0; i < x.length-1; i++)
 		{
-			g2d.drawLine(310+x[i],590-y[i],310+x[i+1],590-y[i]);
-			g2d.drawLine(310+x[i+1],590-y[i],310+x[i+1],590-y[i+1]);
-			
-			//System.out.println(x[i]+" "+y[i]+" "+x[i+1]+" "+y[i+1]+" ");
+			g2d.drawLine(x[i],y[i],x[i+1],y[i]);
+			g2d.drawLine(x[i+1],y[i],x[i+1],y[i+1]);
 		}
-		
 	}
 	
 	/**
