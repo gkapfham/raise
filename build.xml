@@ -33,7 +33,7 @@
 		debug = "true" debuglevel = "lines,var,source" 
 		source = "1.5"
                 includes="raise/reduce/**.java,raise/cev/**.java">
-           <classpath refid="${classpath.project}"/> 
+           <classpath refid="classpath.project"/> 
         </javac>
     </target>
 	
@@ -43,7 +43,7 @@
 		debug = "true" debuglevel = "lines,var,source" 
 		source = "1.5"
                 includes="raise/cev/**.java">
-            <classpath refid="${classpath.project}"/>
+            <classpath refid="classpath.project"/>
         </javac>
     </target>		
 	

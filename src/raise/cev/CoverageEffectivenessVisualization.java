@@ -109,7 +109,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
     	randLines = new ArrayList<StepFunctionLine>();
     	// Default to 20 and then set later via user interaction.
     	
-    	numRand = 20;
+    	numRand = 0;
     	
     	
     	sc = new SetCover();
@@ -130,6 +130,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
     	System.out.println("original");
    	 	lines.add(new StepFunctionLine(sc,order,new Color(0,255,0),techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth));  	
      	
+   	 	
     	// make the random
     	for(int i = 0; i < numRand; i++)
     	{
@@ -138,8 +139,9 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
     		randLines.add(new StepFunctionLine(sc, order , new Color(200,200,200),randLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth));
     	}
     	
+    	/*
     	//Get the prioritizations
-    	  System.out.println("Several techniques");
+    	System.out.println("Several techniques");
     	//grd cost
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsingGreedy("time");
@@ -223,7 +225,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
     	order = sc.getPrioritizedOrderArray();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	lines.add(new StepFunctionLine(sc,order,new Color(255,255,0),techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth));
-    	
+    	*/
     }
 	
     /*
@@ -350,18 +352,14 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
 				l.color=(new Color(0,255,0));
 			}
 				
-		}
-		
-		//if(!hit)
-		//	System.out.println("MISS!");
-		
-		System.out.println("Mouse Moved! ("+e.getX()+", "+e.getY()+")");
+		}		
+		//System.out.println("Mouse Moved! ("+e.getX()+", "+e.getY()+")");
 		repaint();
 	}
 	
 	public void mouseClicked(MouseEvent e)
 	{
-		System.out.println("Mouse Clicked! ("+e.getX()+", "+e.getY()+"(");
+	//	System.out.println("Mouse Clicked! ("+e.getX()+", "+e.getY()+"(");
 		// Increase the number of random lines
 		this.numRand  = (this.numRand +10)%60;
 		
@@ -379,18 +377,26 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
 	}
 	
 	
-	public void mousePressed(MouseEvent e) {
-		System.out.println("Mouse Pressed! ("+e.getX()+", "+e.getY()+"(");	}
+	public void mousePressed(MouseEvent e) 
+	{
+//		System.out.println("Mouse Pressed! ("+e.getX()+", "+e.getY()+"(");	
+	}
 	
-	public void mouseReleased(MouseEvent e) {
-		System.out.println("Mouse Released! ("+e.getX()+", "+e.getY()+"(");	}
+	public void mouseReleased(MouseEvent e) 
+	{
+//		System.out.println("Mouse Released! ("+e.getX()+", "+e.getY()+"(");	
+	}
 	
-	public void mouseEntered(MouseEvent e) {
+	public void mouseEntered(MouseEvent e) 
+	{
 	
-		System.out.println("Mouse Entered! ("+e.getX()+", "+e.getY()+"(");	}
+//		System.out.println("Mouse Entered! ("+e.getX()+", "+e.getY()+"(");	
+		}
 	
-	public void mouseExited(MouseEvent e) {
-		System.out.println("Mouse Exited! ("+e.getX()+", "+e.getY()+"(");	}
+	public void mouseExited(MouseEvent e) 
+	{
+//		System.out.println("Mouse Exited! ("+e.getX()+", "+e.getY()+"(");	
+	}
 	
 	 public static void shuffle (int[] array) 
     {

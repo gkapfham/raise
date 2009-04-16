@@ -327,11 +327,11 @@ public class SetCover implements Cloneable, Serializable
      */
     public static double getExecutionTimeSingleTestList(LinkedHashSet<SingleTest> list)
     {
-    	float time=0;
+    	double time=0;
     
     	Iterator<SingleTest> listIt = list.iterator();
     	
-    	for(int i = 0;i<list.size();i++)
+    	while(listIt.hasNext())
     		time += ((SingleTest) listIt.next()).getCost();
         	
     	return time;
@@ -345,11 +345,11 @@ public class SetCover implements Cloneable, Serializable
      */
     public static double getExecutionTimeSingleTestSubsetList(LinkedHashSet<SingleTestSubset> list)
     {
-    	float time=0;
+    	double time=0;
     
     	Iterator<SingleTestSubset> listIt = list.iterator();
     	
-    	for(int i = 0;i<list.size();i++)
+    	while(listIt.hasNext())
     		time += ((SingleTestSubset) listIt.next()).getTest().getCost();
         	
     	return time;

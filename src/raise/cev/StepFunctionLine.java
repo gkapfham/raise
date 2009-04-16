@@ -53,7 +53,7 @@ public class StepFunctionLine {
 			tempTestList.add(((SingleTestSubset)stsIt.next()).getTest());
 		
 		double execTime = SetCover.getExecutionTimeSingleTestList(tempTestList); 
-		System.out.println(execTime);
+		
 		int numReqs = cover.getRequirementSubsetUniverse().size();
 		
 		for(int i = 0; i < order.length; i++)
@@ -102,6 +102,8 @@ public class StepFunctionLine {
 		this.lineWidth = width;
 		
 		this.executionTime = SetCover.getExecutionTimeSingleTestSubsetList(cover.getTestSubsets());
+		
+		System.out.println(numTests + ", "+execTime);
 		
 	}
 
