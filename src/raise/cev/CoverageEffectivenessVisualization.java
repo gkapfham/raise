@@ -8,12 +8,17 @@ import java.awt.BasicStroke;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 
+import java.awt.BorderLayout;
 
 import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import raise.reduce.SetCover;
 
@@ -35,22 +40,24 @@ import java.util.Random;
  *
  */
 
-public class CoverageEffectivenessVisualization extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
+public class CoverageEffectivenessVisualization extends JPanel implements MouseListener, MouseMotionListener, ChangeListener {
 	
 	// Define the size of the screen.
 	private final int windowWidth = 971;
 	private final int windowHeight = 600;
-	private final int infoWidth = 300;
-	private final int axesWidth = 40;
-	private final int edgeBuffer = 20;
+	private final int infoWidth = 270;
+	private final int axesWidth = 90;
+	private final int edgeBuffer = 30;
 	private final int tickLength = 5;
 	private final int numTicks = 5;
-	//private final String matrixFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPMatrix.dat";
-	//private final String timeFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPTime.dat";
-	private final String matrixFile = "/home/geiger/Documents/school/pitt/cs2620/raise/data/raise/reduce/setCovers/RPMatrix.dat";
-	private final String timeFile = "/home/geiger/Documents/school/pitt/cs2620/raise/data/raise/reduce/setCovers/RPTime.dat";
+	private final String matrixFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPMatrix.dat";
+	private final String timeFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPTime.dat";
+	//private final String matrixFile = "/home/geiger/Documents/school/pitt/cs2620/raise/data/raise/reduce/setCovers/RPMatrix.dat";
+	//private final String timeFile = "/home/geiger/Documents/school/pitt/cs2620/raise/data/raise/reduce/setCovers/RPTime.dat";
 	private final int randLineWidth = 1;
 	private final int techniqueLineWidth = 2;
+	private final int MAX_RAND = 100;
+	private final int MIN_RAND = 0;
 	
 	private static final long serialVersionUID = 1L;
 
@@ -58,6 +65,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
 	
 	double execTime;
 	int numTests;
+	int numReqs;
 	
 	int[] order;
 	SetCover sc;
@@ -73,6 +81,11 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
     
     boolean[] show;
 
+    JSlider slider;
+    
+    JPanel sliderPanel; 
+    
+    
     public CoverageEffectivenessVisualization()
     {
     	// A mouse listener 
@@ -98,6 +111,23 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
      */
     public void initState()
     {
+    	slider = new JSlider(JSlider.HORIZONTAL,
+                MIN_RAND, MAX_RAND, MIN_RAND);
+    	
+    	slider.addChangeListener(this);
+    	slider.setMajorTickSpacing(10);
+    	slider.setMinorTickSpacing(1);
+    	slider.setPaintLabels(true);
+    	
+    	sliderPanel = new JPanel();
+    	sliderPanel.add(slider);
+    	
+    	sliderPanel.setLocation(110,210);
+    	sliderPanel.setBackground(Color.blue);
+    	sliderPanel.setVisible(true);
+    	
+    	this.add(sliderPanel);
+    	
     	show = new boolean[13];
     	
     	show[0] = true;
@@ -113,14 +143,12 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
     	
     	
     	sc = new SetCover();
-    	sc = SetCover.constructSetCoverFromMatrix(matrixFile, matrixFile);
+    	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	
     	numTests = sc.getTestSubsets().size();
+    	numReqs = sc.getRequirementSubsetUniverse().size();
     	execTime = SetCover.getExecutionTimeSingleTestSubsetList(sc.getTestSubsets());
-    	
-    	
-    	System.out.println(numTests+","+ execTime+",");
-    	
+
     	
     	order = new int[sc.getTestSubsets().size()];
     	for(int i = 0; i < order.length; i++)
@@ -273,15 +301,14 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
 	    	// Horizontal ticks on y axis
 	    	int vertTickPoint = i*((windowHeight - axesWidth*3/4) - edgeBuffer)/(numTicks-1);
 	    	g2d.drawLine(infoWidth+(axesWidth*3/4)-tickLength, edgeBuffer + vertTickPoint, infoWidth+(axesWidth*3/4)+tickLength, edgeBuffer + vertTickPoint);
-	    	
+	    	g2d.drawString((float)(numTicks-1-i)*((float)numReqs/(float)(numTicks-1))+"",infoWidth+(axesWidth*3/4)-43,edgeBuffer + vertTickPoint+5);
 	    	
 	    	//Vertical ticks on x axis
 	    	int horTickPoint = i*( (windowWidth-edgeBuffer) -(infoWidth+(axesWidth*3/4)))/(numTicks-1);
 	    	g2d.drawLine(horTickPoint+(infoWidth+(axesWidth*3/4)),windowHeight - axesWidth*3/4-tickLength, horTickPoint+(infoWidth+(axesWidth*3/4)), windowHeight - axesWidth*3/4+tickLength);
+	    	g2d.drawString((float)(i)*((float)execTime/(float)(numTicks-1))+"",horTickPoint+(infoWidth+(axesWidth*3/4))-18, windowHeight - axesWidth*3/4+tickLength+15);
 	    }
 	    
-	    //labels
-	    g2d.drawString("Execution Time (ms)", (windowWidth-infoWidth)/2+infoWidth - 50 ,windowHeight - axesWidth*3/4 + 25);
 	    
 	    // Draw the lines
 	    for(StepFunctionLine l : randLines)
@@ -314,25 +341,14 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
 	    g2d.drawString("DRG", 17, 150);
 	    g2d.setColor(new Color(255,255,0));
 	    g2d.drawString("HGS", 17, 170);
-	}
-	
-	public static void main(String[] args)
-	{
-	    JFrame frame = new JFrame("Coverage Effectiveness");
-	    frame.add(new CoverageEffectivenessVisualization());
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.pack();
-	    frame.setLocationRelativeTo(null);
-	    frame.setVisible(true);
-	}
-	
-	/*
-	 * This method is called every time the timer sends out
-	 * an action.
-	 */
-	public void actionPerformed(ActionEvent e)
-	{
-	    System.out.println("Action!");
+	    
+	    //labels
+	    g2d.setColor(Color.black);
+	    g2d.drawString("Execution Time (ms)", (windowWidth-infoWidth)/2+infoWidth - 35 ,windowHeight - axesWidth*3/4 + 45);
+	        
+	    g2d.translate((infoWidth+ 15), (windowHeight/2));
+	    g2d.rotate(-Math.PI/2);
+	    g2d.drawString("Covered Requirements (ms)", -55 ,-2);
 	}
 	
 	/*
@@ -341,6 +357,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
 	 */
 	public void mouseMoved(MouseEvent e) 
 	{
+		/*
 		for(StepFunctionLine l : lines)
 		{
 			if(l.contains(e.getX(), e.getY()))
@@ -351,29 +368,23 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
 			{
 				l.color=(new Color(0,255,0));
 			}
-				
 		}		
 		//System.out.println("Mouse Moved! ("+e.getX()+", "+e.getY()+")");
 		repaint();
+		*/
 	}
 	
 	public void mouseClicked(MouseEvent e)
 	{
+		/*
 	//	System.out.println("Mouse Clicked! ("+e.getX()+", "+e.getY()+"(");
 		// Increase the number of random lines
 		this.numRand  = (this.numRand +10)%60;
 		
-		// Get rid of the old lines
-		this.randLines.clear();
 		
-		// add the new random lines to the randLines arrayList
-		for(int i = 0; i < numRand; i++)
-    	{
-    		shuffle(this.order);
-    		this.randLines.add(new StepFunctionLine(this.sc, this.order , new Color(200,200,200),1,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth));
-    	}
 		
 		repaint();
+		*/
 	}
 	
 	
@@ -415,6 +426,51 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
 	@Override
 	public void mouseDragged(MouseEvent e) 
 	{
-		System.out.println("Mouse Dragged! ("+e.getX()+", "+e.getY()+"(");	
+	//	System.out.println("Mouse Dragged! ("+e.getX()+", "+e.getY()+"(");	
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent e) 
+	{
+		JSlider source = (JSlider)e.getSource();
+	    if (!source.getValueIsAdjusting()) 
+	        numRand = (int)source.getValue();
+	    
+	 // Get rid of the old lines
+		this.randLines.clear();
+		
+		// add the new random lines to the randLines arrayList
+		for(int i = 0; i < numRand; i++)
+    	{
+    		shuffle(this.order);
+    		this.randLines.add(new StepFunctionLine(this.sc, this.order , new Color(200,200,200),1,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth));
+    	}
+	    
+	    repaint();
+	}
+	
+	/**
+	 * Main
+	 * @param args
+	 */
+	public static void main(String[] args)
+	{
+	    JFrame frame = new JFrame("Coverage Effectiveness");
+	    JPanel panel = new JPanel();
+	    
+	    panel.add(new CoverageEffectivenessVisualization());
+	   frame.add(panel);
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    frame.pack();
+	    frame.setLocationRelativeTo(null);
+	    frame.setVisible(true);
+	    
+	    /*
+	    frame.add(new CoverageEffectivenessVisualization());
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    frame.pack();
+	    frame.setLocationRelativeTo(null);
+	    frame.setVisible(true);
+	*/
 	}
 }
