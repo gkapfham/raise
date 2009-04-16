@@ -165,6 +165,19 @@ public class StepFunctionLine {
 	 */
 	public boolean contains(int xClick, int yClick)
 	{
+		int proximity = (int)(lineWidth/2) + 1;
+		for(int i = 0; i <= proximity; i++)
+			for(int j = 0; j <= proximity; j++)
+				if (containsSearch(xClick+i, yClick+i))
+					return true;
+
+		return false;
+	}
+	
+	/**
+	 * This will return true if x and y denote a point on the line.
+	 */
+	public boolean containsSearch(int xClick, int yClick){
 		//see if click is in arrays, ie a line exists at that height
 		int foundYDex = Arrays.binarySearch(y, yClick);
 		int foundXDex = Arrays.binarySearch(x, xClick);
@@ -204,5 +217,4 @@ public class StepFunctionLine {
 		}
 		return false;
 	}
-
 }
