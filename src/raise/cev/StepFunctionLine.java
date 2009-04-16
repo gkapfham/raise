@@ -156,12 +156,19 @@ public class StepFunctionLine {
 	 */
 	public void drawHighlight()
 	{
+		g2d.setColor(color);
+		g2d.setStroke(new BasicStroke(lineWidth,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND));	
 		
+		for(int i = 0; i < x.length-1; i++)
+		{
+			g2d.drawLine(x[i],y[i],x[i+1],y[i]);
+			g2d.drawLine(x[i+1],y[i],x[i+1],y[i+1]);
+		}
 	}
 	
 
 	/**
-	 * This will return true if x and y denote a point on the line.
+	 * This will return true if x and y denote a point close to the line.
 	 */
 	public boolean contains(int xClick, int yClick)
 	{
@@ -181,7 +188,7 @@ public class StepFunctionLine {
 		//see if click is in arrays, ie a line exists at that height
 		int foundYDex = Arrays.binarySearch(y, yClick);
 		int foundXDex = Arrays.binarySearch(x, xClick);
-		
+		int arrLength = x.length;
 		//found the point
 		if ((foundYDex >= 0  && x[foundYDex] == xClick)  || (foundXDex >= 0 && y[foundXDex] == yClick))
 			return true;		
@@ -189,29 +196,29 @@ public class StepFunctionLine {
 		else if ( foundYDex >= 0){
 			//look to left
 			int dex = foundYDex;
-			while (y[--dex] == yClick ){ //look to the left
+			while (0 <= --dex && y[dex] == yClick ){ //look to the left
 				if (x[dex] <= xClick)
 					return true;
 			}
 			//look to the right
 			dex = foundYDex;
-			while (y[++dex] == yClick){ // look to the right
+			while (arrLength > ++dex && y[dex] == yClick){ // look to the right
 				if (x[dex] >= xClick)
 					return true;
 			}
 		}
 		//	check the vertical
 		else if ( foundXDex >= 0){
-			//look below
+			//look above
 			int dex = foundXDex;
-			while (x[--dex] == xClick ){ //look to the left
-				if (y[dex] <= yClick)
+			while (0 <= --dex && x[dex] == xClick ){ //look to the left
+				if (y[dex] >= yClick)
 					return true;
 			}
-			//look above
+			//look below
 			dex = foundXDex;
-			while (x[++dex] == xClick){ // look to the right
-				if (y[dex] >= yClick)
+			while (arrLength > ++dex && x[dex] == xClick){ // look to the right
+				if (y[dex] <= yClick)
 					return true;
 			}
 		}
