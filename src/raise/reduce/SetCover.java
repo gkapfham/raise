@@ -329,7 +329,7 @@ public class SetCover implements Cloneable, Serializable
     {
     	float time=0;
     
-    	Iterator listIt = list.iterator();
+    	Iterator<SingleTest> listIt = list.iterator();
     	
     	for(int i = 0;i<list.size();i++)
     		time += ((SingleTest) listIt.next()).getCost();
@@ -347,7 +347,7 @@ public class SetCover implements Cloneable, Serializable
     {
     	float time=0;
     
-    	Iterator listIt = list.iterator();
+    	Iterator<SingleTestSubset> listIt = list.iterator();
     	
     	for(int i = 0;i<list.size();i++)
     		time += ((SingleTestSubset) listIt.next()).getTest().getCost();

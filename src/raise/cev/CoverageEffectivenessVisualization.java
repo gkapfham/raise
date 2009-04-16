@@ -14,7 +14,6 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 import raise.reduce.SetCover;
 
@@ -46,10 +45,10 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
 	private final int edgeBuffer = 20;
 	private final int tickLength = 5;
 	private final int numTicks = 5;
-	//private final String matrixFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPMatrix.dat";
-	//private final String timeFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPTime.dat";
-	private final String matrixFile = "/home/geiger/Documents/school/pitt/cs2620/raise/data/raise/reduce/setCovers/RPMatrix.dat";
-	private final String timeFile = "/home/geiger/Documents/school/pitt/cs2620/raise/data/raise/reduce/setCovers/RPTime.dat";
+	private final String matrixFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPMatrix.dat";
+	private final String timeFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPTime.dat";
+	//private final String matrixFile = "/home/geiger/Documents/school/pitt/cs2620/raise/data/raise/reduce/setCovers/RPMatrix.dat";
+	//private final String timeFile = "/home/geiger/Documents/school/pitt/cs2620/raise/data/raise/reduce/setCovers/RPTime.dat";
 	private final int randLineWidth = 1;
 	private final int techniqueLineWidth = 2;
 	
@@ -57,14 +56,14 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
 
 	private int numRand;
 	
+	double execTime;
+	int numTests;
+	
 	int[] order;
 	SetCover sc;
 	
 	// For the size of the window
     private Dimension size;
-
-    // This timer handles all transition animations.
-   // Timer timer;
 
     // Required for J2D
     Graphics2D g2d;
@@ -79,10 +78,6 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
     	// A mouse listener 
     	addMouseListener(this);
     	addMouseMotionListener(this);
-
-    	// Instantiate and start the timer
-    //	timer = new Timer(10, this);
-    //	timer.start();
 
     	//	Instantiate the size.
     	size = new Dimension();
@@ -120,23 +115,31 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
     	sc = new SetCover();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, matrixFile);
     	
+    	numTests = sc.getTestSubsets().size();
+    	execTime = SetCover.getExecutionTimeSingleTestSubsetList(sc.getTestSubsets());
+    	
+    	
+    	System.out.println(numTests+","+ execTime+",");
+    	
     	
     	order = new int[sc.getTestSubsets().size()];
     	for(int i = 0; i < order.length; i++)
     		order[i] = i;
     	    	  
     	// add the original
+    	System.out.println("original");
    	 	lines.add(new StepFunctionLine(sc,order,new Color(0,255,0),techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth));  	
      	
     	// make the random
     	for(int i = 0; i < numRand; i++)
     	{
+    		System.out.println("Random");
     		shuffle(order);
     		randLines.add(new StepFunctionLine(sc, order , new Color(200,200,200),randLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth));
     	}
     	
     	//Get the prioritizations
-    	  
+    	  System.out.println("Several techniques");
     	//grd cost
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsingGreedy("time");
@@ -268,7 +271,8 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
 	    	// Horizontal ticks on y axis
 	    	int vertTickPoint = i*((windowHeight - axesWidth*3/4) - edgeBuffer)/(numTicks-1);
 	    	g2d.drawLine(infoWidth+(axesWidth*3/4)-tickLength, edgeBuffer + vertTickPoint, infoWidth+(axesWidth*3/4)+tickLength, edgeBuffer + vertTickPoint);
-	    
+	    	
+	    	
 	    	//Vertical ticks on x axis
 	    	int horTickPoint = i*( (windowWidth-edgeBuffer) -(infoWidth+(axesWidth*3/4)))/(numTicks-1);
 	    	g2d.drawLine(horTickPoint+(infoWidth+(axesWidth*3/4)),windowHeight - axesWidth*3/4-tickLength, horTickPoint+(infoWidth+(axesWidth*3/4)), windowHeight - axesWidth*3/4+tickLength);
@@ -296,8 +300,8 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
 	    // Draw the plot info
 	    g2d.setColor(new Color(0,0,0));
 	    g2d.drawString("Test Suite: RPMatrix.dat and RPTime.dat", 17,30);
-	    //g2d.drawString("Test Cases: "+lines.get(0).getNumTests(), 17, 50);
-	    //g2d.drawString("Execution Time: " + lines.get(0).getExecutionTime()+ " ms", 17, 70);
+	    g2d.drawString("Test Cases: "+lines.get(0).getNumTests(), 17, 50);
+	    g2d.drawString("Execution Time: " + lines.get(0).getExecutionTime()+ " ms", 17, 70);
 	    
 	    
 	    g2d.setColor(new Color(0,0,255));
@@ -338,9 +342,21 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
 		for(StepFunctionLine l : lines)
 		{
 			if(l.contains(e.getX(), e.getY()))
-				System.out.println("HIT!");
+			{
+				l.color=(new Color(255,0,0));
+			}
+			else
+			{
+				l.color=(new Color(0,255,0));
+			}
+				
 		}
-		//System.out.println("Mouse Moved! ("+e.getX()+", "+e.getY()+")");
+		
+		//if(!hit)
+		//	System.out.println("MISS!");
+		
+		System.out.println("Mouse Moved! ("+e.getX()+", "+e.getY()+")");
+		repaint();
 	}
 	
 	public void mouseClicked(MouseEvent e)
