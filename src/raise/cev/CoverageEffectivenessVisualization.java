@@ -46,8 +46,10 @@ public class CoverageEffectivenessVisualization extends JPanel implements Action
 	private final int edgeBuffer = 20;
 	private final int tickLength = 5;
 	private final int numTicks = 5;
-	private final String matrixFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPMatrix.dat";
-	private final String timeFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPTime.dat"; 
+	//private final String matrixFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPMatrix.dat";
+	//private final String timeFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPTime.dat";
+	private final String matrixFile = "/home/geiger/Documents/school/pitt/cs2620/raise/data/raise/reduce/setCovers/RPMatrix.dat";
+	private final String timeFile = "/home/geiger/Documents/school/pitt/cs2620/raise/data/raise/reduce/setCovers/RPTime.dat";
 	private final int randLineWidth = 1;
 	private final int techniqueLineWidth = 2;
 	

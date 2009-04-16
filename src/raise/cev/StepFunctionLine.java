@@ -170,7 +170,7 @@ public class StepFunctionLine {
 		int foundXDex = Arrays.binarySearch(x, xClick);
 		
 		//found the point
-		if (x[foundYDex] == xClick  || y[foundXDex] == yClick)
+		if ((foundYDex >= 0  && x[foundYDex] == xClick)  || (foundXDex >= 0 && y[foundXDex] == yClick))
 			return true;		
 		//check the horizontal if clickY found
 		else if ( foundYDex >= 0){
