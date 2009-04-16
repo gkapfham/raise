@@ -190,6 +190,22 @@ public class SetCover implements Cloneable, Serializable
     {
 		return prioritizedSets;
 	}
+	 
+	public int[] getPrioritizedOrderArray()
+	{
+		int[] order = new int[prioritizedSets.size()];
+		Iterator stIt = prioritizedSets.iterator();
+		
+		int i = 0;
+		while(stIt.hasNext())
+		{
+			order[i] = ((SingleTest)stIt.next()).getIndex();
+			i++;
+		}	
+		
+		return order;
+		
+	}
     
    /**
      *  Set the SetCover instance that existed before the reduction
