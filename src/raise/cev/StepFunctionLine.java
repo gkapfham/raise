@@ -173,11 +173,19 @@ public class StepFunctionLine {
 	 */
 	public boolean contains(int xClick, int yClick)
 	{
-		int proximity = (int)(lineWidth/2) + 1;
-		for(int i = 0; i <= proximity; i++)
-			for(int j = 0; j <= proximity; j++)
-				if (containsSearch(xClick+i, yClick+i))
-					return true;
+		int nearX,nearY;
+		int proximity = (int)(lineWidth/2) + 3;
+		for(int i = 0; i <= proximity; i++){
+			nearX = i + xClick;
+			for(int j = 0; j <= proximity; j++){
+				nearY = j + yClick;
+				containsSearch(nearX,nearY);
+				containsSearch(-nearX,-nearY);
+				containsSearch(-nearX,nearY);
+				containsSearch(nearX,-nearY);
+			}
+		}
+					
 
 		return false;
 	}
@@ -191,8 +199,8 @@ public class StepFunctionLine {
 		int foundXDex = Arrays.binarySearch(x, xClick);
 		int arrLength = x.length;
 		//found the point
-		if ((foundYDex >= 0  && x[foundYDex] == xClick)  || (foundXDex >= 0 && y[foundXDex] == yClick))
-			return true;		
+		if ((foundYDex >= 0 || foundXDex >= 0) && foundYDex == foundXDex)
+			return true;
 		//check the horizontal if clickY found
 		else if ( foundYDex >= 0){
 			//look to left
