@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.Arrays;
 
 import raise.reduce.RequirementSubset;
 import raise.reduce.SetCover;
@@ -162,8 +163,46 @@ public class StepFunctionLine {
 	/**
 	 * This will return true if x and y denote a point on the line.
 	 */
-	public boolean contains(int x, int y)
+	public boolean contains(int xClick, int yClick)
 	{
+		//see if click is in arrays, ie a line exists at that height
+		int foundYDex = Arrays.binarySearch(y, yClick);
+		int foundXDex = Arrays.binarySearch(x, xClick);
+		
+		//found the point
+		if (x[foundYDex] == xClick  || y[foundXDex] == yClick)
+			return true;		
+		//check the horizontal if clickY found
+		else if ( foundYDex >= 0){
+			//look to left
+			int dex = foundYDex;
+			while (y[--dex] == yClick ){ //look to the left
+				if (x[dex] <= xClick)
+					return true;
+			}
+			//look to the right
+			dex = foundYDex;
+			while (y[++dex] == yClick){ // look to the right
+				if (x[dex] >= xClick)
+					return true;
+			}
+		}
+		//	check the vertical
+		else if ( foundXDex >= 0){
+			//look below
+			int dex = foundXDex;
+			while (x[--dex] == xClick ){ //look to the left
+				if (y[dex] <= yClick)
+					return true;
+			}
+			//look above
+			dex = foundXDex;
+			while (x[++dex] == xClick){ // look to the right
+				if (y[dex] >= yClick)
+					return true;
+			}
+		}
 		return false;
 	}
+
 }
