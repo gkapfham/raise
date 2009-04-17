@@ -43,9 +43,9 @@ import java.util.Random;
 public class CoverageEffectivenessVisualization extends JPanel implements MouseListener, MouseMotionListener, ChangeListener {
 	
 	// Define the size of the screen.
-	private final int windowWidth = 971;
+	private final int windowWidth = 971; //971
 	private final int windowHeight = 600;
-	private final int infoWidth = 270;
+	private final int infoWidth = 270; //270
 	private final int axesWidth = 90;
 	private final int edgeBuffer = 30;
 	private final int tickLength = 5;
@@ -119,16 +119,9 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
     	slider.setMinorTickSpacing(1);
     	slider.setPaintLabels(true);
     	
-    	sliderPanel = new JPanel();
-    	sliderPanel.add(slider);
-    	
-    	sliderPanel.setLocation(110,210);
-    	sliderPanel.setBackground(Color.blue);
-    	sliderPanel.setVisible(true);
-    	
-    	this.add(sliderPanel);
-    	
-    	show = new boolean[13];
+    	add(slider);
+    	    	    	
+       	show = new boolean[13];
     	
     	show[0] = true;
     	
@@ -279,12 +272,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	    
 	    // Set to white and fill the plot window
 	    g2d.setColor(new Color(255, 255, 255));
-	    g2d.fillRect(0, 0, windowWidth, windowHeight);
-	    
-	    
-	    // Set the gray and fill the info window
-	    g2d.setColor(new Color(200, 200, 200));
-	    g2d.fillRect(0, 0, infoWidth, windowHeight);
+	    g2d.fillRect(infoWidth, 0, windowWidth, windowHeight);
 	    
 	    //  Draw the axes
 	    g2d.setColor(new Color(0,0,0));
@@ -326,6 +314,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 		    } 
 	    }
 	    
+	    
 	    // Draw the plot info
 	    g2d.setColor(new Color(0,0,0));
 	    g2d.drawString("Test Suite: RPMatrix.dat and RPTime.dat", 17,30);
@@ -341,6 +330,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	    g2d.drawString("DRG", 17, 150);
 	    g2d.setColor(new Color(255,255,0));
 	    g2d.drawString("HGS", 17, 170);
+	    
 	    
 	    //labels
 	    g2d.setColor(Color.black);
@@ -458,21 +448,13 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	public static void main(String[] args)
 	{
 	    JFrame frame = new JFrame("Coverage Effectiveness");
-	    JPanel panel = new JPanel();
 	    
-	    panel.add(new CoverageEffectivenessVisualization());
-	   frame.add(panel);
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.pack();
-	    frame.setLocationRelativeTo(null);
-	    frame.setVisible(true);
+	    frame.setLayout(new GridLayout());
 	    
-	    /*
 	    frame.add(new CoverageEffectivenessVisualization());
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.pack();
 	    frame.setLocationRelativeTo(null);
 	    frame.setVisible(true);
-	*/
 	}
 }
