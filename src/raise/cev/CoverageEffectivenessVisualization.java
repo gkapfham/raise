@@ -42,22 +42,40 @@ import java.util.Random;
 
 public class CoverageEffectivenessVisualization extends JPanel implements MouseListener, MouseMotionListener, ChangeListener {
 	
+	private final String matrixFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPMatrix.dat";
+	private final String timeFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPTime.dat";
+	//private final String matrixFile = "/home/geiger/Documents/school/pitt/cs2620/raise/data/raise/reduce/setCovers/RPMatrix.dat";
+	//private final String timeFile = "/home/geiger/Documents/school/pitt/cs2620/raise/data/raise/reduce/setCovers/RPTime.dat";
+	
 	// Define the size of the screen.
 	private final int windowWidth = 971; //971
 	private final int windowHeight = 600;
-	private final int infoWidth = 270; //270
-	private final int axesWidth = 90;
+	private final int infoWidth = 280; //270
+	private final int axesWidth = 100;
 	private final int edgeBuffer = 30;
 	private final int tickLength = 5;
 	private final int numTicks = 5;
-	//private final String matrixFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPMatrix.dat";
-	//private final String timeFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPTime.dat";
-	private final String matrixFile = "/home/geiger/Documents/school/pitt/cs2620/raise/data/raise/reduce/setCovers/RPMatrix.dat";
-	private final String timeFile = "/home/geiger/Documents/school/pitt/cs2620/raise/data/raise/reduce/setCovers/RPTime.dat";
+	
 	private final int randLineWidth = 1;
 	private final int techniqueLineWidth = 2;
 	private final int MAX_RAND = 100;
 	private final int MIN_RAND = 0;
+	
+	private final int gridStartY = 150;
+	private final int gridStartX = 50;
+	private final int gridSpacingY = 40;
+	private final int gridSpacingX = 70;
+	private final int gcmLabelsOffsetX = 8;
+	private final int gcmLabelsOffsetY = 5;
+	private final int techniqueLabelsOffsetX = 40;
+	private final int techniqueLabelsOffsetY = 25;
+	
+	private final int buttonInsetX = 10;
+	private final int buttonInsetY = 10;
+	
+	private final String[] techniques = {"GRD","2OPT","DGR", "HGS"};
+	private final String[] gcm = {" runtime","coverage", "   ratio"};
+	private final Color[] colors = {Color.BLUE,Color.cyan,Color.green,Color.ORANGE};
 	
 	private static final long serialVersionUID = 1L;
 
@@ -119,7 +137,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
     	slider.setMinorTickSpacing(1);
     	slider.setPaintLabels(true);
     	
-    	add(slider);
+    	//add(slider);
     	    	    	
        	show = new boolean[13];
     	
@@ -148,105 +166,102 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
     		order[i] = i;
     	    	  
     	// add the original
-    	System.out.println("original");
-   	 	lines.add(new StepFunctionLine(sc,order,new Color(0,255,0),techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth));  	
+    	lines.add(new StepFunctionLine(sc,order,new Color(0,0,0),techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Original","N/A"));  	
      	
    	 	
     	// make the random
     	for(int i = 0; i < numRand; i++)
     	{
-    		System.out.println("Random");
     		shuffle(order);
-    		randLines.add(new StepFunctionLine(sc, order , new Color(200,200,200),randLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth));
+    		randLines.add(new StepFunctionLine(sc, order , new Color(200,200,200),randLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Random","N/A"));
     	}
     	
-    	/*
+    	
     	//Get the prioritizations
-    	System.out.println("Several techniques");
     	//grd cost
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsingGreedy("time");
     	order = sc.getPrioritizedOrderArray();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,new Color(255,0,255),techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth));
+    	lines.add(new StepFunctionLine(sc,order,colors[0],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Greedy","Runtime"));
     	
     	//grd cov
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsingGreedy("coverage");
     	order = sc.getPrioritizedOrderArray();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,new Color(0,0,255),techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth));
+    	lines.add(new StepFunctionLine(sc,order,colors[0],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Greedy","Coverage"));
     	
     	//grd ratio
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsingGreedy("ratio");
     	order = sc.getPrioritizedOrderArray();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,new Color(0,0,255),techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth));
+    	lines.add(new StepFunctionLine(sc,order,colors[0],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Greedy","Ratio"));
     	
     	//2opt cost
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsing2Optimal("time");
     	order = sc.getPrioritizedOrderArray();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,new Color(255,0,255),techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth));
+    	lines.add(new StepFunctionLine(sc,order,colors[1],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"2Optimal","Runtime"));
     	
     	//2opt cov
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsing2Optimal("coverage");
     	order = sc.getPrioritizedOrderArray();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,new Color(255,0,255),techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth));
+    	lines.add(new StepFunctionLine(sc,order,colors[1],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"2Optimal","Coverage"));
     	
     	//2opt ratio
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsing2Optimal("ratio");
     	order = sc.getPrioritizedOrderArray();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,new Color(255,0,255),techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth));
+    	lines.add(new StepFunctionLine(sc,order,colors[1],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"2Optimal","Ratio"));
     	
     	//dgr cost
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsingDelayedGreedy("time");
     	order = sc.getPrioritizedOrderArray();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,new Color(0,255,255),techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth));
+    	lines.add(new StepFunctionLine(sc,order,colors[2],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Delayed Greedy","RunTime"));
     	
     	//dgr cov
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsingDelayedGreedy("coverage");
     	order = sc.getPrioritizedOrderArray();    	
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,new Color(0,255,255),techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth));
+    	lines.add(new StepFunctionLine(sc,order,colors[2],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Delayed Greedy","Coverage"));
     	
     	//dgr ratio
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsingDelayedGreedy("ratio");
     	order = sc.getPrioritizedOrderArray();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,new Color(0,255,255),techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth));
+    	lines.add(new StepFunctionLine(sc,order,colors[2],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Delayed Greedy","Ratio"));
     	
     	//hgs cost
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsingHarroldGuptaSoffa("time",3);
     	order = sc.getPrioritizedOrderArray();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,new Color(255,255,0),techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth));
+    	lines.add(new StepFunctionLine(sc,order,colors[3],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Harrold Gupta Soffa","Runtime"));
     	
     	//hgs cov
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsingHarroldGuptaSoffa("coverage",3);
     	order = sc.getPrioritizedOrderArray();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,new Color(255,255,0),techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth));
+    	lines.add(new StepFunctionLine(sc,order,colors[3],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Harrold Gupta Soffa","Coverage"));
     	
     	//hgs ratio
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsingHarroldGuptaSoffa("ratio",3);
     	order = sc.getPrioritizedOrderArray();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,new Color(255,255,0),techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth));
-    	*/
+    	lines.add(new StepFunctionLine(sc,order,colors[3],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Harrold Gupta Soffa","Ratio"));
+    	
     }
 	
     /*
@@ -268,7 +283,11 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
         g2d.setRenderingHints(rh);
 
         // Set the font for displaying the text information on the screen.
-	    g2d.setFont(new Font("Purisa", Font.PLAIN, 12));
+	    g2d.setFont(new Font("Purisa", Font.PLAIN, 14));
+	    
+	    //Set to gray and fill info window
+	    g2d.setColor(new Color(200,200,200));
+	    g2d.fillRect(0, 0, infoWidth, windowHeight);
 	    
 	    // Set to white and fill the plot window
 	    g2d.setColor(new Color(255, 255, 255));
@@ -289,7 +308,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	    	// Horizontal ticks on y axis
 	    	int vertTickPoint = i*((windowHeight - axesWidth*3/4) - edgeBuffer)/(numTicks-1);
 	    	g2d.drawLine(infoWidth+(axesWidth*3/4)-tickLength, edgeBuffer + vertTickPoint, infoWidth+(axesWidth*3/4)+tickLength, edgeBuffer + vertTickPoint);
-	    	g2d.drawString((float)(numTicks-1-i)*((float)numReqs/(float)(numTicks-1))+"",infoWidth+(axesWidth*3/4)-43,edgeBuffer + vertTickPoint+5);
+	    	g2d.drawString((float)(numTicks-1-i)*((float)numReqs/(float)(numTicks-1))+"",infoWidth+(axesWidth*3/4)-50,edgeBuffer + vertTickPoint+5);
 	    	
 	    	//Vertical ticks on x axis
 	    	int horTickPoint = i*( (windowWidth-edgeBuffer) -(infoWidth+(axesWidth*3/4)))/(numTicks-1);
@@ -298,7 +317,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	    }
 	    
 	    
-	    // Draw the lines
+	    // Draw the stepfunctionlines
 	    for(StepFunctionLine l : randLines)
     	{
     		l.setGraphics(g2d);
@@ -314,23 +333,56 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 		    } 
 	    }
 	    
-	    
 	    // Draw the plot info
 	    g2d.setColor(new Color(0,0,0));
 	    g2d.drawString("Test Suite: RPMatrix.dat and RPTime.dat", 17,30);
 	    g2d.drawString("Test Cases: "+lines.get(0).getNumTests(), 17, 50);
 	    g2d.drawString("Execution Time: " + lines.get(0).getExecutionTime()+ " ms", 17, 70);
 	    
+	    	   
 	    
-	    g2d.setColor(new Color(0,0,255));
-	    g2d.drawString("GRD", 17, 110);
-	    g2d.setColor(new Color(255,0,255));
-	    g2d.drawString("2OPT", 17, 130);
-	    g2d.setColor(new Color(0,255,255));
-	    g2d.drawString("DRG", 17, 150);
-	    g2d.setColor(new Color(255,255,0));
-	    g2d.drawString("HGS", 17, 170);
 	    
+	    g2d.setStroke(new BasicStroke(1,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND));	
+	    //Draw vert lines between to delimit buttons
+	    for(int i = 0; i <= gcm.length;i++)
+	    {
+	    	g2d.drawLine(gridStartX+i*gridSpacingX ,gridStartY,gridStartX+i*gridSpacingX,gridStartY+techniques.length*gridSpacingY);
+	    }
+	    
+	    //Draw hor lines between to delimit grids
+	    for(int i = 0; i <= techniques.length;i++)
+	    {
+	    	g2d.drawLine(gridStartX ,gridStartY+i*gridSpacingY,gridStartX +gcm.length*gridSpacingX ,gridStartY +i*gridSpacingY);
+	    }
+	    
+	    
+	    //Draw the text labels for the technique buttons
+	    for(int i =0; i < techniques.length;i++)
+	    {
+	    	g2d.setColor(colors[i]);
+	    	g2d.drawString(techniques[i],gridStartX-techniqueLabelsOffsetX ,gridStartY+techniqueLabelsOffsetY+i*gridSpacingY );
+	    }
+	    
+	    g2d.setColor(Color.BLACK);
+	    //Draw the gcm labels for the technique buttons
+	    for(int i = 0; i <gcm.length;i++)
+	    {
+	    	g2d.drawString(gcm[i],gridStartX+gcmLabelsOffsetX+i*gridSpacingX ,gridStartY-gcmLabelsOffsetY);
+	    }
+	   	    
+	    // The buttons
+	    for(int i = 1; i < lines.size(); i++)
+	    {
+	    	g2d.setColor(colors[(i-1)/gcm.length]);
+	    	if(show[i]==true)
+	    	{
+	    		int row = (i-1) / gcm.length;
+	    		int col = (i-1) % gcm.length;
+	    			    		
+	    		g2d.fillRect(gridStartX+col*gridSpacingX+buttonInsetX/2,gridStartY+row*gridSpacingY+buttonInsetY/2,gridSpacingX-buttonInsetX,gridSpacingY - buttonInsetY);
+	       	}
+	    	
+	    }
 	    
 	    //labels
 	    g2d.setColor(Color.black);
@@ -339,7 +391,10 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	    g2d.translate((infoWidth+ 15), (windowHeight/2));
 	    g2d.rotate(-Math.PI/2);
 	    g2d.drawString("Covered Requirements (ms)", -55 ,-2);
+	    g2d.rotate(Math.PI/2);
+	    
 	}
+	
 	
 	/*
 	 * This method is called every time a mouse event is triggered.
@@ -347,36 +402,58 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	 */
 	public void mouseMoved(MouseEvent e) 
 	{
-		
+		if(e.getX() > infoWidth)
+		{
 		for(StepFunctionLine l : lines)
 		{
 			if(l.contains(e.getX(), e.getY()))
 			{
 				l.color=(new Color(255,0,0));
 				l.drawArea = true;
+				l.highlight = true;
+				l.displayInfo(e.getX(),e.getY());
 			}
 			else
 			{
-				l.color=(new Color(0,255,0));
+				l.highlight = false;
+				l.color=l.defaultColor;
 				l.drawArea = false;
+				
 			}
 		}		
-		//System.out.println("Mouse Moved! ("+e.getX()+", "+e.getY()+")");
 		repaint();
+		}
 		
 	}
 	
 	public void mouseClicked(MouseEvent e)
 	{
-		/*
-	//	System.out.println("Mouse Clicked! ("+e.getX()+", "+e.getY()+"(");
-		// Increase the number of random lines
-		this.numRand  = (this.numRand +10)%60;
 		
+		int mouseX = e.getX();
+		int mouseY = e.getY();
 		
+		if (mouseX < infoWidth)
+		{
+			
+			for(int i = 1; i < lines.size(); i++)
+		    {
+		       	int row = (i-1) / gcm.length;
+		    	int col = (i-1) % gcm.length;
+		    			  
+		    	if(mouseX >= gridStartX+col*gridSpacingX+buttonInsetX/2 && mouseX <= (gridStartX+col*gridSpacingX+buttonInsetX/2)+gridSpacingX-buttonInsetX )
+		    	{
+		    		if(mouseY >=gridStartY+row*gridSpacingY+buttonInsetY/2 && mouseY <=(gridStartY+row*gridSpacingY+buttonInsetY/2)+gridSpacingY - buttonInsetY)
+		    		{
+		    			if(show[i]== true)
+		    				show[i] = false;
+		    			else
+		    				show[i] = true;	    
+		    		}
+		    	}		    	
+		    }
+		}
 		
 		repaint();
-		*/
 	}
 	
 	
@@ -435,7 +512,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 		for(int i = 0; i < numRand; i++)
     	{
     		shuffle(this.order);
-    		this.randLines.add(new StepFunctionLine(this.sc, this.order , new Color(200,200,200),1,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth));
+    		this.randLines.add(new StepFunctionLine(this.sc, this.order , new Color(200,200,200),1,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Random", "N/A"));
     	}
 	    
 	    repaint();

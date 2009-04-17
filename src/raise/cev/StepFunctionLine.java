@@ -38,6 +38,7 @@ public class StepFunctionLine {
 	float infoX, infoY;
 	
 	Color color;
+	Color defaultColor;
 	
 	Graphics2D g2d;
 	
@@ -47,7 +48,7 @@ public class StepFunctionLine {
 	/**
 	 * Constructor
 	 */
-	@SuppressWarnings("unchecked")
+	
 	public StepFunctionLine(SetCover cover, int[] order, Color color, float width, int boxWidth, int boxHeight, int startX, int startY, String techniqueInfo, String gcmInfo)
 	{	
 		sX = startX;
@@ -55,6 +56,7 @@ public class StepFunctionLine {
 		technique = "technique: " + techniqueInfo;
 		gcm = "greedy metric:" + gcmInfo;
 		
+		//System.out.println("ONE");
 		int height = 0;
 		int sum = 0;
 		int totalTime = 0;
@@ -66,9 +68,9 @@ public class StepFunctionLine {
 		x[0] = startX;
 		y[0] = startY;
 		
-		LinkedHashSet<SingleTest> tempTestList = new LinkedHashSet();
+		LinkedHashSet<SingleTest> tempTestList = new LinkedHashSet<SingleTest>();
 		
-		Iterator stsIt = cover.getTestSubsets().iterator();
+		Iterator<SingleTestSubset> stsIt = cover.getTestSubsets().iterator();
 		
 		while(stsIt.hasNext())
 			tempTestList.add(((SingleTestSubset)stsIt.next()).getTest());
@@ -79,7 +81,7 @@ public class StepFunctionLine {
 		
 		for(int i = 0; i < order.length; i++)
 		{
-			Iterator testSubsetsIterator = cover.getTestSubsets().iterator();
+			Iterator<SingleTestSubset> testSubsetsIterator = cover.getTestSubsets().iterator();
 			
 			while(testSubsetsIterator.hasNext())
 			{
@@ -90,10 +92,11 @@ public class StepFunctionLine {
 				if( (thisTestSubset.getTest()).getIndex() == order[i])
 				{
 					// Move forward and sum
+					sum += height * thisTestSubset.getTest().getCost();
 					totalTime += thisTestSubset.getTest().getCost();
 					
 					x[i+1] = startX + (int) ((((float)totalTime - 0)/((float)execTime - 0))*boxWidth);
-										
+									
 					// Update height.  
 					Iterator<RequirementSubset> requirementsIterator = 
 						thisTestSubset.getRequirementSubsetSet().iterator();
@@ -115,17 +118,17 @@ public class StepFunctionLine {
 			}	
 		}
 		
-		ce = ((float)sum)/((float)height*(float)totalTime);
 		
+		ce = ((float)sum)/((float)height*(float)totalTime);
+		System.out.println(ce);
+			
 		this.numTests = x.length-1;
 		
 		this.color = color;
+		this.defaultColor = color;
 		this.lineWidth = width;
 		
 		this.executionTime = SetCover.getExecutionTimeSingleTestSubsetList(cover.getTestSubsets());
-		
-		System.out.println(numTests + ", "+execTime);
-		
 	}
 
 	public double getExecutionTime()
@@ -210,8 +213,8 @@ public class StepFunctionLine {
 		area.closePath();
 
 		Composite originalComposite = g2d.getComposite();
-	    g2d.setComposite(makeComposite(.5F));
-	    g2d.setPaint(color);
+	    g2d.setComposite(makeComposite(.1F));
+	    g2d.setPaint(Color.yellow);
 	    g2d.fill(area);
 	    g2d.setComposite(originalComposite);
 	    
