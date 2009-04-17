@@ -156,6 +156,10 @@ public class StepFunctionLine {
 			g2d.drawLine(x[i],y[i],x[i+1],y[i]);
 			g2d.drawLine(x[i+1],y[i],x[i+1],y[i+1]);
 		}
+		
+		if (drawArea)
+			drawAreaBelow();
+
 	}
 	
 	/**
@@ -163,24 +167,21 @@ public class StepFunctionLine {
 	 */
 	public void drawAreaBelow()
 	{
-		if (drawArea){
-			GeneralPath area = new GeneralPath(GeneralPath.WIND_EVEN_ODD, x.length); 
-			area.moveTo(x[0], y[0]);
-			for (int index = 1; index < x.length; index++) {
-		        area.lineTo(x[index], y[index]);
-			}
-			area.lineTo(x[x.length - 1], y[0]);
-			area.closePath();
-			g2d.draw(area);
-	
-			Composite originalComposite = g2d.getComposite();
-		    g2d.setComposite(makeComposite(.6F));
-		    g2d.setPaint(Color.red);
-		    g2d.fill(area);
-	
-		    g2d.setComposite(originalComposite);
+		GeneralPath area = new GeneralPath(GeneralPath.WIND_EVEN_ODD, x.length); 
+		area.moveTo(x[0], y[0]);
+		for (int i = 1; i < x.length-1; i++) {
+	        area.lineTo(x[i+1],y[i]);  
+	        area.lineTo(x[i+1],y[i+1]);			
 		}
-		
+		area.lineTo(x[x.length - 1], y[0]);
+		area.closePath();
+
+		Composite originalComposite = g2d.getComposite();
+	    g2d.setComposite(makeComposite(.6F));
+	    g2d.setPaint(color);
+	    g2d.fill(area);
+	    g2d.setComposite(originalComposite);
+	    
 	}
 	private AlphaComposite makeComposite(float alpha) {
 		int type = AlphaComposite.SRC_OVER;

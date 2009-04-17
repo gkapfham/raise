@@ -50,10 +50,10 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	private final int edgeBuffer = 30;
 	private final int tickLength = 5;
 	private final int numTicks = 5;
-	private final String matrixFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPMatrix.dat";
-	private final String timeFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPTime.dat";
-	//private final String matrixFile = "/home/geiger/Documents/school/pitt/cs2620/raise/data/raise/reduce/setCovers/RPMatrix.dat";
-	//private final String timeFile = "/home/geiger/Documents/school/pitt/cs2620/raise/data/raise/reduce/setCovers/RPTime.dat";
+	//private final String matrixFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPMatrix.dat";
+	//private final String timeFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPTime.dat";
+	private final String matrixFile = "/home/geiger/Documents/school/pitt/cs2620/raise/data/raise/reduce/setCovers/RPMatrix.dat";
+	private final String timeFile = "/home/geiger/Documents/school/pitt/cs2620/raise/data/raise/reduce/setCovers/RPTime.dat";
 	private final int randLineWidth = 1;
 	private final int techniqueLineWidth = 2;
 	private final int MAX_RAND = 100;
@@ -314,7 +314,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	    for(StepFunctionLine l : randLines)
     	{
     		l.setGraphics(g2d);
-    		l.drawStep();	    	
+    		l.drawStep();    	
     	}
 	    
 	    for(int i = 0; i<lines.size();i++)
@@ -357,21 +357,23 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	 */
 	public void mouseMoved(MouseEvent e) 
 	{
-		/*
+		
 		for(StepFunctionLine l : lines)
 		{
 			if(l.contains(e.getX(), e.getY()))
 			{
 				l.color=(new Color(255,0,0));
+				l.drawArea = true;
 			}
 			else
 			{
 				l.color=(new Color(0,255,0));
+				l.drawArea = false;
 			}
 		}		
 		//System.out.println("Mouse Moved! ("+e.getX()+", "+e.getY()+")");
 		repaint();
-		*/
+		
 	}
 	
 	public void mouseClicked(MouseEvent e)
