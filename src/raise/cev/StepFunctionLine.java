@@ -4,6 +4,7 @@ import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Composite;
+import java.awt.FontMetrics;
 import java.awt.GradientPaint;
 import java.awt.Rectangle;
 import java.awt.Shape;
@@ -27,9 +28,14 @@ public class StepFunctionLine {
 	float ce;
 	int numTests;
 	double executionTime;
+	String technique, gcm, ceString;
 	
-	boolean drawArea = false;
-	boolean highlight = false;
+	
+	boolean drawArea = false,
+		highlight = false,
+		showInfo = false;
+	
+	float infoX, infoY;
 	
 	Color color;
 	
@@ -42,11 +48,13 @@ public class StepFunctionLine {
 	 * Constructor
 	 */
 	@SuppressWarnings("unchecked")
-	public StepFunctionLine(SetCover cover, int[] order, Color color, float width, int boxWidth, int boxHeight, int startX, int startY)
+	public StepFunctionLine(SetCover cover, int[] order, Color color, float width, int boxWidth, int boxHeight, int startX, int startY, String techniqueInfo, String gcmInfo)
 	{	
 		sX = startX;
 		sY = startY;
-
+		technique = "technique: " + techniqueInfo;
+		gcm = "greedy metric:" + gcmInfo;
+		
 		int height = 0;
 		int sum = 0;
 		int totalTime = 0;
@@ -162,6 +170,28 @@ public class StepFunctionLine {
 			drawAreaBelow();
 		if (highlight)
 			drawHighlight();
+		if (showInfo){
+			ceString = "CE: " + Float.toString(ce);
+			
+			FontMetrics fm = g2d.getFontMetrics();
+			int maxWidth = fm.stringWidth(technique);
+			if ( maxWidth < fm.stringWidth(gcm))
+				maxWidth = fm.stringWidth(gcm);
+			if ( maxWidth < fm.stringWidth(ceString))
+				maxWidth = fm.stringWidth(ceString);
+			
+			int shift = 15;
+			int pad = 3;
+			g2d.setColor(Color.lightGray);
+			g2d.fillRect( (int)infoX + shift, (int)infoY - fm.getHeight(), maxWidth+2*pad, 3*fm.getHeight()+pad);
+			
+			g2d.setColor(Color.black);
+			g2d.drawString(technique, infoX+shift+pad, infoY);
+			g2d.drawString(gcm, infoX+shift+pad, infoY + fm.getHeight());
+			g2d.drawString(ceString, infoX+shift+pad, infoY + 2*fm.getHeight());
+			
+			showInfo = false;
+		}
 
 	}
 	
@@ -222,6 +252,15 @@ public class StepFunctionLine {
 	    
 	}
 
+	
+	public void displayInfo(int posX, int posY){
+
+		infoX = posX;
+		infoY = posY;
+		showInfo = true;
+		
+	}
+	
 	/**
 	 * This will return true if x and y denote a point close to the line.
 	 */
