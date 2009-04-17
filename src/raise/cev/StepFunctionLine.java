@@ -29,6 +29,7 @@ public class StepFunctionLine {
 	double executionTime;
 	
 	boolean drawArea = false;
+	boolean highlight = false;
 	
 	Color color;
 	
@@ -159,13 +160,15 @@ public class StepFunctionLine {
 		
 		if (drawArea)
 			drawAreaBelow();
+		if (highlight)
+			drawHighlight();
 
 	}
 	
 	/**
 	 * Draw the area below the line.
 	 */
-	public void drawAreaBelow()
+	private void drawAreaBelow()
 	{
 		GeneralPath area = new GeneralPath(GeneralPath.WIND_EVEN_ODD, x.length); 
 		area.moveTo(x[0], y[0]);
@@ -177,12 +180,15 @@ public class StepFunctionLine {
 		area.closePath();
 
 		Composite originalComposite = g2d.getComposite();
-	    g2d.setComposite(makeComposite(.6F));
+	    g2d.setComposite(makeComposite(.5F));
 	    g2d.setPaint(color);
 	    g2d.fill(area);
 	    g2d.setComposite(originalComposite);
 	    
 	}
+	/**
+	 * This is needed for drawing transparent colors
+	 */
 	private AlphaComposite makeComposite(float alpha) {
 		int type = AlphaComposite.SRC_OVER;
 		return(AlphaComposite.getInstance(type, alpha));
@@ -193,7 +199,27 @@ public class StepFunctionLine {
 	 */
 	public void drawHighlight()
 	{
+		float hwidth = 2F*lineWidth;
+		GeneralPath hlight = new GeneralPath(GeneralPath.WIND_EVEN_ODD, x.length); 
+		hlight.moveTo(x[0]-hwidth, y[0] - hwidth);
+		for (int i = 1; i < x.length-1; i++) {
+	        hlight.lineTo(x[i+1] - hwidth,y[i] -hwidth);  //hline
+	        hlight.lineTo(x[i+1] - hwidth,y[i+1] - hwidth); //vline
+		}
+		hlight.lineTo(x[x.length-1]+hwidth, y[y.length-1] - hwidth);
+		for (int i = x.length-1; i > 0; i--){
+			hlight.lineTo(x[i] + hwidth, y[i-1] + hwidth);  //vline
+			hlight.lineTo(x[i-1] + hwidth, y[i-1] + hwidth);  //hline
+		}
+		hlight.lineTo(x[0]-hwidth, y[0]+hwidth);
+		hlight.closePath();
 		
+		Composite originalComposite = g2d.getComposite();
+	    g2d.setComposite(makeComposite(.2F));
+	    g2d.setPaint(color);
+	    g2d.fill(hlight);
+	    g2d.setComposite(originalComposite);
+	    
 	}
 
 	/**
@@ -232,7 +258,9 @@ public class StepFunctionLine {
 	 */
 	
 	
-	
+	/**
+	 * This will return true if x and y denote a point close to the line.
+	 */
 	public boolean contains(int posX, int posY){
 		int p = 5; // proximity
 
