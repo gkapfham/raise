@@ -42,12 +42,8 @@ import java.util.Random;
 
 public class CoverageEffectivenessVisualization extends JPanel implements MouseListener, MouseMotionListener, ChangeListener {
 	
-	private final String matrixFile = "C:/Documents and Settings/Katherine Eriksen/My Documents/Adam/raise/data/raise/reduce/setCovers/RPMatrix.dat";
-	private final String timeFile = "C:/Documents and Settings/Katherine Eriksen/My Documents/Adam/raise/data/raise/reduce/setCovers/RPTime.dat";
-	//private final String matrixFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPMatrix.dat";
-	//private final String timeFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPTime.dat";
-	//private final String matrixFile = "/home/geiger/Documents/school/pitt/cs2620/raise/data/raise/reduce/setCovers/RPMatrix.dat";
-	//private final String timeFile = "/home/geiger/Documents/school/pitt/cs2620/raise/data/raise/reduce/setCovers/RPTime.dat";
+	private final String matrixFile = "data/raise/reduce/setCovers/RPMatrix.dat";
+	private final String timeFile = "data/raise/reduce/setCovers/RPTime.dat";
 	
 	// Define the size of the screen.
 	private final int windowWidth = 971; //971
@@ -125,6 +121,8 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
     
     public CoverageEffectivenessVisualization()
     {
+    	System.out.println(System.getProperty("user.dir"));
+    	
     	scrolling=false;
     	
     	// A mouse listener 
@@ -168,7 +166,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
     	show[0] = true;
     	
     	for(int i = 1; i<14; i++)
-    		show[i]=true;
+    		show[i]=false;
     	
     	lines = new ArrayList<StepFunctionLine>();
     	randLines = new ArrayList<StepFunctionLine>();
@@ -470,7 +468,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	        
 	    g2d.translate((infoWidth+ 15), (windowHeight/2));
 	    g2d.rotate(-Math.PI/2);
-	    g2d.drawString("Covered Requirements (ms)", -55 ,-2);
+	    g2d.drawString("Covered Requirements", -55 ,-2);
 	    g2d.rotate(Math.PI/2);
 	    
 	}
@@ -492,18 +490,19 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 				l.drawArea = true;
 				l.highlight = true;
 				l.displayInfo(e.getX(),e.getY());
+				
 			}
 			else
 			{
 				l.highlight = false;
 				//l.color=l.defaultColor;
 				l.drawArea = false;
-				
 			}
 		}		
-		repaint();
+		
 		}
 		
+		repaint();	
 	}
 	
 	public void mouseClicked(MouseEvent e)
@@ -529,6 +528,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 		    			else
 		    				show[i] = true;
 		    			
+		    			repaint();
 		    			break;
 		    		}
 		    	}		    	
@@ -548,13 +548,15 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 		    			else
 		    				show[i] = true;
 		    			
-		    			break;
+						repaint();
+						break;
+	
 					}
 				}		
 			}
 		}
 		
-		repaint();
+	
 	}
 	
 	

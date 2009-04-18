@@ -304,7 +304,7 @@ public class StepFunctionLine {
 	 * This will return true if x and y denote a point close to the line.
 	 */
 	public boolean contains(int posX, int posY){
-		int p = 5; // proximity
+		float p = lineWidth; // proximity
 
 		for(int i=0; i < x.length-1; i++){
 			if (posX >= x[i]-p/2 && posX <= x[i+1] +p/2)
