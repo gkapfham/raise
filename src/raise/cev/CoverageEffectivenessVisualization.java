@@ -42,8 +42,10 @@ import java.util.Random;
 
 public class CoverageEffectivenessVisualization extends JPanel implements MouseListener, MouseMotionListener, ChangeListener {
 	
-	private final String matrixFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPMatrix.dat";
-	private final String timeFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPTime.dat";
+	private final String matrixFile = "C:/Documents and Settings/Katherine Eriksen/My Documents/Adam/raise/data/raise/reduce/setCovers/RPMatrix.dat";
+	private final String timeFile = "C:/Documents and Settings/Katherine Eriksen/My Documents/Adam/raise/data/raise/reduce/setCovers/RPTime.dat";
+	//private final String matrixFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPMatrix.dat";
+	//private final String timeFile = "C:/Users/Adam/Documents/raise/data/raise/reduce/setCovers/RPTime.dat";
 	//private final String matrixFile = "/home/geiger/Documents/school/pitt/cs2620/raise/data/raise/reduce/setCovers/RPMatrix.dat";
 	//private final String timeFile = "/home/geiger/Documents/school/pitt/cs2620/raise/data/raise/reduce/setCovers/RPTime.dat";
 	
@@ -58,11 +60,19 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	
 	private final int randLineWidth = 1;
 	private final int techniqueLineWidth = 2;
-	private final int MAX_RAND = 100;
+	private final int MAX_RAND = 25;
 	private final int MIN_RAND = 0;
 	
-	private final int gridStartY = 150;
-	private final int gridStartX = 50;
+	
+	private final int originalGridStartY = 150;
+	private final int originalGridStartX = 115;
+	private final int originalLabelsOffsetY = 20;
+	private final int originalLabelsOffsetX = 60;
+	
+	private final String[] oTechniques = {"Original","Reverse"};
+	
+	private final int gridStartY = 270;
+	private final int gridStartX = 45;
 	private final int gridSpacingY = 40;
 	private final int gridSpacingX = 70;
 	private final int gcmLabelsOffsetX = 8;
@@ -76,6 +86,11 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	private final String[] techniques = {"GRD","2OPT","DGR", "HGS"};
 	private final String[] gcm = {" runtime","coverage", "   ratio"};
 	private final Color[] colors = {Color.BLUE,Color.cyan,Color.green,Color.ORANGE};
+	
+	private final int scrollBarStartX = 10;
+	private final int scrollBarStartY = 530;
+	private final int scrollBarLength = 260;
+	
 	
 	private static final long serialVersionUID = 1L;
 
@@ -103,9 +118,15 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
     
     JPanel sliderPanel; 
     
+    int scrollBoxX;
+    int scrollBoxY;
+    
+    boolean scrolling;
     
     public CoverageEffectivenessVisualization()
     {
+    	scrolling=false;
+    	
     	// A mouse listener 
     	addMouseListener(this);
     	addMouseMotionListener(this);
@@ -129,6 +150,9 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
      */
     public void initState()
     {
+    	scrollBoxX = scrollBarStartX;
+    	scrollBoxY = scrollBarStartY;
+    	
     	slider = new JSlider(JSlider.HORIZONTAL,
                 MIN_RAND, MAX_RAND, MIN_RAND);
     	
@@ -139,11 +163,11 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
     	
     	//add(slider);
     	    	    	
-       	show = new boolean[13];
+       	show = new boolean[14];
     	
     	show[0] = true;
     	
-    	for(int i = 1; i<13; i++)
+    	for(int i = 1; i<14; i++)
     		show[i]=true;
     	
     	lines = new ArrayList<StepFunctionLine>();
@@ -168,6 +192,10 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
     	// add the original
     	lines.add(new StepFunctionLine(sc,order,new Color(0,0,0),techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Original","N/A"));  	
      	
+    	for(int i = 0; i < order.length; i++)
+    		order[order.length-1-i] = i;
+    	// add the reverse
+    	lines.add(new StepFunctionLine(sc,order,new Color(0,0,0),techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Reverse","N/A"));
    	 	
     	// make the random
     	for(int i = 0; i < numRand; i++)
@@ -286,7 +314,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	    g2d.setFont(new Font("Purisa", Font.PLAIN, 14));
 	    
 	    //Set to gray and fill info window
-	    g2d.setColor(new Color(200,200,200));
+	    g2d.setColor(new Color(240,240,240));
 	    g2d.fillRect(0, 0, infoWidth, windowHeight);
 	    
 	    // Set to white and fill the plot window
@@ -339,10 +367,51 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	    g2d.drawString("Test Cases: "+lines.get(0).getNumTests(), 17, 50);
 	    g2d.drawString("Execution Time: " + lines.get(0).getExecutionTime()+ " ms", 17, 70);
 	    
-	    	   
+	    //Draw a separator box
+	    g2d.drawRect(0, 0, infoWidth -1 , 85);
+	    
+	    ////////////////// Original and Reverse
+	    
+	    g2d.setStroke(new BasicStroke(2,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND));	
+	  //Draw vert lines between to delimit original/reverse buttons
+	    for(int i = 0; i <= 1;i++)
+	    {
+	    	g2d.drawLine(originalGridStartX+i*gridSpacingX ,originalGridStartY,originalGridStartX+i*gridSpacingX,originalGridStartY+oTechniques.length*gridSpacingY);
+	    }
+	    
+	    //Draw hor lines between to delimit original/reverse button grids
+	    for(int i = 0; i <= oTechniques.length;i++)
+	    {
+	    	g2d.drawLine(originalGridStartX ,originalGridStartY+i*gridSpacingY,originalGridStartX +gridSpacingX ,originalGridStartY +i*gridSpacingY);
+	    }
+	    
+
+	    //Draw the text labels for the technique buttons
+	    for(int i =0; i < oTechniques.length;i++)
+	    {
+	    	g2d.drawString(oTechniques[i],originalGridStartX-originalLabelsOffsetX ,originalGridStartY+originalLabelsOffsetY+i*gridSpacingY );
+	    }
+	    
+	 // The buttons
+	    for(int i = 0; i < 2; i++)
+	    {
+	    	if(show[i]==true)
+	    	{
+	    		int row = i / 1;
+	    		int col = i % 1;
+	    			    		
+	    		g2d.fillRect(originalGridStartX+col*gridSpacingX+buttonInsetX/2,originalGridStartY+row*gridSpacingY+buttonInsetY/2,gridSpacingX-buttonInsetX,gridSpacingY - buttonInsetY);
+	       	}
+	    	
+	    }
+	    
+	    //Labels over the controls
+	    g2d.drawString("Prioritization Techniques", originalGridStartX-46, originalGridStartY-30);
+	    g2d.drawString("Random Prioritizations", scrollBarStartX+65, scrollBarStartY-30);
 	    
 	    
-	    g2d.setStroke(new BasicStroke(1,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND));	
+	    ///////////////////////////  Big Button grid
+	    
 	    //Draw vert lines between to delimit buttons
 	    for(int i = 0; i <= gcm.length;i++)
 	    {
@@ -371,20 +440,31 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	    }
 	   	    
 	    // The buttons
-	    for(int i = 1; i < lines.size(); i++)
+	    for(int i = 2; i < lines.size(); i++)
 	    {
-	    	g2d.setColor(colors[(i-1)/gcm.length]);
+	    	g2d.setColor(colors[(i-2)/gcm.length]);
 	    	if(show[i]==true)
 	    	{
-	    		int row = (i-1) / gcm.length;
-	    		int col = (i-1) % gcm.length;
+	    		int row = (i-2) / gcm.length;
+	    		int col = (i-2) % gcm.length;
 	    			    		
 	    		g2d.fillRect(gridStartX+col*gridSpacingX+buttonInsetX/2,gridStartY+row*gridSpacingY+buttonInsetY/2,gridSpacingX-buttonInsetX,gridSpacingY - buttonInsetY);
-	       	}
-	    	
+	       	}	
 	    }
 	    
-	    //labels
+	    
+	    // Scroll Bar
+	   // g2d.drawLine(scrollBarStartX, scrollBarStartY, scrollBarStartX+scrollBarLength, scrollBarStartY);
+	    g2d.setColor(Color.WHITE);
+	    g2d.fillRect(scrollBarStartX, scrollBarStartY-((gridSpacingY-buttonInsetY)/2), scrollBarLength,gridSpacingY-buttonInsetY);
+	    g2d.setColor(new Color(200,200,200));
+	    g2d.fillRect(scrollBoxX, scrollBoxY-((gridSpacingY-buttonInsetY)/2), gridSpacingX-buttonInsetX,gridSpacingY-buttonInsetY);
+	    g2d.setColor(Color.BLACK);
+	    g2d.setFont(new Font("Purisa", Font.PLAIN, 18));
+	    g2d.drawString(numRand+"", scrollBoxX+26, scrollBoxY+7);
+	    g2d.setFont(new Font("Purisa", Font.PLAIN, 14));
+
+	    // axis labels
 	    g2d.setColor(Color.black);
 	    g2d.drawString("Execution Time (ms)", (windowWidth-infoWidth)/2+infoWidth - 35 ,windowHeight - axesWidth*3/4 + 45);
 	        
@@ -408,7 +488,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 		{
 			if(l.contains(e.getX(), e.getY()))
 			{
-				l.color=(new Color(255,0,0));
+				//l.color=(new Color(255,0,0));
 				l.drawArea = true;
 				l.highlight = true;
 				l.displayInfo(e.getX(),e.getY());
@@ -416,7 +496,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 			else
 			{
 				l.highlight = false;
-				l.color=l.defaultColor;
+				//l.color=l.defaultColor;
 				l.drawArea = false;
 				
 			}
@@ -434,11 +514,11 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 		
 		if (mouseX < infoWidth)
 		{
-			
-			for(int i = 1; i < lines.size(); i++)
+			// techniques
+			for(int i = 2; i < lines.size(); i++)
 		    {
-		       	int row = (i-1) / gcm.length;
-		    	int col = (i-1) % gcm.length;
+		       	int row = (i-2) / gcm.length;
+		    	int col = (i-2) % gcm.length;
 		    			  
 		    	if(mouseX >= gridStartX+col*gridSpacingX+buttonInsetX/2 && mouseX <= (gridStartX+col*gridSpacingX+buttonInsetX/2)+gridSpacingX-buttonInsetX )
 		    	{
@@ -447,10 +527,31 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 		    			if(show[i]== true)
 		    				show[i] = false;
 		    			else
-		    				show[i] = true;	    
+		    				show[i] = true;
+		    			
+		    			break;
 		    		}
 		    	}		    	
 		    }
+
+			// original and reverse
+			for(int i = 0; i < oTechniques.length;i++)
+			{
+				int row = i / 1;
+		    	int col = i % 1;
+				if(mouseX >= originalGridStartX+col*gridSpacingX+buttonInsetX/2 && mouseX <= (originalGridStartX+col*gridSpacingX+buttonInsetX/2)+gridSpacingX-buttonInsetX)
+				{
+					if(mouseY >=originalGridStartY+row*gridSpacingY+buttonInsetY/2 && mouseY <=(originalGridStartY+row*gridSpacingY+buttonInsetY/2)+gridSpacingY - buttonInsetY)
+					{
+						if(show[i]== true)
+		    				show[i] = false;
+		    			else
+		    				show[i] = true;
+		    			
+		    			break;
+					}
+				}		
+			}
 		}
 		
 		repaint();
@@ -459,12 +560,38 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	
 	public void mousePressed(MouseEvent e) 
 	{
-//		System.out.println("Mouse Pressed! ("+e.getX()+", "+e.getY()+"(");	
+		int mouseX = e.getX();
+		int mouseY = e.getY();		
+		
+		if(mouseX < infoWidth)
+		{
+			if(mouseX >= scrollBoxX && mouseX <= scrollBoxX + gridSpacingX - buttonInsetX)
+			{
+				if(mouseY >= scrollBoxY-((gridSpacingY-buttonInsetY)/2) && mouseY <= (scrollBoxY + gridSpacingY - buttonInsetY)-((gridSpacingY-buttonInsetY)/2))
+				{
+					scrolling = true;
+					randLines.clear();
+				}
+			}
+		}
+	
 	}
 	
 	public void mouseReleased(MouseEvent e) 
 	{
-//		System.out.println("Mouse Released! ("+e.getX()+", "+e.getY()+"(");	
+		if(scrolling)
+		{
+			scrolling = false;
+		
+			randLines.clear();		
+		
+			for(int i = 0; i < numRand; i++)
+			{
+		   		shuffle(order);
+	    		randLines.add(new StepFunctionLine(sc, order , new Color(200,200,200),randLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Random","N/A"));
+	   		}
+			repaint();
+		}
 	}
 	
 	public void mouseEntered(MouseEvent e) 
@@ -495,7 +622,23 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	@Override
 	public void mouseDragged(MouseEvent e) 
 	{
-	//	System.out.println("Mouse Dragged! ("+e.getX()+", "+e.getY()+"(");	
+		int mouseX = e.getX();
+		
+		if(scrolling)
+		{
+			scrollBoxX = mouseX;
+			if(scrollBoxX > (scrollBarStartX+scrollBarLength) - (gridSpacingX-buttonInsetX))
+				scrollBoxX = (scrollBarStartX+scrollBarLength) - (gridSpacingX-buttonInsetX);
+	
+			else if(scrollBoxX < scrollBarStartX)
+				scrollBoxX = scrollBarStartX;
+		
+			numRand =(int) ((((float)(scrollBoxX - scrollBarStartX))/((float)(((scrollBarStartX+scrollBarLength) - (gridSpacingX-buttonInsetX))-scrollBarStartX))  )*((float)MAX_RAND));
+			System.out.println(numRand);
+
+			repaint();
+		}
+		
 	}
 
 	@Override

@@ -120,7 +120,7 @@ public class StepFunctionLine {
 		
 		
 		ce = ((float)sum)/((float)height*(float)totalTime);
-		System.out.println(ce);
+		//System.out.println(ce);
 			
 		this.numTests = x.length-1;
 		
@@ -336,7 +336,7 @@ public class StepFunctionLine {
 			if (posX <= x[dex]){
 				while (--dex >= 0 && dex < arrLength && y[dex] == posY ){ //look to the left
 					if (x[dex] <= posX){
-						System.out.println("HERE1");
+						//System.out.println("HERE1");
 						return true;
 					}
 				}
@@ -344,7 +344,7 @@ public class StepFunctionLine {
 				//look to the right
 				while (++dex < arrLength && dex >= 0 && y[dex] == posY){ // look to the right
 					if (x[dex] >= posX){
-						System.out.println("HERE2");
+						//System.out.println("HERE2");
 						return true;
 					}
 				}
@@ -357,7 +357,7 @@ public class StepFunctionLine {
 			if (posY <= y[dex]){
 				while (++dex >= 0 && dex < arrLength && x[dex] == posX ){ //look to the left
 					if (y[dex] <= posY){
-						System.out.println("HERE3");
+						//System.out.println("HERE3");
 						return true;
 					}
 				}
@@ -365,7 +365,7 @@ public class StepFunctionLine {
 				//look below
 				while (--dex < arrLength && dex >= 0  && x[dex] == posX){ // look to the right
 					if (y[dex] >= posY){
-						System.out.println("HERE4");
+						//System.out.println("HERE4");
 						return true;
 					}
 				}
