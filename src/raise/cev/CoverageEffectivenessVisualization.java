@@ -121,8 +121,6 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
     
     public CoverageEffectivenessVisualization()
     {
-    	System.out.println(System.getProperty("user.dir"));
-    	
     	scrolling=false;
     	
     	// A mouse listener 
@@ -636,8 +634,6 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 				scrollBoxX = scrollBarStartX;
 		
 			numRand =(int) ((((float)(scrollBoxX - scrollBarStartX))/((float)(((scrollBarStartX+scrollBarLength) - (gridSpacingX-buttonInsetX))-scrollBarStartX))  )*((float)MAX_RAND));
-			System.out.println(numRand);
-
 			repaint();
 		}
 		
