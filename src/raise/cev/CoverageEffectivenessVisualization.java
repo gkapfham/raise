@@ -56,7 +56,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	
 	private final int randLineWidth = 1;
 	private final int techniqueLineWidth = 2;
-	private final int MAX_RAND = 25;
+	private final int MAX_RAND = 30;
 	private final int MIN_RAND = 0;
 	
 	
@@ -186,18 +186,18 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
     		order[i] = i;
     	    	  
     	// add the original
-    	lines.add(new StepFunctionLine(sc,order,new Color(0,0,0),techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Original","N/A"));  	
+    	lines.add(new StepFunctionLine(sc,order,new Color(0,0,0),techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+(axesWidth*3/4),windowHeight - axesWidth*3/4,"Original","N/A"));  	
      	
     	for(int i = 0; i < order.length; i++)
     		order[order.length-1-i] = i;
     	// add the reverse
-    	lines.add(new StepFunctionLine(sc,order,new Color(0,0,0),techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Reverse","N/A"));
+    	lines.add(new StepFunctionLine(sc,order,new Color(0,0,0),techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+(axesWidth*3/4),windowHeight - axesWidth*3/4,"Reverse","N/A"));
    	 	
     	// make the random
     	for(int i = 0; i < numRand; i++)
     	{
     		shuffle(order);
-    		randLines.add(new StepFunctionLine(sc, order , new Color(200,200,200),randLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Random","N/A"));
+    		randLines.add(new StepFunctionLine(sc, order , new Color(200,200,200),randLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+(axesWidth*3/4),windowHeight - axesWidth*3/4,"Random","N/A"));
     	}
     	
     	
@@ -207,84 +207,84 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
     	sc.prioritizeUsingGreedy("time");
     	order = sc.getPrioritizedOrderArray();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,colors[0],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Greedy","Runtime"));
+    	lines.add(new StepFunctionLine(sc,order,colors[0],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+(axesWidth*3/4),windowHeight - axesWidth*3/4,"Greedy","Runtime"));
     	
     	//grd cov
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsingGreedy("coverage");
     	order = sc.getPrioritizedOrderArray();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,colors[0],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Greedy","Coverage"));
+    	lines.add(new StepFunctionLine(sc,order,colors[0],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+(axesWidth*3/4),windowHeight - axesWidth*3/4,"Greedy","Coverage"));
     	
     	//grd ratio
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsingGreedy("ratio");
     	order = sc.getPrioritizedOrderArray();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,colors[0],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Greedy","Ratio"));
+    	lines.add(new StepFunctionLine(sc,order,colors[0],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+(axesWidth*3/4),windowHeight - axesWidth*3/4,"Greedy","Ratio"));
     	
     	//2opt cost
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsing2Optimal("time");
     	order = sc.getPrioritizedOrderArray();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,colors[1],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"2Optimal","Runtime"));
+    	lines.add(new StepFunctionLine(sc,order,colors[1],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+(axesWidth*3/4),windowHeight - axesWidth*3/4,"2Optimal","Runtime"));
     	
     	//2opt cov
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsing2Optimal("coverage");
     	order = sc.getPrioritizedOrderArray();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,colors[1],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"2Optimal","Coverage"));
+    	lines.add(new StepFunctionLine(sc,order,colors[1],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+(axesWidth*3/4),windowHeight - axesWidth*3/4,"2Optimal","Coverage"));
     	
     	//2opt ratio
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsing2Optimal("ratio");
     	order = sc.getPrioritizedOrderArray();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,colors[1],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"2Optimal","Ratio"));
+    	lines.add(new StepFunctionLine(sc,order,colors[1],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+(axesWidth*3/4),windowHeight - axesWidth*3/4,"2Optimal","Ratio"));
     	
     	//dgr cost
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsingDelayedGreedy("time");
     	order = sc.getPrioritizedOrderArray();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,colors[2],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Delayed Greedy","RunTime"));
+    	lines.add(new StepFunctionLine(sc,order,colors[2],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+(axesWidth*3/4),windowHeight - axesWidth*3/4,"Delayed Greedy","RunTime"));
     	
     	//dgr cov
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsingDelayedGreedy("coverage");
     	order = sc.getPrioritizedOrderArray();    	
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,colors[2],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Delayed Greedy","Coverage"));
+    	lines.add(new StepFunctionLine(sc,order,colors[2],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+(axesWidth*3/4),windowHeight - axesWidth*3/4,"Delayed Greedy","Coverage"));
     	
     	//dgr ratio
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsingDelayedGreedy("ratio");
     	order = sc.getPrioritizedOrderArray();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,colors[2],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Delayed Greedy","Ratio"));
+    	lines.add(new StepFunctionLine(sc,order,colors[2],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+(axesWidth*3/4),windowHeight - axesWidth*3/4,"Delayed Greedy","Ratio"));
     	
     	//hgs cost
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsingHarroldGuptaSoffa("time",3);
     	order = sc.getPrioritizedOrderArray();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,colors[3],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Harrold Gupta Soffa","Runtime"));
+    	lines.add(new StepFunctionLine(sc,order,colors[3],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+(axesWidth*3/4),windowHeight - axesWidth*3/4,"Harrold Gupta Soffa","Runtime"));
     	
     	//hgs cov
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsingHarroldGuptaSoffa("coverage",3);
     	order = sc.getPrioritizedOrderArray();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,colors[3],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Harrold Gupta Soffa","Coverage"));
+    	lines.add(new StepFunctionLine(sc,order,colors[3],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+(axesWidth*3/4),windowHeight - axesWidth*3/4,"Harrold Gupta Soffa","Coverage"));
     	
     	//hgs ratio
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
     	sc.prioritizeUsingHarroldGuptaSoffa("ratio",3);
     	order = sc.getPrioritizedOrderArray();
     	sc = SetCover.constructSetCoverFromMatrix(matrixFile, timeFile);
-    	lines.add(new StepFunctionLine(sc,order,colors[3],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Harrold Gupta Soffa","Ratio"));
+    	lines.add(new StepFunctionLine(sc,order,colors[3],techniqueLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+(axesWidth*3/4),windowHeight - axesWidth*3/4,"Harrold Gupta Soffa","Ratio"));
     	
     }
 	
@@ -321,7 +321,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	    g2d.setColor(new Color(0,0,0));
 	    g2d.setStroke(new BasicStroke(3,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND));
 	    //y axis
-	    g2d.drawLine(infoWidth+(axesWidth*3/4), windowHeight - axesWidth*3/4,infoWidth+(axesWidth*3/4) , edgeBuffer);
+	    g2d.drawLine(infoWidth+(axesWidth*3/4)-5, windowHeight - axesWidth*3/4,infoWidth+(axesWidth*3/4)-5 , edgeBuffer);
 	    //x axis
 	    g2d.drawLine(infoWidth+(axesWidth*3/4), windowHeight - axesWidth*3/4,windowWidth-edgeBuffer , windowHeight - axesWidth*3/4);
 	    
@@ -331,8 +331,8 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	    {
 	    	// Horizontal ticks on y axis
 	    	int vertTickPoint = i*((windowHeight - axesWidth*3/4) - edgeBuffer)/(numTicks-1);
-	    	g2d.drawLine(infoWidth+(axesWidth*3/4)-tickLength, edgeBuffer + vertTickPoint, infoWidth+(axesWidth*3/4)+tickLength, edgeBuffer + vertTickPoint);
-	    	g2d.drawString((float)(numTicks-1-i)*((float)numReqs/(float)(numTicks-1))+"",infoWidth+(axesWidth*3/4)-50,edgeBuffer + vertTickPoint+5);
+	    	g2d.drawLine(infoWidth+(axesWidth*3/4)-tickLength-5, edgeBuffer + vertTickPoint, infoWidth+(axesWidth*3/4)+tickLength-5, edgeBuffer + vertTickPoint);
+	    	g2d.drawString((float)(numTicks-1-i)*((float)numReqs/(float)(numTicks-1))+"",infoWidth+(axesWidth*3/4)-55,edgeBuffer + vertTickPoint+5);
 	    	
 	    	//Vertical ticks on x axis
 	    	int horTickPoint = i*( (windowWidth-edgeBuffer) -(infoWidth+(axesWidth*3/4)))/(numTicks-1);
@@ -588,7 +588,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 			for(int i = 0; i < numRand; i++)
 			{
 		   		shuffle(order);
-	    		randLines.add(new StepFunctionLine(sc, order , new Color(200,200,200),randLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Random","N/A"));
+	    		randLines.add(new StepFunctionLine(sc, order , new Color(200,200,200),randLineWidth,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+(axesWidth*3/4),windowHeight - axesWidth*3/4,"Random","N/A"));
 	   		}
 			repaint();
 		}
@@ -653,7 +653,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 		for(int i = 0; i < numRand; i++)
     	{
     		shuffle(this.order);
-    		this.randLines.add(new StepFunctionLine(this.sc, this.order , new Color(200,200,200),1,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+axesWidth,windowHeight-axesWidth,"Random", "N/A"));
+    		this.randLines.add(new StepFunctionLine(this.sc, this.order , new Color(200,200,200),1,windowWidth-(infoWidth + axesWidth+edgeBuffer),windowHeight - axesWidth-edgeBuffer,infoWidth+(axesWidth*3/4),windowHeight - axesWidth*3/4,"Random", "N/A"));
     	}
 	    
 	    repaint();
