@@ -1,15 +1,17 @@
-This is pdfTeX, Version 3.14159-1.10b (Web2C 7.4.5) (format=pdflatex 2009.4.3)  23 APR 2009 18:16
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2008.9.27)  24 APR 2009 09:58
+entering extended mode
+ %&-line parsing enabled.
 **Adam-Josh-CS2620-S09.tex
-(./Adam-Josh-CS2620-S09.tex{/usr/share/texmf/pdftex/config/pdftex.cfg}
-LaTeX2e <2001/06/01>
-Babel <v3.7h> and hyphenation patterns for american, french, german, ngerman, n
-ohyphenation, loaded.
+(./Adam-Josh-CS2620-S09.tex
+LaTeX2e <2005/12/01>
+Babel <v3.8h> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, loaded.
 (./vgtc.cls
 Document Class: vgtc 2006/05/21 IEEE VGTC
-(/usr/share/texmf/tex/latex/base/article.cls
-Document Class: article 2001/04/21 v1.4e Standard LaTeX document class
-(/usr/share/texmf/tex/latex/base/size10.clo
-File: size10.clo 2001/04/21 v1.4e Standard LaTeX file (size option)
+(/usr/share/texmf-texlive/tex/latex/base/article.cls
+Document Class: article 2005/09/16 v1.4f Standard LaTeX document class
+(/usr/share/texmf-texlive/tex/latex/base/size10.clo
+File: size10.clo 2005/09/16 v1.4f Standard LaTeX file (size option)
 )
 \c@part=\count79
 \c@section=\count80
@@ -30,8 +32,8 @@ File: size10.clo 2001/04/21 v1.4e Standard LaTeX file (size option)
 \abstxtspace=\skip45
 \vgtc@copyrightlength=\skip46
 )
-(/usr/share/texmf/tex/latex/psnfss/mathptmx.sty
-Package: mathptmx 2002/09/08 PSNFSS-v9.0a Times w/ Math, improved (SPQR, WaS) 
+(/usr/share/texmf-texlive/tex/latex/psnfss/mathptmx.sty
+Package: mathptmx 2005/04/12 PSNFSS-v9.2a Times w/ Math, improved (SPQR, WaS) 
 LaTeX Font Info:    Redeclaring symbol font `operators' on input line 28.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> OT1/ztmcm/m/n on input line 28.
@@ -64,173 +66,176 @@ LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
 (Font)                  OT1/cmr/m/it --> OT1/ptm/m/it on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 (Font)                  OT1/cmr/bx/it --> OT1/ptm/m/it on input line 35.
-LaTeX Info: Redefining \hbar on input line 40.
+LaTeX Info: Redefining \hbar on input line 50.
 )
-(/usr/share/texmf/tex/latex/graphics/graphicx.sty
+(/usr/share/texmf-texlive/tex/latex/graphics/graphicx.sty
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 
-(/usr/share/texmf/tex/latex/graphics/keyval.sty
+(/usr/share/texmf-texlive/tex/latex/graphics/keyval.sty
 Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 \KV@toks@=\toks14
 )
-(/usr/share/texmf/tex/latex/graphics/graphics.sty
-Package: graphics 2001/07/07 v1.0n Standard LaTeX Graphics (DPC,SPQR)
+(/usr/share/texmf-texlive/tex/latex/graphics/graphics.sty
+Package: graphics 2006/02/20 v1.0o Standard LaTeX Graphics (DPC,SPQR)
 
-(/usr/share/texmf/tex/latex/graphics/trig.sty
+(/usr/share/texmf-texlive/tex/latex/graphics/trig.sty
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-(/usr/share/texmf/tex/latex/config/graphics.cfg
-File: graphics.cfg 2001/08/31 v1.1 graphics configuration of teTeX/TeXLive
+(/etc/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
 )
-Package graphics Info: Driver file: pdftex.def on input line 80.
+Package graphics Info: Driver file: pdftex.def on input line 90.
 
-(/usr/share/texmf/tex/latex/graphics/pdftex.def
-File: pdftex.def 2002/06/19 v0.03k graphics/color for pdftex
+(/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2007/01/08 v0.04d Graphics/color for pdfTeX
 \Gread@gobject=\count87
 ))
 \Gin@req@height=\dimen105
 \Gin@req@width=\dimen106
 )
-(/usr/share/texmf/tex/latex/psnfss/times.sty
-Package: times 2002/09/08 PSNFSS-v9.0a (SPQR) 
-) (./Adam-Josh-CS2620-S09.aux)
+(/usr/share/texmf-texlive/tex/latex/psnfss/times.sty
+Package: times 2005/04/12 PSNFSS-v9.2a (SPQR) 
+)
+(/usr/share/texmf-texlive/tex/latex/ltxmisc/url.sty
+\Urlmuskip=\muskip10
+Package: url 2005/06/27  ver 3.2  Verb mode for urls, etc.
+)
+(./Adam-Josh-CS2620-S09.aux)
 \openout1 = `Adam-Josh-CS2620-S09.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 66.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 67.
 
-(/usr/share/texmf/tex/latex/psnfss/ot1ptm.fd
+(/usr/share/texmf-texlive/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 \big@size=\dimen107
+LaTeX Font Info:    Try loading font information for OT1+phv on input line 75.
 
-(/usr/share/texmf/tex/context/base/supp-pdf.tex
-(/usr/share/texmf/tex/context/base/supp-mis.tex
-loading : Context Support Macros / Missing
-\protectiondepth=\count88
-\scratchcounter=\count89
-\scratchtoks=\toks15
-\scratchdimen=\dimen108
-\scratchskip=\skip47
-\scratchmuskip=\muskip10
-\scratchbox=\box26
-\scratchread=\read1
-\scratchwrite=\write3
-\zeropoint=\dimen109
-\minusone=\count90
-\thousandpoint=\dimen110
-\emptytoks=\toks16
-\nextbox=\box27
-\nextdepth=\dimen111
-\everyline=\toks17
-\!!counta=\count91
-\!!countb=\count92
-\recursecounter=\count93
-)
-loading : Context Support Macros / PDF
-\nofMPsegments=\count94
-\nofMParguments=\count95
-\everyMPtoPDFconversion=\toks18
-)
-LaTeX Font Info:    Try loading font information for OT1+phv on input line 74.
- (/usr/share/texmf/tex/latex/psnfss/ot1phv.fd
+(/usr/share/texmf-texlive/tex/latex/psnfss/ot1phv.fd
 File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
 )
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 74.
-LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 74
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 75.
+LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 75
 .
 
-(/usr/share/texmf/tex/latex/psnfss/ot1ztmcm.fd
+(/usr/share/texmf-texlive/tex/latex/psnfss/ot1ztmcm.fd
 File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 74
+LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 75
 .
 
-(/usr/share/texmf/tex/latex/psnfss/omlztmcm.fd
+(/usr/share/texmf-texlive/tex/latex/psnfss/omlztmcm.fd
 File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 74
+LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 75
 .
 
-(/usr/share/texmf/tex/latex/psnfss/omsztmcm.fd
+(/usr/share/texmf-texlive/tex/latex/psnfss/omsztmcm.fd
 File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 74
+LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 75
 .
 
-(/usr/share/texmf/tex/latex/psnfss/omxztmcm.fd
+(/usr/share/texmf-texlive/tex/latex/psnfss/omxztmcm.fd
 File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 74.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 75.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 74.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 75.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 74.
-LaTeX Font Info:    Calculating math sizes for size <7.4> on input line 74.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 75.
+LaTeX Font Info:    Calculating math sizes for size <7.4> on input line 75.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5.47603> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 74.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 75.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <4.44003> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 74.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 75.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 74.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 75.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 74.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 75.
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <9> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 74.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 75.
 LaTeX Font Info:    Font shape `OT1/phv/bx/sc' in size <9> not available
-(Font)              Font shape `OT1/phv/b/sc' tried instead on input line 74.
+(Font)              Font shape `OT1/phv/b/sc' tried instead on input line 75.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 78.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 79.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 78.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 79.
 
 <CoverageMatrix.png, id=1, 893.3375pt x 276.03125pt>
 File: CoverageMatrix.png Graphic file (type png)
  <use CoverageMatrix.png>
 <ce.png, id=2, 779.91376pt x 458.71375pt>
 File: ce.png Graphic file (type png)
- <use ce.png>
-<screenshot.png, id=3, 973.6375pt x 601.24625pt>
+ <use ce.png> [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+
+ <./CoverageMatrix.png (PNG copy)> <./ce.png (PNG copy)>] <original.png, id=15,
+ 674.52pt x 674.52pt>
+File: original.png Graphic file (type png)
+ <use original.png>
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 126.
+
+
+(/usr/share/texmf-texlive/tex/latex/psnfss/omsptm.fd
+File: omsptm.fd 
+)
+LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <9> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 126.
+
+<screenshot.png, id=16, 973.6375pt x 601.24625pt>
 File: screenshot.png Graphic file (type png)
  <use screenshot.png>
-Overfull \hbox (51.14851pt too wide) in paragraph at lines 107--108
+Overfull \hbox (2.46378pt too wide) in paragraph at lines 133--134
 [][] 
  []
 
-(./Adam-Josh-CS2620-S09.bbl [1{/usr/share/texmf/dvips/config/pdftex.map}
+(./Adam-Josh-CS2620-S09.bbl
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 8.
 
+(/usr/share/texmf-texlive/tex/latex/psnfss/ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+)
+Underfull \hbox (badness 1226) in paragraph at lines 4--9
+\OT1/ptm/m/n/8 pares.  $\OT1/pcr/m/n/8 http : / / www . nytimes . com / interac
+tive / 2008 /
+ []
 
- <./CoverageMatrix.png> <./ce.png>]) [2
-
- <./screenshot.png>]
+) [2 <./original.png (PNG copy)> <./screenshot.png (PNG copy)>]
 (./Adam-Josh-CS2620-S09.aux) ) 
 Here is how much of TeX's memory you used:
- 1257 strings out of 95437
- 15983 string characters out of 1190234
- 66794 words of memory out of 1000001
- 4263 multiletter control sequences out of 10000+50000
- 53744 words of font info for 109 fonts, out of 500000 for 1000
- 14 hyphenation exceptions out of 1000
- 35i,15n,21p,915b,409s stack positions out of 1500i,500n,5000p,200000b,5000s
- 28 PDF objects out of 300000
- 0 named destinations out of 131072
- 15 words of extra memory for PDF output out of 65536
-{/usr/share/texmf/dvips/tetex/f7b6d320.enc}</usr/
-share/texmf/fonts/type1/bluesky/cm/cmr10.pfb>{/usr/share/texmf/dvips/tetex/aae4
-43f0.enc}</usr/share/texmf/fonts/type1/bluesky/cm/cmmi10.pfb>{/usr/share/texmf/
-dvips/psnfss/8r.enc}{/usr/share/texmf/dvips/tetex/bbad153f.enc}</usr/share/texm
-f/fonts/type1/bluesky/cm/cmsy10.pfb>
-Output written on Adam-Josh-CS2620-S09.pdf (2 pages, 76094 bytes).
+ 1117 strings out of 95086
+ 14495 string characters out of 1183255
+ 64477 words of memory out of 1500000
+ 4266 multiletter control sequences out of 10000+50000
+ 54514 words of font info for 112 fonts, out of 1200000 for 2000
+ 28 hyphenation exceptions out of 8191
+ 35i,15n,21p,1281b,336s stack positions out of 5000i,500n,6000p,200000b,5000s
+{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r
+.enc}</usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmmi10.pfb></usr/share/te
+xmf-texlive/fonts/type1/bluesky/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/ty
+pe1/bluesky/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmsy
+9.pfb></usr/share/texmf-texlive/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/
+texmf-texlive/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texmf-texlive/fon
+ts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/time
+s/utmr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmri8a.pfb>
+Output written on Adam-Josh-CS2620-S09.pdf (2 pages, 180203 bytes).
+PDF statistics:
+ 52 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 131072)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+

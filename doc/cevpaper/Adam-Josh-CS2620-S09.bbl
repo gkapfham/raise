@@ -1,4 +1,17 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{nytime_multiplot}
+X.~G. Amanda~Cox and D.~Leonhard.
+\newblock {How This Bear Market Compares}.
+\newblock
+  \url{http://www.nytimes.com/interactive/2008/10/11/business/20081011_BEAR_MA%
+RKETS.html}.
+
+\bibitem{Stephen95visualizingnetwork}
+R.~A. Becker, S.~G. Eick, and A.~R. Wilks.
+\newblock {Visualizing Network Data}.
+\newblock {\em IEEE Transactions on Visualization and Computer Graphics},
+  1:16--28, 1995.
 
 \bibitem{bart}
 M.~Breugelmans and B.~Van~Rompaey.
@@ -17,6 +30,11 @@ J.~A. Jones, M.~J. Harrold, and J.~Stasko.
 \newblock In {\em ICSE '02: Proceedings of the 24th International Conference on
   Software Engineering}, pages 467--477, New York, NY, USA, 2002. ACM.
 
+\bibitem{thehammer}
+G.~M. Kapfhammer.
+\newblock {Gregory M. Kapfhammer's Homepage}.
+\newblock \url{http://www.cs.allegheny.edu/~gkapfham}.
+
 \bibitem{ce}
 G.~M. Kapfhammer and M.~L. Soffa.
 \newblock Using coverage effectiveness to evaluate test suite prioritizations.
@@ -28,6 +46,13 @@ G.~Rothermel, R.~H. Untch, C.~Chu, and M.~J. Harrold.
 \newblock Prioritizing {T}est {C}ases {F}or {R}egression {T}esting.
 \newblock {\em IEEE Transactions on Software Engineering}, 27(10):929--948,
   2001.
+
+\bibitem{smith:2009}
+A.~M. Smith and G.~M. Kapfhammer.
+\newblock An empirical study of incorporating cost into test suite reduction
+  and prioritization.
+\newblock In {\em SAC '09: Proceedings of the 2009 ACM symposium on Applied
+  Computing}, pages 461--467, New York, NY, USA, 2009. ACM.
 
 \bibitem{zhu}
 H.~Zhu, P.~A.~V. Hall, and J.~H.~R. May.
