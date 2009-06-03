@@ -85,6 +85,10 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	private static final long serialVersionUID = 1L;
 
 	private int numRand;
+	private static float runningAveRandCE = 0;
+	private static float aveRandCE = 0;
+	private static float runningRandSTDev = 0;
+	private static float randSTDev = 0;
 	
 	double execTime;
 	int numTests;
