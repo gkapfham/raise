@@ -12,6 +12,7 @@ import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
@@ -35,8 +36,8 @@ import java.util.Random;
 
 public class CoverageEffectivenessVisualization extends JPanel implements MouseListener, MouseMotionListener, ChangeListener {
 	
-	private final String matrixFile = "data/raise/reduce/setCovers/RPMatrix.dat";
-	private final String timeFile = "data/raise/reduce/setCovers/RPTime.dat";
+	private static String matrixFile; // = "data/raise/reduce/setCovers/RPMatrix.dat";
+	private static String timeFile; // = "data/raise/reduce/setCovers/RPTime.dat";
 	
 	// Define the size of the screen.
 	private final int windowWidth = 971; //971
@@ -73,7 +74,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	private final int buttonInsetY = 10;
 	
 	private final String[] techniques = {"GRD","2OPT","DGR", "HGS"};
-	private final String[] gcm = {" runtime","coverage", "   ratio"};
+	private final String[] gcm = {" cost","coverage", "   ratio"};
 	private final Color[] colors = {Color.BLUE,Color.cyan,Color.green,Color.ORANGE};
 	
 	private final int scrollBarStartX = 10;
@@ -612,7 +613,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
         }
     }
 
-	@Override
+
 	public void mouseDragged(MouseEvent e) 
 	{
 		int mouseX = e.getX();
@@ -632,7 +633,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 		
 	}
 
-	@Override
+
 	public void stateChanged(ChangeEvent e) 
 	{
 		JSlider source = (JSlider)e.getSource();
@@ -659,6 +660,15 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	public static void main(String[] args)
 	{
 	    JFrame frame = new JFrame("Coverage Effectiveness");
+	    
+	    matrixFile = JOptionPane.showInputDialog("Enter the path to the matrix file.");
+	    timeFile = JOptionPane.showInputDialog("Enter the path to the time file.");
+	    
+	    if(matrixFile.equals("") || timeFile.equals("") )
+	    {
+	    	matrixFile = "data/raise/reduce/setCovers/RPMatrix.dat";
+	    	timeFile = "data/raise/reduce/setCovers/RPTime.dat";
+	    }
 	    
 	    frame.setLayout(new GridLayout());
 	    
