@@ -461,10 +461,10 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	    g2d.setFont(new Font("Purisa", Font.PLAIN, 14));
 	    
 	    // Stats for random
-	    g2d.drawString("Avg CE: " + aveRandCE,scrollBarStartX-5, scrollBarStartY+50);
-	    g2d.drawString("Running Avg CE: "+ runningAveRandCE,scrollBarStartX+125, scrollBarStartY+50);
-	    g2d.drawString("St. Dev.: " + randSTDev,scrollBarStartX-5, scrollBarStartY+75);
-	    g2d.drawString("Running St. Dev." + runningRandSTDev,scrollBarStartX+125, scrollBarStartY+75);
+	    g2d.drawString("Avg CE: " + aveRandCE,scrollBarStartX-5, scrollBarStartY+29);
+	    g2d.drawString("Running Avg CE: "+ runningAveRandCE,scrollBarStartX-5, scrollBarStartY+49);
+	    g2d.drawString("St. Dev.: " + randSTDev,scrollBarStartX-5, scrollBarStartY+69);
+	    g2d.drawString("Running St. Dev." + runningRandSTDev,scrollBarStartX-5, scrollBarStartY+89);
 	    
 	    // axis labels
 	    g2d.setColor(Color.black);
@@ -586,51 +586,55 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 			scrolling = false;
 			randLines.clear();		
 			
-			//Clear current average CE
+			//Clear current average CE and standard deviation
 			aveRandCE = 0;
+			randSTDev = 0;
 			
-			for(int i = 0; i < numRand; i++)
+			if(numRand !=0 )
 			{
-		   		shuffle(order);
-	    		StepFunctionLine randLine = new StepFunctionLine(sc, order , new Color(200,200,200),randLineWidth,windowWidth-(infoWidth + axesWidth),windowHeight - axesWidth-edgeBuffer,infoWidth+(axesWidth*3/4),windowHeight - axesWidth*3/4,"Random","N/A");
-		   		
-	    		// Update CE to be divided later
-	    		aveRandCE += randLine.getCE();
-	    		
-	    		/*
-					private static float runningRandSTDev = 0;
-					private static float randSTDev = 0; */
-	    		randLines.add(randLine);
+				for(int i = 0; i < numRand; i++)
+				{
+			   		shuffle(order);
+		    		StepFunctionLine randLine = new StepFunctionLine(sc, order , new Color(200,200,200),randLineWidth,windowWidth-(infoWidth + axesWidth),windowHeight - axesWidth-edgeBuffer,infoWidth+(axesWidth*3/4),windowHeight - axesWidth*3/4,"Random","N/A");
+			   		
+		    		// Update CE to be divided later
+		    		aveRandCE += randLine.getCE();
+		    		
+		    		/*
+						private static float runningRandSTDev = 0;
+						private static float randSTDev = 0; */
+		    		randLines.add(randLine);
+				}
+				
+				// Running average update: aveRandCE hasn't been divided by the numRand yet
+				// so we can just add it to the running total CE and divide later.
+				runningAveRandCE = runningAveRandCE*numRandGenerated + aveRandCE;
+				
+				// Update the total number of random generated and update the running average
+				numRandGenerated += numRand;
+				runningAveRandCE = runningAveRandCE/numRandGenerated;
+							
+				// Current average CE calculate
+				aveRandCE = aveRandCE/numRand;
+				
+				//Calculate Standard deviation
+				float sumOfSquares = 0;
+				Iterator randIt = randLines.iterator();
+				while(randIt.hasNext())
+				{
+					StepFunctionLine currentRandLine = (StepFunctionLine) randIt.next();
+					sumOfSquares += (currentRandLine.getCE()-aveRandCE)*(currentRandLine.getCE()-aveRandCE);
+				}
+				
+				randSTDev = (float) Math.sqrt((sumOfSquares/((float)numRand-1)) );
+				runningSumOfSquares += sumOfSquares;
+				runningRandSTDev = (float) Math.sqrt(runningSumOfSquares/((float)numRandGenerated-1));
+				
+				System.out.println("Average CE: " + aveRandCE +"\nRunning Average CE: " 
+									+ runningAveRandCE +"\nStandard Deviation: " 
+									+ randSTDev+"\nRunning Standard Deviation"
+									+ runningRandSTDev);
 			}
-			
-			// Running average update: aveRandCE hasn't been divided by the numRand yet
-			// so we can just add it to the running total CE and divide later.
-			runningAveRandCE = runningAveRandCE*numRandGenerated + aveRandCE;
-			
-			// Update the total number of random generated and update the running average
-			numRandGenerated += numRand;
-			runningAveRandCE = runningAveRandCE/numRandGenerated;
-						
-			// Current average CE calculate
-			aveRandCE = aveRandCE/numRand;
-			
-			//Calculate Standard deviation
-			float sumOfSquares = 0;
-			Iterator randIt = randLines.iterator();
-			while(randIt.hasNext())
-			{
-				StepFunctionLine currentRandLine = (StepFunctionLine) randIt.next();
-				sumOfSquares += (currentRandLine.getCE()-aveRandCE)*(currentRandLine.getCE()-aveRandCE);
-			}
-			
-			randSTDev = (float) Math.sqrt((sumOfSquares/((float)numRand-1)) );
-			runningSumOfSquares += sumOfSquares;
-			runningRandSTDev = (float) Math.sqrt(runningSumOfSquares/((float)numRandGenerated-1));
-			
-			System.out.println("Average CE: " + aveRandCE +"\nRunning Average CE: " 
-								+ runningAveRandCE +"\nStandard Deviation: " 
-								+ randSTDev+"\nRunning Standard Deviation"
-								+ runningRandSTDev);
 			repaint();
 		}
 	}
