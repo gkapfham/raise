@@ -1,11 +1,4 @@
-\begin{thebibliography}{10}
-
-\bibitem{nytime_multiplot}
-X.~G. Amanda~Cox and D.~Leonhard.
-\newblock {How This Bear Market Compares}.
-\newblock
-  \url{http://www.nytimes.com/interactive/2008/10/11/business/20081011_BEAR_MA%
-RKETS.html}.
+\begin{thebibliography}{1}
 
 \bibitem{Stephen95visualizingnetwork}
 R.~A. Becker, S.~G. Eick, and A.~R. Wilks.
@@ -13,27 +6,11 @@ R.~A. Becker, S.~G. Eick, and A.~R. Wilks.
 \newblock {\em IEEE Transactions on Visualization and Computer Graphics},
   1:16--28, 1995.
 
-\bibitem{bart}
-M.~Breugelmans and B.~Van~Rompaey.
-\newblock Testq: Exploring structural and maintenance characteristics of unit
-  test suites.
-
-\bibitem{empiricalfamily}
-S.~G. Elbaum, A.~G. Malishevsky, and G.~Rothermel.
-\newblock Test {C}ase {P}rioritization: {A} {F}amily of {E}mpirical {S}tudies.
-\newblock {\em IEEE Transactions on Software Engineering}, 28(2):159--182,
-  2002.
-
 \bibitem{tarantula}
 J.~A. Jones, M.~J. Harrold, and J.~Stasko.
 \newblock Visualization of test information to assist fault localization.
 \newblock In {\em ICSE '02: Proceedings of the 24th International Conference on
   Software Engineering}, pages 467--477, New York, NY, USA, 2002. ACM.
-
-\bibitem{thehammer}
-G.~M. Kapfhammer.
-\newblock {Gregory M. Kapfhammer's Homepage}.
-\newblock \url{http://www.cs.allegheny.edu/~gkapfham}.
 
 \bibitem{ce}
 G.~M. Kapfhammer and M.~L. Soffa.

@@ -38,10 +38,9 @@ import java.util.Random;
 
 public class CoverageEffectivenessVisualization extends JPanel implements MouseListener, MouseMotionListener, ChangeListener {
 	
-	private static String matrixFile; // = "data/raise/reduce/setCovers/RPMatrix.dat";
-	private static String timeFile; // = "data/raise/reduce/setCovers/RPTime.dat";
+	private static String matrixFile; 
+	private static String timeFile; 
 	
-	// Define the size of the screen.
 	private final int windowWidth = 971; //971
 	private final int windowHeight = 600;
 	private final int infoWidth = 290; //270
@@ -333,12 +332,12 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	    	// Horizontal ticks on y axis
 	    	int vertTickPoint = i*((windowHeight - axesWidth*3/4) - edgeBuffer)/(numTicks-1);
 	    	g2d.drawLine(infoWidth+(axesWidth*3/4)-tickLength-5, edgeBuffer + vertTickPoint, infoWidth+(axesWidth*3/4)+tickLength-5, edgeBuffer + vertTickPoint);
-	    	g2d.drawString((float)(numTicks-1-i)*((float)numReqs/(float)(numTicks-1))+"",infoWidth+(axesWidth*3/4)-55,edgeBuffer + vertTickPoint+5);
+	    	g2d.drawString((float)(numTicks-1-i)*((float)numReqs/(float)(numTicks-1))+"",infoWidth+(axesWidth*3/4)-60,edgeBuffer + vertTickPoint+5);
 	    	
 	    	//Vertical ticks on x axis
 	    	int horTickPoint = i*( (windowWidth-edgeBuffer) -(infoWidth+(axesWidth*3/4)))/(numTicks-1);
 	    	g2d.drawLine(horTickPoint+(infoWidth+(axesWidth*3/4)),windowHeight - axesWidth*3/4-tickLength, horTickPoint+(infoWidth+(axesWidth*3/4)), windowHeight - axesWidth*3/4+tickLength);
-	    	g2d.drawString((float)(i)*((float)execTime/(float)(numTicks-1))+"",horTickPoint+(infoWidth+(axesWidth*3/4))-18, windowHeight - axesWidth*3/4+tickLength+15);
+	    	g2d.drawString((float)(i)*((float)execTime/(float)(numTicks-1))+"",horTickPoint+(infoWidth+(axesWidth*3/4))-22, windowHeight - axesWidth*3/4+tickLength+15);
 	    }
 	    
 	    
@@ -360,9 +359,10 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	    
 	    // Draw the plot info
 	    g2d.setColor(new Color(0,0,0));
-	    g2d.drawString("Test Suite: RPMatrix.dat and RPTime.dat", 17,30);
-	    g2d.drawString("Test Cases: "+lines.get(0).getNumTests(), 17, 50);
-	    g2d.drawString("Execution Time: " + lines.get(0).getExecutionTime()+ " ms", 17, 70);
+	    g2d.drawString("Coverage: RPMatrix.dat", 17, 30);
+	    g2d.drawString("Timing: RPTime.dat", 17, 50);
+	    g2d.drawString("Test Cases: "+lines.get(0).getNumTests(), 17, 70);
+	    // g2d.drawString("Execution Time: " + lines.get(0).getExecutionTime()+ " ms", 17, 70);
 	    
 	    //Draw a separator box
 	    g2d.drawRect(0, 0, infoWidth -1 , 85);
@@ -464,7 +464,7 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	    g2d.drawString("Avg CE: " + aveRandCE,scrollBarStartX-5, scrollBarStartY+29);
 	    g2d.drawString("Running Avg CE: "+ runningAveRandCE,scrollBarStartX-5, scrollBarStartY+49);
 	    g2d.drawString("St. Dev.: " + randSTDev,scrollBarStartX-5, scrollBarStartY+69);
-	    g2d.drawString("Running St. Dev." + runningRandSTDev,scrollBarStartX-5, scrollBarStartY+89);
+	    g2d.drawString("Running St. Dev. " + runningRandSTDev,scrollBarStartX-5, scrollBarStartY+89);
 	    
 	    // axis labels
 	    g2d.setColor(Color.black);

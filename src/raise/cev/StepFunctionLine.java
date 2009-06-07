@@ -53,8 +53,8 @@ public class StepFunctionLine {
 	{	
 		sX = startX;
 		sY = startY;
-		technique = "technique: " + techniqueInfo;
-		gcm = "greedy metric:" + gcmInfo;
+		technique = "Technique: " + techniqueInfo;
+		gcm = "Greedy Metric: " + gcmInfo;
 		
 		//System.out.println("ONE");
 		int height = 0;
