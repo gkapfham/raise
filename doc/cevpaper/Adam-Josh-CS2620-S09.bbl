@@ -6,6 +6,14 @@ R.~A. Becker, S.~G. Eick, and A.~R. Wilks.
 \newblock {\em IEEE Transactions on Visualization and Computer Graphics},
   1:16--28, 1995.
 
+\bibitem{hyunsook}
+H.~Do, G.~Rothermel, and A.~Kinneer.
+\newblock Empirical studies of test case prioritization in a junit testing
+  environment.
+\newblock In {\em ISSRE '04: Proceedings of the 15th International Symposium on
+  Software Reliability Engineering}, pages 113--124, Washington, DC, USA, 2004.
+  IEEE Computer Society.
+
 \bibitem{tarantula}
 J.~A. Jones, M.~J. Harrold, and J.~Stasko.
 \newblock Visualization of test information to assist fault localization.
