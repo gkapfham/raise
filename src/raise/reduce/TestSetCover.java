@@ -5802,5 +5802,11 @@ public void test2OptimalReduceUsing2OptimalayHugeExampleRatio() {
 		System.out.println("*****\n\n");
 		*/
 	}	
+
+	public void testConstructFromCoverageAndTime()
+	{
+		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/ADCoverage.dat","data/raise/reduce/setCovers/ADTime.dat");
+
+	}
 	
 }

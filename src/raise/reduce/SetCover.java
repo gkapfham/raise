@@ -469,6 +469,58 @@ public class SetCover implements Cloneable, Serializable
 		
 	}
 
+	 /**
+	  * Constructs an instance of SetCover from coverage information 
+	  * (not a matrix)
+	  * 
+	  * Returns a setcover object.  I don't know why I made the construct methods static.  
+	  * I should think about changing them.
+	  * 
+	  * 6/11/09
+	  * 
+	  * @author Adam M. Smith
+	  */
+	 
+	 public static SetCover constructSetCoverFromCoverageAndTime(String covFile, String timFile)
+	 {
+		 SetCover cover = new SetCover();
+		 ArrayList requirementSubsets = new ArrayList();
+		 ArrayList singleTests = new ArrayList();
+		 ArrayList singleTestSubsets = new ArrayList();
+	
+		 Scanner coverageScanner = null;
+		 Scanner timeScanner = null;
+	
+		 File coverageFile = new File(covFile);
+		 File timeFile = new File(timFile);
+	
+		 int numTests=0;
+		 
+		 // Try to read from the file, else print an error
+		 try 
+		 {
+			 coverageScanner = new Scanner(coverageFile);
+			 timeScanner = new Scanner(timeFile).useDelimiter("\n");
+		 }
+		 catch(java.io.FileNotFoundException e) 
+		 {
+			 System.out.println("File Not Found");
+
+			 return null;	 
+		 }		
+		
+		 // Ignore the first two label entries
+		 timeScanner.next();
+		 
+		 // Get the number of tests
+		 while(!timeScanner.next().equals(""))
+			 numTests++;
+		
+		 System.out.println("numtests: " + numTests);
+		 
+		 return cover;
+		 
+	 }
 	 
 	/**
 	 * Constructs an instance of SetCover from a binary matrix coverage
