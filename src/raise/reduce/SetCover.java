@@ -476,6 +476,12 @@ public class SetCover implements Cloneable, Serializable
 	  * Returns a setcover object.  I don't know why I made the construct methods static.  
 	  * I should think about changing them.
 	  * 
+	  * This method assumes that both the coverage and the time file are in sequential
+	  * order.  It will not work otherwise.
+	  * 
+	  * It reads through the time file creating tests, and for each test it reads all of the 
+	  * coverage information about that test from the coverage file.  
+	  * 
 	  * 6/11/09
 	  * 
 	  * @author Adam M. Smith
@@ -483,10 +489,12 @@ public class SetCover implements Cloneable, Serializable
 	 
 	 public static SetCover constructSetCoverFromCoverageAndTime(String covFile, String timFile)
 	 {
+		 boolean includeNonCoveringTests = false;
+		 
 		 SetCover cover = new SetCover();
-		 ArrayList requirementSubsets = new ArrayList();
-		 ArrayList singleTests = new ArrayList();
-		 ArrayList singleTestSubsets = new ArrayList();
+		 ArrayList<RequirementSubset> requirementSubsets = new ArrayList<RequirementSubset>();
+		 ArrayList<SingleTest> singleTests = new ArrayList<SingleTest>();
+		 ArrayList<SingleTestSubset> singleTestSubsets = new ArrayList<SingleTestSubset>();
 	
 		 Scanner coverageScanner = null;
 		 Scanner timeScanner = null;
@@ -500,27 +508,89 @@ public class SetCover implements Cloneable, Serializable
 		 try 
 		 {
 			 coverageScanner = new Scanner(coverageFile);
-			 timeScanner = new Scanner(timeFile).useDelimiter("\n");
+			 timeScanner = new Scanner(timeFile);
 		 }
 		 catch(java.io.FileNotFoundException e) 
 		 {
-			 System.out.println("File Not Found");
-
+			 System.out.println("Coverage or Time File Not Found");
 			 return null;	 
 		 }		
 		
 		 // Ignore the first two label entries
 		 timeScanner.next();
+		 timeScanner.next();
+		 coverageScanner.next();
+		 coverageScanner.next();
 		 
-		 // Get the number of tests
-		 while(!timeScanner.next().equals(""))
-			 numTests++;
-		
-		 System.out.println("numtests: " + numTests);
+		 // Create variables for the index and cost of the tests as they are 
+		 // read from the time file.
 		 
+		 int testIndex;
+		 double testCost;
+		 
+		 // Create variables for the index and requirement covered for each test
+		 // as it is read from the coverage file.  Initialized to the first row 
+		 // of information. 
+		 
+		 int covTestIndex = Integer.parseInt(coverageScanner.next());
+		 int covReq = Integer.parseInt(coverageScanner.next());
+		 
+		 // Scan the Time File
+		 while(timeScanner.hasNextInt())
+		 {
+			 // Read the test index and time information from the Time File 
+			 testIndex = Integer.parseInt(timeScanner.next());
+			 testCost = Double.parseDouble(timeScanner.next());
+			 
+			 // Create the SingleTest and SingleTestSubset objects.
+			 SingleTest currentTest = new SingleTest("SingleTest"+testIndex,testIndex,testCost);
+			 SingleTestSubset currentSTS = new SingleTestSubset(currentTest);
+			 
+			 // while the test has coverage information
+			 while(covTestIndex == testIndex)
+			 { 
+				 // Create the RequirementSubset object and add it to the 
+				 // SingleTestSubset
+			 	 RequirementSubset req = new RequirementSubset("RequirementSubset"+covReq, covReq); 
+				 currentSTS.addRequirementSubset(req);
+			 
+				 // Add the RS to the SC if it isn't there already.
+				 boolean there = false;
+				 Iterator SCI = cover.getRequirementSubsetUniverse().iterator();
+				 while(SCI.hasNext())
+				 {
+					 if(((RequirementSubset) SCI.next()).getIndex() == req.getIndex())
+					 {
+						 there = true;
+						 break;
+					 }
+				 }
+				 if(!there)
+					 cover.addRequirementSubset(req);
+				 
+				 // Get the next test and requirement index
+				 if(coverageScanner.hasNextInt())
+				 {
+					 covTestIndex = Integer.parseInt(coverageScanner.next());
+					 covReq = Integer.parseInt(coverageScanner.next());
+				 }
+				 else
+				 {
+					 covTestIndex = -1;
+					 covReq = -1;
+				 }
+			 } 
+			 
+			 // If (you're not including 0-coverage tests and the test covers something)
+			 // or if you're including everything => add the test to the test suite.
+			 if( (!includeNonCoveringTests && currentSTS.getRequirementSubsetSet().size() !=0) || includeNonCoveringTests)
+			 {
+				 cover.addSingleTestSubset(currentSTS);
+			 }
+		 }
 		 return cover;
-		 
 	 }
+	 
 	 
 	/**
 	 * Constructs an instance of SetCover from a binary matrix coverage
@@ -558,7 +628,7 @@ public class SetCover implements Cloneable, Serializable
 		}
 		catch(java.io.FileNotFoundException e) 
 		{
-			System.out.println("File Not Found");
+			System.out.println("File Not Found. Returning null");
 
 			return null;	 
 		}		

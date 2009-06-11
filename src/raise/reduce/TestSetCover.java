@@ -5805,8 +5805,35 @@ public void test2OptimalReduceUsing2OptimalayHugeExampleRatio() {
 
 	public void testConstructFromCoverageAndTime()
 	{
-		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/ADCoverage.dat","data/raise/reduce/setCovers/ADTime.dat");
 
+		// This will only work if includeNonCoveringTests == false at the beginning o constructSetCoverFromCoverageAndTime
+		
+		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/DSCoverage.dat","data/raise/reduce/setCovers/DSTime.dat");
+		cover2 = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/DSMatrix.dat","data/raise/reduce/setCovers/DSTime.dat");
+	
+		// Using Matrix files creates different indexes than Coverage files so I can't compare
+		// the resulting SetCovers with toString. 
+		
+		//  I check to see if they each have the same number of tests and requirements
+		
+		assertEquals(cover.getRequirementSubsetUniverse().size(), cover2.getRequirementSubsetUniverse().size());
+		assertEquals(cover.getTestSubsets().size(), cover2.getTestSubsets().size());
+		
+		Iterator testIt1 = cover.getTestSubsets().iterator();
+		Iterator testIt2 = cover2.getTestSubsets().iterator();
+		
+		// Here I see if every test covers the same number of requirements.
+		// This assumes that the test orders are the same, which they should be after they are built.
+		while(testIt1.hasNext())
+		{
+			SingleTestSubset firstTest = (SingleTestSubset) testIt1.next(); 
+			SingleTestSubset secondTest = (SingleTestSubset) testIt2.next();
+			
+			assertEquals(firstTest.getRequirementSubsetSet().size(),secondTest.getRequirementSubsetSet().size());
+		}
+		
+		// System.out.println(cover.toString() + "\n\n\n");
+		// System.out.println(cover2.toString() + "\n\n\n");
 	}
 	
 }
