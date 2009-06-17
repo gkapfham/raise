@@ -123,7 +123,21 @@ public class GenerateCoverageEffectivenessData {
        //  String coverageFile = args[1];
        //  String timingFile = args[2];
          
-         
+    	// AD
+           String coverageFile = "data/raise/reduce/setCovers/ADCoverage.dat";
+           String timingFile = "data/raise/reduce/setCovers/ADTime.dat";
+           String matrixCoverage = "data/raise/reduce/setCovers/ADMatrix.dat";
+           
+           SetCover sc;
+           
+           sc = SetCover.constructSetCoverFromCoverageAndTime(coverageFile, timingFile,false); 
+           GenerateCoverageEffectivenessData g = new GenerateCoverageEffectivenessData(sc);
+           //g.saveTimingData(timingFile);
+          // g.saveCoverageData(coverageFile);
+           g.saveMatrixData(matrixCoverage);
+           
+    	   
+    	   /*
          // RP
          String setCoverFile = "data/diatoms/reduce/xmlSetCovers/RP-setCover.xml";
          //String coverageFile = "data/diatoms/reduce/xmlSetCovers/RPCoverage.dat";
@@ -231,7 +245,7 @@ public class GenerateCoverageEffectivenessData {
          //g.saveTimingData(timingFile);
         // g.saveCoverageData(coverageFile);
          g.saveMatrixData(matrixCoverage);
-         
+         */
 		}
 }
 

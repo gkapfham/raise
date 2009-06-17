@@ -1,0 +1,2 @@
+alg	samples	priorTime	CE	app
+RND	50	11.0	0.6920241510868073	data/raise/reduce/setCovers/ADMatrix.dat

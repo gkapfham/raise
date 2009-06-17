@@ -22,7 +22,7 @@ import java.lang.Cloneable;
  *  @author Gregory M. Kapfhammer 9/17/2005
  */
 
-public class RequirementSubset implements Cloneable, Serializable
+public class RequirementSubset implements Cloneable, Serializable, Comparable<RequirementSubset>
 {
 
     /** The name of the requirement subset; this is just the name
@@ -301,7 +301,7 @@ public class RequirementSubset implements Cloneable, Serializable
     public boolean equals(Object other)
     {
 
-	// turn the object into an actualy RequirementSubset
+	// turn the object into an actually RequirementSubset
 	RequirementSubset otherRequirementSubset = 
 	    (RequirementSubset)other;
 
@@ -321,6 +321,16 @@ public class RequirementSubset implements Cloneable, Serializable
 
 	return sameName;
 
+    }
+    
+    public int compareTo(RequirementSubset in)
+    {
+    	if(this.index == in.index)
+    		return 0;
+    	else if(this.index < in.index)
+    		return -1;
+    	else
+    		return 1;
     }
 
 }

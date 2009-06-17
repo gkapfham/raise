@@ -151,13 +151,6 @@ public class SetCover implements Cloneable, Serializable
 	reductionTime = (long)0;
 	prioritizationTime = (long)0;
 
-	
-// 	requirementSubsetUniverse = 
-// 	    Collections.synchronizedSet(new LinkedHashSet());
-// 	testSubsets = 
-// 	    Collections.synchronizedSet(new LinkedHashSet());
-// 	reducedSingleTestSubsets =
-// 	    Collections.synchronizedSet(new LinkedHashSet());
 
     }
 
@@ -355,14 +348,14 @@ public class SetCover implements Cloneable, Serializable
     	return time;
     }
     
+
     /**
 	 *	Checks to see if the given LinkedHashSet of SingleTests 
 	 * covers the requirementSubsetUnivers
 	 *
 	 * @author Adam M. Smith
 	 */
-	 
-	 public boolean coversRequirementSubsetUniverse(LinkedHashSet tests)
+	 public boolean coversRequirementSubsetUniverse(LinkedHashSet<SingleTest> tests)
 	 {
 	 	Iterator testIterator = tests.iterator();
 	 	
@@ -372,9 +365,11 @@ public class SetCover implements Cloneable, Serializable
 	 	
 	 	while(testIterator.hasNext())
 	 	{
-	 		SingleTestSubset currentSingleTestSubset = getSingleTestSubsetFromSingleTest((SingleTest)testIterator.next());
+	 		SingleTestSubset currentSingleTestSubset = 
+	 			getSingleTestSubsetFromSingleTest((SingleTest)testIterator.next());
 	 		
-	 		Iterator coveredRequirementsIterator = currentSingleTestSubset.getRequirementSubsetSet().iterator();
+	 		Iterator coveredRequirementsIterator = 
+	 			currentSingleTestSubset.getRequirementSubsetSet().iterator();
 	 		
 	 		while(coveredRequirementsIterator.hasNext())
 	 		{
@@ -487,21 +482,26 @@ public class SetCover implements Cloneable, Serializable
 	  * @author Adam M. Smith
 	  */
 	 
-	 public static SetCover constructSetCoverFromCoverageAndTime(String covFile, String timFile)
+	 public static SetCover constructSetCoverFromCoverageAndTime(String covFile, String timFile, boolean includeNonCoveringTests)
 	 {
-		 boolean includeNonCoveringTests = false;
 		 
+		 // Create the setCover object to return
 		 SetCover cover = new SetCover();
+		 
+		 // Create the ArrayLists of RequirementSubset, SingleTest, and SingleTestSubset objects 
 		 ArrayList<RequirementSubset> requirementSubsets = new ArrayList<RequirementSubset>();
 		 ArrayList<SingleTest> singleTests = new ArrayList<SingleTest>();
 		 ArrayList<SingleTestSubset> singleTestSubsets = new ArrayList<SingleTestSubset>();
 	
+		 // Scanner objects for the coverage and time files
 		 Scanner coverageScanner = null;
 		 Scanner timeScanner = null;
 	
+		 // Open the files
 		 File coverageFile = new File(covFile);
 		 File timeFile = new File(timFile);
 	
+		 // create a test counter
 		 int numTests=0;
 		 
 		 // Try to read from the file, else print an error
@@ -524,14 +524,12 @@ public class SetCover implements Cloneable, Serializable
 		 
 		 // Create variables for the index and cost of the tests as they are 
 		 // read from the time file.
-		 
 		 int testIndex;
 		 double testCost;
 		 
 		 // Create variables for the index and requirement covered for each test
 		 // as it is read from the coverage file.  Initialized to the first row 
-		 // of information. 
-		 
+		 // of information.
 		 int covTestIndex = Integer.parseInt(coverageScanner.next());
 		 int covReq = Integer.parseInt(coverageScanner.next());
 		 
@@ -557,17 +555,32 @@ public class SetCover implements Cloneable, Serializable
 				 // Add the RS to the SC if it isn't there already.
 				 boolean there = false;
 				 Iterator SCI = cover.getRequirementSubsetUniverse().iterator();
+				 
+				 RequirementSubset currentRS = null;
 				 while(SCI.hasNext())
 				 {
-					 if(((RequirementSubset) SCI.next()).getIndex() == req.getIndex())
+					 currentRS = (RequirementSubset) SCI.next();
+					 if(currentRS.getIndex() == req.getIndex())
 					 {
 						 there = true;
 						 break;
 					 }
 				 }
-				 if(!there)
-					 cover.addRequirementSubset(req);
 				 
+				 // If it is not present in the SetCover object already
+				 // then add the test as a covering test and add the 
+				 // RS object to the SC object.
+				 if(!there)
+				 {
+					 req.addCoveringTest(currentTest);
+					 cover.addRequirementSubset(req);
+				 }
+				 // If it is present, then add the currentTest as a covering test.
+				 else
+				 {
+					 currentRS.addCoveringTest(currentTest);
+				 }
+					 
 				 // Get the next test and requirement index
 				 if(coverageScanner.hasNextInt())
 				 {
@@ -583,11 +596,13 @@ public class SetCover implements Cloneable, Serializable
 			 
 			 // If (you're not including 0-coverage tests and the test covers something)
 			 // or if you're including everything => add the test to the test suite.
-			 if( (!includeNonCoveringTests && currentSTS.getRequirementSubsetSet().size() !=0) || includeNonCoveringTests)
+			 if( (!includeNonCoveringTests && currentSTS.getRequirementSubsetSet().size() !=0) || 
+					 includeNonCoveringTests)
 			 {
 				 cover.addSingleTestSubset(currentSTS);
 			 }
 		 }
+		 
 		 return cover;
 	 }
 	 
@@ -628,8 +643,8 @@ public class SetCover implements Cloneable, Serializable
 		}
 		catch(java.io.FileNotFoundException e) 
 		{
-			System.out.println("File Not Found. Returning null");
-
+			System.out.println("File Not Found:");
+			e.printStackTrace();
 			return null;	 
 		}		
 		
@@ -1091,6 +1106,21 @@ public class SetCover implements Cloneable, Serializable
 		return testSubsets;
 
     }
+    
+    /**
+     * Returns the LinkedHashSet of SingleTest objects
+     * 
+     */
+    public LinkedHashSet getSingleTests()
+    {
+    	LinkedHashSet tests = new LinkedHashSet();
+    	
+    	Iterator<SingleTestSubset> STSIt = this.getTestSubsets().iterator();
+    	while(STSIt.hasNext())
+    		tests.add( ((SingleTestSubset)STSIt.next()).getTest());
+    
+    	return tests;
+    }
 
     /**
      *  @author Gregory M. Kapfhammer 9/20/2005
@@ -1150,131 +1180,6 @@ public class SetCover implements Cloneable, Serializable
      *  @author Gregory M. Kapfhammer 10/3/2005
      */
     
-/*
-
-//	Commented out by Adam M. Smith on Nov 30th to avoid MathLink, KernelLink, and Jlink
-
-
-   public double getHarmonicNumberBound(boolean useTMax)
-    {
-
-	double harmonicNumberBound = 0.0;
-
-	// we are assuming the request is for the nth harmonic number
-	// and we will only change this if useTMax is true
-	double harmonicNumberRequest = testSubsets.size();
-
-// 	System.out.println("Normal Hn = " + testSubsets.size());
-
-	// this is the size of the test suite that covers the most
-	// requirements; we will only change the value of this
-	// variable if useTMax is true and we have to iterate through
-	// all of the tests and see what they cover
-	int testSuiteMax = 0;
-
-	// we are supposed to use the size of the requirement subset
-	// of the largest covering test and thus we have to find this
-	// SingleTest first
-	if( useTMax )
-	    {
-
-		Iterator testSubsetsIterator = testSubsets.iterator();
-		while( testSubsetsIterator.hasNext() )
-		    {
-
-			SingleTestSubset currentTestSubset = 
-			    (SingleTestSubset) testSubsetsIterator.next();
-
-			int currentTestSuiteSize = 
-			    currentTestSubset.
-			    getRequirementSubsetSet().size(); 
-
-			if( currentTestSuiteSize > testSuiteMax )
-			    {
-
-				testSuiteMax = currentTestSuiteSize;
-
-			    }
-
-		    }
-
-		harmonicNumberRequest = testSuiteMax;
-
-// 		System.out.println("test suite max: " + 
-// 				   testSuiteMax);
-
-	    }
-
-	KernelLink ml = null;
-	String mathematicaConnect = 
-	    "-linkmode launch -linkname \'math -mathlink\'";
-
-	try 
-	    {
-		
-		ml = MathLinkFactory.
-		    createKernelLink(mathematicaConnect);
-		
-// 		System.out.println("after kernel link");
-
-	    } 
-
-	catch (MathLinkException e) 
-	    {
-		
-		System.out.println("Fatal error opening link: " + 
-				   e.getMessage());
-		e.printStackTrace();
-	    
-	    }
-
-	try 
-	    {
-			
-		// Get rid of the initial InputNamePacket the kernel
-		// will send when it is launched.
-		ml.discardAnswer();
-			
-		// this will store the final string that we will
-		// send to Mathematica
-		StringBuffer harmonicBuffer = new StringBuffer();
-
-		harmonicBuffer.append("HarmonicNumber[");
-		harmonicBuffer.append(harmonicNumberRequest);
-		harmonicBuffer.append("]");
-
-		// send the final string to Mathematica through 
-		// J/Link and retrieve the answer as a string
-		String solve = ml.
-		    evaluateToOutputForm( harmonicBuffer.toString(), 0 );
-		    
-// 		System.out.println("solve = " + solve);
-
-		Double finalHarmonic = new Double(solve);
-		harmonicNumberBound = finalHarmonic.doubleValue();
-
-	    }
-
-	catch(Exception e)
-	    {
-
-		System.out.println("Problem computing harmonic number");
-		e.printStackTrace();
-
-	    }
-
-	
-	finally 
-	    {
-		
-		ml.close();
-		
-	    }
-
-	return harmonicNumberBound;
-
-    }
-*/
 
     /**
      *  Produces a random reduction of the test suite that is guaranteed
@@ -1373,26 +1278,32 @@ public class SetCover implements Cloneable, Serializable
      *  an experimental standpoint because we need a large number of
      *  random test suites in order to account for the variability in
      *  the random reductions.
+     *  
+     *  Altered by Adam M. Smith so that it adheres to the standard
+     *  set by the other prioritization methods: The new test suite order
+     *  is defined by the data field "prioritizedSets".
      * 
      *  @author Gregory M. Kapfhammer 12/7/2005
+     *  @author Adam M. Smith 06/16/2009
      */
-    public Set prioritizeUsingRandom()
+    public void prioritizeUsingRandom()
     {
 
 	// take the timing before
 	long prioritizationTimeBefore = System.currentTimeMillis();
 
-	LinkedHashSet coverPickSets = new LinkedHashSet();
-
+	prioritizedSets = new LinkedHashSet();
+	
 	// produce an ArrayList from the set of the testSubsets
-	ArrayList testSubsetsList = new ArrayList(testSubsets);
+	ArrayList testSubsetsList = new ArrayList(this.getTestSubsets());
 
 	//System.out.println("ChosenSeed = " + chosenSeed);
 
-	// initialize the randomizer (comment out if you want default)
-	//randomizer = new Random(chosenSeed);
-
-		randomizer = new Random(System.currentTimeMillis());
+	// initialize the randomizer 
+	randomizer = new Random();
+		// This was creating problems for batch random prioritization
+		// I could create a random object for each SC...
+		//randomizer = new Random(System.currentTimeMillis());
 		
 	// shuffle the array using our randomizer that has been 
 	// initialized with a specifc random seed
@@ -1422,12 +1333,12 @@ public class SetCover implements Cloneable, Serializable
 		SingleTestSubset stsJerk = 
 		    (SingleTestSubset) testSubsetsIterator.next();
 
-		coverPickSets.
+		this.prioritizedSets.
 		    add( stsJerk.getTest() );
 
 		// added by gmk on march 6
-		reducedSingleTestSubsets.
-		    add( stsJerk );
+		//reducedSingleTestSubsets.
+		  //  add( stsJerk );
 
 	    }
 
@@ -1435,8 +1346,6 @@ public class SetCover implements Cloneable, Serializable
 	long prioritizationTimeAfter = System.currentTimeMillis();
 	prioritizationTime = (prioritizationTimeAfter -
 			      prioritizationTimeBefore);
-
-	return coverPickSets;
 
     }
 
@@ -5119,7 +5028,8 @@ public class SetCover implements Cloneable, Serializable
 		
 		// copy the requirementSubsetUniverse
 		while (getRequirementsIterator.hasNext()){
-			newRequirements.add( (RequirementSubset) ( (RequirementSubset) getRequirementsIterator.next()).clone() );
+			newRequirements.add( (RequirementSubset) ( (RequirementSubset) 
+			getRequirementsIterator.next()).clone() );
    	}
    	
    	// Make the list of Singletests
@@ -5128,7 +5038,8 @@ public class SetCover implements Cloneable, Serializable
      	System.out.println("about to add in clone ************\n\n\n");
      	
      	while (newRequirementsIterator.hasNext()){
-     		Iterator getTestsIterator = ((RequirementSubset) newRequirementsIterator.next()).getCoveringTests().iterator();
+     		Iterator getTestsIterator = 
+     		((RequirementSubset) newRequirementsIterator.next()).getCoveringTests().iterator();
      		while (getTestsIterator.hasNext()){
      			SingleTest currentSingleTest = (SingleTest) getTestsIterator.next();
      			if (!newTests.contains(currentSingleTest)){
@@ -5148,7 +5059,8 @@ public class SetCover implements Cloneable, Serializable
    		SingleTestSubset sts = new SingleTestSubset(currentTest);
    		
    		while (newRequirementsIteratorAgain.hasNext()){
-   			RequirementSubset currentSubset = (RequirementSubset) newRequirementsIteratorAgain.next();
+   			RequirementSubset currentSubset = 
+   			(RequirementSubset) newRequirementsIteratorAgain.next();
    			
    			if (currentSubset.containsSingleTest(currentTest)){
    				sts.addRequirementSubset(currentSubset);
@@ -5249,6 +5161,10 @@ public class SetCover implements Cloneable, Serializable
 	 * Calculates the CE of the SetCover in the order specified by the order
 	 * array.  The indeces of order represent the order and the value at the 
 	 * index is the test.
+	 * 
+	 * This was programmed with the assumption that the test.index would be 1-n
+	 * for a test suite.  This is bad and should be fixed to allow for indeces
+	 * of any number.
 	 *
 	 * @param int order[]
 	 *
@@ -5607,10 +5523,12 @@ public class SetCover implements Cloneable, Serializable
 			//this.restoreSetCover();
 	} // Closes method
 
+	
 	// Prioritizes the SetCover object using repeated greedy reduction.
 	// Takes a string metric parameter that defines the greedy choice.
 	public void prioritizeUsingGreedy(String metric) 
 	{
+		//System.out.println("prioritizing");
 		//this.savePristeneCopyByteArray();
 		
 		long start = System.currentTimeMillis();
@@ -5636,11 +5554,19 @@ public class SetCover implements Cloneable, Serializable
 		// While there are still tests left
 		while (!this.getTestSubsets().isEmpty()) 
 		{
+			//System.out.println("start loop");
 			remainingTests = new LinkedHashSet();			
 			
 			// Reduce the current SetCover
+			//System.out.println("reducing...");
+			//System.out.println(this.getTestSubsets().toString());
+			//System.out.println(this.getTestSubsets().size());
+			
+		//	System.out.println(this.coversRequirementSubsetUniverse(this.getTestSubsets()));
+			
 			reduceUsingGreedy(metric,false);
 						
+			//System.out.println("Adding chosen tests to prioritizedSets");
 			// Add the reduction results to the prioritizedSets list
 			prioritizedSets.addAll(coverPickSets);	
 			
@@ -5650,8 +5576,9 @@ public class SetCover implements Cloneable, Serializable
             // Extract an iterator over the testSubsets
 			Iterator testSubsetsIterator = this.getTestSubsets().iterator();
 		
-			// This loop constructs the list of remaining SingleTest objects 
+			// constructs the list of remaining SingleTest objects 
 			// from the remaining SingleTestSubset objects.
+			//System.out.println("Constructing the list of remaining ST objects");
 			while (testSubsetsIterator.hasNext())
 			{
 				// add the test to the remainingTests list
@@ -5671,7 +5598,7 @@ public class SetCover implements Cloneable, Serializable
 			// are no longer in the remainingTests list.  If this removes all 
 			// of the tests for a RS, then the RS is added to the list to be 
 			// removed.
-			
+			//System.out.println("Removing test from reqs and clearing empty reqs");
 			while (requirementSubsetIterator.hasNext())
 			{
 				// Get the current RequirementSubset
@@ -5687,7 +5614,10 @@ public class SetCover implements Cloneable, Serializable
 				}
 			}
 							
+		
 			this.removeRequirementSubsets(requirementsToRemove);
+		
+			//System.out.println("loop bottom");
 		}
 		
 		long stop = System.currentTimeMillis();
@@ -6765,6 +6695,10 @@ public class SetCover implements Cloneable, Serializable
 	 *
 	 *	@author: Adam M. Smith	July 2, 2007
 	 */
+	public void reduceUsingHarroldGuptaSoffa(String metric)
+	{
+		this.reduceUsingHarroldGuptaSoffa(metric,3);
+	}
 	public void reduceUsingHarroldGuptaSoffa(String metric, 
 	                                         int numberOfLooksAhead) 
 	{
@@ -6834,6 +6768,11 @@ public class SetCover implements Cloneable, Serializable
 
 	// Prioritizes the SetCover object given a metric and a number of 
 	// times to look ahead.  Uses repeated reduction.
+	public void prioritizeUsingHarroldGuptaSoffa(String metric)
+	{
+		this.prioritizeUsingHarroldGuptaSoffa(metric,3);
+	}
+	
 	public void prioritizeUsingHarroldGuptaSoffa(String metric,
 	                                             int numberOfLooksAhead) 
 	{
@@ -7326,7 +7265,8 @@ public class SetCover implements Cloneable, Serializable
 		PrintStream matrixOutFile = null;
         
 		// declare the matrix to print out
-		int[][] matrix = new int[this.getRequirementSubsetUniverse().size()+1][this.getTestSubsets().size()]; 
+		int[][] matrix = 
+			new int[this.getRequirementSubsetUniverse().size()+1][this.getTestSubsets().size()]; 
 		
 		 // Instantiate the printstreams
 		try 

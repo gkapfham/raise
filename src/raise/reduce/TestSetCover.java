@@ -8,12 +8,18 @@
 
 package raise.reduce;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.LinkedHashSet;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
 import junit.framework.TestSuite;
@@ -29,7 +35,7 @@ public class TestSetCover extends TestCase
 {
 	SetCover cover;
 	SetCover cover2;
-	LinkedHashSet covered;
+	LinkedHashSet<SingleTest> covered;
 
 	 /*
      *  Required constructor.
@@ -49,10 +55,10 @@ public class TestSetCover extends TestCase
     public void setUp()
     {
   		cover = new SetCover();
-  		covered = new LinkedHashSet();
+  		covered = new LinkedHashSet<SingleTest>();
   		cover2 = new SetCover();
 	 }
-	 
+    
 	 public void testProperNumberOfRequirementsAndTests()
 	 {
 	 	cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/AdamCoverage.dat","data/raise/reduce/setCovers/AdamTime.dat");
@@ -412,16 +418,6 @@ public class TestSetCover extends TestCase
 		assertEquals(cover.toString(),cover2.toString());
 	}
 	
-	public void testNoFile()
-	{
-		try
-		{
-			cover = SetCover.constructSetCoverFromMatrix("","");
-		}
-		catch (Exception e){}
-		
-	}
-	
 	/*// This is for a feature that has not been included yet.
 	public void testRestorationAdamExample()
 	{
@@ -757,10 +753,10 @@ public class TestSetCover extends TestCase
 		cover.reduceUsingGreedy("coverage");
 		covered = cover.getCoverPickSets();
 		
-		Iterator answerIterator = covered.iterator();
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest1");
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest4");	
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest0");
+		Iterator<SingleTest> answerIterator = covered.iterator();
+		assertEquals( answerIterator.next().getName(),"SingleTest1");
+		assertEquals( answerIterator.next().getName(),"SingleTest4");	
+		assertEquals( answerIterator.next().getName(),"SingleTest0");
 	
 	}
 	
@@ -771,13 +767,13 @@ public class TestSetCover extends TestCase
 		cover.reduceUsingGreedy("time");
 		covered = cover.getCoverPickSets();
 		
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 		
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest1");
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest3");	
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest5");
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest4");
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest0");	
+		assertEquals( answerIterator.next().getName(),"SingleTest1");
+		assertEquals( answerIterator.next().getName(),"SingleTest3");	
+		assertEquals( answerIterator.next().getName(),"SingleTest5");
+		assertEquals( answerIterator.next().getName(),"SingleTest4");
+		assertEquals( answerIterator.next().getName(),"SingleTest0");	
 }
 
 	public void testGreedyReduceRatioAdamExample()
@@ -788,11 +784,11 @@ public class TestSetCover extends TestCase
 		cover.reduceUsingGreedy("ratio");
 		covered = cover.getCoverPickSets();
 		
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 		
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest1");
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest4");	
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest0");
+		assertEquals( answerIterator.next().getName(),"SingleTest1");
+		assertEquals( answerIterator.next().getName(),"SingleTest4");	
+		assertEquals( answerIterator.next().getName(),"SingleTest0");
 	}
 	
 	///////////////////////////////////////
@@ -804,14 +800,14 @@ public class TestSetCover extends TestCase
 		cover.prioritizeUsingGreedy("coverage");
 		covered = cover.getPrioritizedSets();
 		
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 		
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest1");
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest4");	
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest0");
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest5");
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest2");	
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest3");	
+		assertEquals( answerIterator.next().getName(),"SingleTest1");
+		assertEquals( answerIterator.next().getName(),"SingleTest4");	
+		assertEquals( answerIterator.next().getName(),"SingleTest0");
+		assertEquals( answerIterator.next().getName(),"SingleTest5");
+		assertEquals( answerIterator.next().getName(),"SingleTest2");	
+		assertEquals( answerIterator.next().getName(),"SingleTest3");	
 	}
 
 	public void testGreedyPrioritizeTimeAdamExample()
@@ -822,14 +818,14 @@ public class TestSetCover extends TestCase
 		cover.prioritizeUsingGreedy("time");
 		covered = cover.getPrioritizedSets();
 		
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 		
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest1");
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest3");	
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest5");
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest4");
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest0");	
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest2");	
+		assertEquals( answerIterator.next().getName(),"SingleTest1");
+		assertEquals( answerIterator.next().getName(),"SingleTest3");	
+		assertEquals( answerIterator.next().getName(),"SingleTest5");
+		assertEquals( answerIterator.next().getName(),"SingleTest4");
+		assertEquals( answerIterator.next().getName(),"SingleTest0");	
+		assertEquals( answerIterator.next().getName(),"SingleTest2");	
 }
 	public void testGreedyPrioritizeRatioAdamExample()
 	{
@@ -839,14 +835,14 @@ public class TestSetCover extends TestCase
 		cover.prioritizeUsingGreedy("ratio");
 		covered = cover.getPrioritizedSets();
 		
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 		
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest1");
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest4");	
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest0");
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest5");
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest3");	
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest2");
+		assertEquals( answerIterator.next().getName(),"SingleTest1");
+		assertEquals( answerIterator.next().getName(),"SingleTest4");	
+		assertEquals( answerIterator.next().getName(),"SingleTest0");
+		assertEquals( answerIterator.next().getName(),"SingleTest5");
+		assertEquals( answerIterator.next().getName(),"SingleTest3");	
+		assertEquals( answerIterator.next().getName(),"SingleTest2");
 	}
 	
 	
@@ -1087,7 +1083,7 @@ public class TestSetCover extends TestCase
 		cover.reduceUsingDelayedGreedy("coverage");
 		covered = cover.getCoverPickSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nCovering Set for reduceUsingTallumGuptaExample:\n");
 	//	
@@ -1100,9 +1096,9 @@ public class TestSetCover extends TestCase
 		
 	//	System.out.println("*****\n\n");
 
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test2");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");
+	assertEquals( answerIterator.next().getName(),"test1");
+	assertEquals( answerIterator.next().getName(),"test2");	
+	assertEquals( answerIterator.next().getName(),"test3");
 	}	
 
 
@@ -1202,7 +1198,7 @@ public class TestSetCover extends TestCase
 		cover.reduceUsingDelayedGreedy("coverage");
 		covered = cover.getCoverPickSets();
 		
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 		//System.out.println("*****\nCovering Set for HGS example:\n");
 		//while ( answerIterator.hasNext()){
@@ -1215,9 +1211,9 @@ public class TestSetCover extends TestCase
 	
 		answerIterator = covered.iterator();
 		
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test2");
+	assertEquals( answerIterator.next().getName(),"test4");
+	assertEquals( answerIterator.next().getName(),"test0");
+	assertEquals( answerIterator.next().getName(),"test2");
 
 	} 
 
@@ -1316,7 +1312,7 @@ public class TestSetCover extends TestCase
 		cover.reduceUsingDelayedGreedy("coverage");
 		covered = cover.getCoverPickSets();
 		
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nSet of Covering Tests For Walcott Reduction Example:\n");
 
@@ -1328,8 +1324,8 @@ public class TestSetCover extends TestCase
 	//	}
 	//	System.out.println("*****\n\n");
 
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");
+	assertEquals( answerIterator.next().getName(),"test0");
+	assertEquals( answerIterator.next().getName(),"test3");
 }
 
 	public void testDelayedGreedyReduceUsingAdamSmithFirstExample() {
@@ -1422,7 +1418,7 @@ public class TestSetCover extends TestCase
 		cover.reduceUsingDelayedGreedy("coverage");
 		covered = cover.getCoverPickSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nSet of Covering Tests for reduceUsingAdamSmithFirstExample:\n");
 
@@ -1433,9 +1429,9 @@ public class TestSetCover extends TestCase
 	//		System.out.println(currentTest.toString());
 	//}
    //  	System.out.println("*****\n\n");	
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");	
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");	
+		assertEquals( answerIterator.next().getName(),"test0");	
+		assertEquals( answerIterator.next().getName(),"test1");
+		assertEquals( answerIterator.next().getName(),"test4");	
 	
 	}
 	
@@ -1530,7 +1526,7 @@ public class TestSetCover extends TestCase
 		cover.prioritizeUsingDelayedGreedy("coverage");
 		covered = cover.getPrioritizedSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nSet of Prioritized Tests for prioritizeUsingAdamSmithFirstExample:\n");
 
@@ -1543,12 +1539,12 @@ public class TestSetCover extends TestCase
 		
 	//	System.out.println("*****\n\n");
 
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test5");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test2");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");
+	assertEquals( answerIterator.next().getName(),"test0");
+	assertEquals( answerIterator.next().getName(),"test1");	
+	assertEquals( answerIterator.next().getName(),"test4");
+	assertEquals( answerIterator.next().getName(),"test5");
+	assertEquals( answerIterator.next().getName(),"test2");	
+	assertEquals( answerIterator.next().getName(),"test3");
 	}
 
 public void testDelayedGreedyPrioritizeUsingWalcottExample() {
@@ -1645,7 +1641,7 @@ public void testDelayedGreedyPrioritizeUsingWalcottExample() {
 		cover.prioritizeUsingDelayedGreedy("coverage");
 		covered = cover.getPrioritizedSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nSet of Prioritized Tests for prioritizeUsingWalcottExample:\n");
 		
@@ -1658,12 +1654,12 @@ public void testDelayedGreedyPrioritizeUsingWalcottExample() {
 	
 	//	System.out.println("*****\n\n");
 	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test2");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test5");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");
+	assertEquals( answerIterator.next().getName(),"test0");
+	assertEquals( answerIterator.next().getName(),"test3");	
+	assertEquals( answerIterator.next().getName(),"test2");
+	assertEquals( answerIterator.next().getName(),"test5");
+	assertEquals( answerIterator.next().getName(),"test4");	
+	assertEquals( answerIterator.next().getName(),"test1");
 
 	}
 
@@ -1737,7 +1733,7 @@ public void testDelayedGreedyPrioritizeUsingWalcottExample() {
 		cover.prioritizeUsingDelayedGreedy("coverage");
 		covered = cover.getPrioritizedSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nPrioritized Set for prioritizeUsingTallumGuptaExample:\n");
 		
@@ -1750,11 +1746,11 @@ public void testDelayedGreedyPrioritizeUsingWalcottExample() {
 		
 	//	System.out.println("*****\n\n");
 
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test2");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");
+	assertEquals( answerIterator.next().getName(),"test1");	
+	assertEquals( answerIterator.next().getName(),"test2");
+	assertEquals( answerIterator.next().getName(),"test3");
+	assertEquals( answerIterator.next().getName(),"test0");	
+	assertEquals( answerIterator.next().getName(),"test4");
 
 	}	
 
@@ -1856,7 +1852,7 @@ public void testDelayedGreedyPrioritizeUsingWalcottExample() {
 		cover.prioritizeUsingDelayedGreedy("coverage");
 		covered = cover.getPrioritizedSets();
 		
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 	//	System.out.println("*****\nPrioritized Set for PrioritizeUsingHarroldGuptaSoffaExample:\n");
 	//	while ( answerIterator.hasNext()){
 	
@@ -1866,13 +1862,13 @@ public void testDelayedGreedyPrioritizeUsingWalcottExample() {
 	//	}
 	//	System.out.println("*****\n\n");
 	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test2");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test5");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test6");
+	assertEquals( answerIterator.next().getName(),"test4");
+	assertEquals( answerIterator.next().getName(),"test0");	
+	assertEquals( answerIterator.next().getName(),"test2");
+	assertEquals( answerIterator.next().getName(),"test1");
+	assertEquals( answerIterator.next().getName(),"test5");	
+	assertEquals( answerIterator.next().getName(),"test3");
+	assertEquals( answerIterator.next().getName(),"test6");
 	}
 /*******************************************************************************************************************
 																			Time Tests
@@ -1888,7 +1884,7 @@ public void testDelayedGreedyReduceUsingTallamGuptaExampleTime()
 		cover.reduceUsingDelayedGreedy("time");
 		covered = cover.getCoverPickSets();
 	
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 		//System.out.println("*****\nCovering Set for reduceUsingTallumGuptaExample:\n");
 			
@@ -1901,9 +1897,9 @@ public void testDelayedGreedyReduceUsingTallamGuptaExampleTime()
 			
 		//	System.out.println("*****\n\n");
 
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest1"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest2"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest3"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest1"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest2"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest3"));
 	}
 	
 	public void testDelayedGreedyReduceUsingHarroldGuptaSoffaExampleTime() 
@@ -1914,7 +1910,7 @@ public void testDelayedGreedyReduceUsingTallamGuptaExampleTime()
 		cover.reduceUsingDelayedGreedy("time");
 			covered = cover.getCoverPickSets();
 	
-			Iterator answerIterator = covered.iterator();
+			Iterator<SingleTest> answerIterator = covered.iterator();
 /*
 		System.out.println("*****\nCovering Set for reduceUsingTallumGuptaExample:\n");
 			
@@ -1927,10 +1923,10 @@ public void testDelayedGreedyReduceUsingTallamGuptaExampleTime()
 			
 			System.out.println("*****\n\n");
 */
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest4"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest2"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest5"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest3"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest4"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest2"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest5"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest3"));
 	}
 	
 public void testDelayedGreedyPrioritizeUsingHarroldGuptaSoffaExampleTime() 
@@ -1941,7 +1937,7 @@ public void testDelayedGreedyPrioritizeUsingHarroldGuptaSoffaExampleTime()
 		cover.prioritizeUsingDelayedGreedy("time");
 			covered = cover.getPrioritizedSets();
 	
-			Iterator answerIterator = covered.iterator();
+			Iterator<SingleTest> answerIterator = covered.iterator();
 
 			//System.out.println("*****\nCovering Set for reduceUsingTallumGuptaExample:\n");
 			
@@ -1954,13 +1950,13 @@ public void testDelayedGreedyPrioritizeUsingHarroldGuptaSoffaExampleTime()
 			
 		//	System.out.println("*****\n\n");
 
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest4"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest2"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest5"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest3"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest0"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest6"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest1"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest4"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest2"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest5"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest3"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest0"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest6"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest1"));
 	}
 public void testDelayedGreedyPrioritizeUsingTallamGuptaExampleTime()
 	{
@@ -1971,7 +1967,7 @@ public void testDelayedGreedyPrioritizeUsingTallamGuptaExampleTime()
 		cover.prioritizeUsingDelayedGreedy("time");
 		covered = cover.getPrioritizedSets();
 	
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 /*
 		System.out.println("*****\nCovering Set for prioritizeUsingTallumGuptaExample:\n");
 			
@@ -1984,11 +1980,11 @@ public void testDelayedGreedyPrioritizeUsingTallamGuptaExampleTime()
 			
 			System.out.println("*****\n\n");
 */
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest1"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest2"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest3"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest0"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest4"));		
+		assertTrue( answerIterator.next().getName().equals("SingleTest1"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest2"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest3"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest0"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest4"));		
 	}
 
 	public void testLinkedHashSetSize0()
@@ -2069,11 +2065,11 @@ public void testDelayedGreedyPrioritizeUsingTallamGuptaExampleTime()
 		
 		cover.reduceUsingDelayedGreedy("coverage");
 		covered = cover.getCoverPickSets();
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 		
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest0");
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest1");	
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest4");
+		assertEquals( answerIterator.next().getName(),"SingleTest0");
+		assertEquals( answerIterator.next().getName(),"SingleTest1");	
+		assertEquals( answerIterator.next().getName(),"SingleTest4");
 	}
 	public void testDelayedGreedyreduceUsingDelayedGreedyHugeExampleRatio() 
 	{
@@ -2182,7 +2178,7 @@ public void testDelayedGreedyPrioritizeUsingTallamGuptaExampleTime()
 		assertTrue(covered.contains(test2));
 		assertTrue(covered.contains(test3));
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nCovering Set for reduceUsingTallumGuptaExample:\n");
 		
@@ -2195,9 +2191,9 @@ public void testDelayedGreedyPrioritizeUsingTallamGuptaExampleTime()
 		
 	//	System.out.println("*****\n\n");
 
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test2");
+	assertEquals( answerIterator.next().getName(),"test1");
+	assertEquals( answerIterator.next().getName(),"test3");	
+	assertEquals( answerIterator.next().getName(),"test2");
 	}	
 
 
@@ -2276,7 +2272,7 @@ public void testHarroldGuptaSoffaReduceUsingTallamGuptaExampleLA1() {
 		assertTrue(covered.contains(test2));
 		assertTrue(covered.contains(test3));
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nCovering Set for reduceUsingTallumGuptaExample:\n");
 		
@@ -2289,9 +2285,9 @@ public void testHarroldGuptaSoffaReduceUsingTallamGuptaExampleLA1() {
 		
 	//	System.out.println("*****\n\n");
 
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test2");
+	assertEquals( answerIterator.next().getName(),"test1");
+	assertEquals( answerIterator.next().getName(),"test3");	
+	assertEquals( answerIterator.next().getName(),"test2");
 	}	
 	
 	
@@ -2371,7 +2367,7 @@ public void testHarroldGuptaSoffaReduceUsingTallamGuptaExampleLA1() {
 		assertTrue(covered.contains(test2));
 		assertTrue(covered.contains(test3));
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nCovering Set for reduceUsingTallumGuptaExample:\n");
 		
@@ -2384,9 +2380,9 @@ public void testHarroldGuptaSoffaReduceUsingTallamGuptaExampleLA1() {
 		
 	//	System.out.println("*****\n\n");
 
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test2");
+	assertEquals( answerIterator.next().getName(),"test1");
+	assertEquals( answerIterator.next().getName(),"test3");	
+	assertEquals( answerIterator.next().getName(),"test2");
 	}	
 
 
@@ -2487,7 +2483,7 @@ public void testHarroldGuptaSoffaReduceUsingTallamGuptaExampleLA1() {
 		cover.reduceUsingHarroldGuptaSoffa("coverage",0);
 		covered = cover.getCoverPickSets();
 		
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 	
 	//	System.out.println("*****\nCovering Set for reduceUsingHarroldGuptaSoffa:\n");
 	//	while ( answerIterator.hasNext()){
@@ -2499,10 +2495,10 @@ public void testHarroldGuptaSoffaReduceUsingTallamGuptaExampleLA1() {
 	//	System.out.println("*****\n\n");
 	
 	
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test5");
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");	
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test2");
+		assertEquals( answerIterator.next().getName(),"test4");
+		assertEquals( answerIterator.next().getName(),"test5");
+		assertEquals( answerIterator.next().getName(),"test0");	
+		assertEquals( answerIterator.next().getName(),"test2");
 	
 	} 
 	
@@ -2601,7 +2597,7 @@ public void testHarroldGuptaSoffaReduceUsingTallamGuptaExampleLA1() {
 		cover.reduceUsingHarroldGuptaSoffa("coverage",1);
 		covered = cover.getCoverPickSets();
 		
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 	
 	//	System.out.println("*****\nCovering Set for reduceUsingHarroldGuptaSoffa:\n");
 	//	while ( answerIterator.hasNext()){
@@ -2613,10 +2609,10 @@ public void testHarroldGuptaSoffaReduceUsingTallamGuptaExampleLA1() {
 	//	System.out.println("*****\n\n");
 	
 	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test5");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test2");
+	assertEquals( answerIterator.next().getName(),"test4");
+	assertEquals( answerIterator.next().getName(),"test5");
+	assertEquals( answerIterator.next().getName(),"test0");	
+	assertEquals( answerIterator.next().getName(),"test2");
 	
 	}
 	
@@ -2715,7 +2711,7 @@ public void testHarroldGuptaSoffaReduceUsingTallamGuptaExampleLA1() {
 		cover.reduceUsingHarroldGuptaSoffa("coverage",2);
 		covered = cover.getCoverPickSets();
 		
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 	
 	//	System.out.println("*****\nCovering Set for reduceUsingHarroldGuptaSoffa:\n");
 	//	while ( answerIterator.hasNext()){
@@ -2727,10 +2723,10 @@ public void testHarroldGuptaSoffaReduceUsingTallamGuptaExampleLA1() {
 	//	System.out.println("*****\n\n");
 	
 	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test5");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");
+	assertEquals( answerIterator.next().getName(),"test4");
+	assertEquals( answerIterator.next().getName(),"test5");
+	assertEquals( answerIterator.next().getName(),"test3");	
+	assertEquals( answerIterator.next().getName(),"test0");
 	
 	}
 
@@ -2829,7 +2825,7 @@ public void testHarroldGuptaSoffaReduceUsingTallamGuptaExampleLA1() {
 		cover.reduceUsingHarroldGuptaSoffa("coverage",0);
 		covered = cover.getCoverPickSets();
 		
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nSet of Covering Tests For Walcott Reduction Example:\n");
 
@@ -2841,8 +2837,8 @@ public void testHarroldGuptaSoffaReduceUsingTallamGuptaExampleLA1() {
 	//	}
 	//	System.out.println("*****\n\n");
 	
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");	
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");
+		assertEquals( answerIterator.next().getName(),"test3");	
+		assertEquals( answerIterator.next().getName(),"test0");
 	
 	}
 	
@@ -2939,7 +2935,7 @@ public void testHarroldGuptaSoffaReduceUsingTallamGuptaExampleLA1() {
 		cover.reduceUsingHarroldGuptaSoffa("coverage",1);
 		covered = cover.getCoverPickSets();
 		
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nSet of Covering Tests For Walcott Reduction Example:\n");
 
@@ -2951,8 +2947,8 @@ public void testHarroldGuptaSoffaReduceUsingTallamGuptaExampleLA1() {
 	//	}
 	//	System.out.println("*****\n\n");
 	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");
+	assertEquals( answerIterator.next().getName(),"test3");	
+	assertEquals( answerIterator.next().getName(),"test0");
 	}
 
 public void testHarroldGuptaSoffaReduceUsingWalcottExampleLA2() {
@@ -3048,7 +3044,7 @@ public void testHarroldGuptaSoffaReduceUsingWalcottExampleLA2() {
 		cover.reduceUsingHarroldGuptaSoffa("coverage",0);
 		covered = cover.getCoverPickSets();
 		
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nSet of Covering Tests For Walcott Reduction Example:\n");
 
@@ -3060,8 +3056,8 @@ public void testHarroldGuptaSoffaReduceUsingWalcottExampleLA2() {
 	//	}
 	//	System.out.println("*****\n\n");
 	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");
+	assertEquals( answerIterator.next().getName(),"test3");	
+	assertEquals( answerIterator.next().getName(),"test0");
 	
 	}
 
@@ -3156,7 +3152,7 @@ public void testHarroldGuptaSoffaReduceUsingWalcottExampleLA2() {
 		cover.reduceUsingHarroldGuptaSoffa("coverage",0);
 		covered = cover.getCoverPickSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nSet of Covering Tests for reduceUsingAdamSmithFirstExample:\n");
 
@@ -3169,9 +3165,9 @@ public void testHarroldGuptaSoffaReduceUsingWalcottExampleLA2() {
 		
 	//	System.out.println("*****\n\n");
 		
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");
+	assertEquals( answerIterator.next().getName(),"test0");	
+	assertEquals( answerIterator.next().getName(),"test4");	
+	assertEquals( answerIterator.next().getName(),"test1");
 	
 	}
 	
@@ -3264,7 +3260,7 @@ public void testHarroldGuptaSoffaReduceUsingWalcottExampleLA2() {
 		cover.reduceUsingHarroldGuptaSoffa("coverage",1);
 		covered = cover.getCoverPickSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 		//	System.out.println("*****\nSet of Covering Tests for reduceUsingAdamSmithFirstExample:\n");
 
@@ -3277,9 +3273,9 @@ public void testHarroldGuptaSoffaReduceUsingWalcottExampleLA2() {
 		
 	//	System.out.println("*****\n\n");
 		
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");
+	assertEquals( answerIterator.next().getName(),"test0");	
+	assertEquals( answerIterator.next().getName(),"test4");	
+	assertEquals( answerIterator.next().getName(),"test1");
 	
 	}
 	
@@ -3372,7 +3368,7 @@ public void testHarroldGuptaSoffaReduceUsingWalcottExampleLA2() {
 		cover.reduceUsingHarroldGuptaSoffa("coverage",2);
 		covered = cover.getCoverPickSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nSet of Covering Tests for reduceUsingAdamSmithFirstExample:\n");
 
@@ -3385,9 +3381,9 @@ public void testHarroldGuptaSoffaReduceUsingWalcottExampleLA2() {
 		
 	//	System.out.println("*****\n\n");
 		
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");
+	assertEquals( answerIterator.next().getName(),"test0");	
+	assertEquals( answerIterator.next().getName(),"test4");	
+	assertEquals( answerIterator.next().getName(),"test1");
 	
 }
 	//****************************************************************************************
@@ -3485,7 +3481,7 @@ public void testHarroldGuptaSoffaReduceUsingWalcottExampleLA2() {
 		
 		covered = cover.getPrioritizedSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nSet of Prioritized Tests for prioritizeUsingAdamSmithFirstExample:\n");
 
@@ -3498,12 +3494,12 @@ public void testHarroldGuptaSoffaReduceUsingWalcottExampleLA2() {
 		
 	//	System.out.println("*****\n\n");
 	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test5");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test2");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");	
+	assertEquals( answerIterator.next().getName(),"test0");	
+	assertEquals( answerIterator.next().getName(),"test4");	
+	assertEquals( answerIterator.next().getName(),"test1");
+	assertEquals( answerIterator.next().getName(),"test5");	
+	assertEquals( answerIterator.next().getName(),"test2");
+	assertEquals( answerIterator.next().getName(),"test3");	
 
 	}
 
@@ -3598,7 +3594,7 @@ public void testHarroldGuptaSoffaReduceUsingWalcottExampleLA2() {
 		
 		covered = cover.getPrioritizedSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nSet of Prioritized Tests for prioritizeUsingAdamSmithFirstExample:\n");
 
@@ -3611,12 +3607,12 @@ public void testHarroldGuptaSoffaReduceUsingWalcottExampleLA2() {
 		
 	//	System.out.println("*****\n\n");
 	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test5");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test2");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");
+	assertEquals( answerIterator.next().getName(),"test0");	
+	assertEquals( answerIterator.next().getName(),"test4");	
+	assertEquals( answerIterator.next().getName(),"test1");
+	assertEquals( answerIterator.next().getName(),"test5");	
+	assertEquals( answerIterator.next().getName(),"test2");
+	assertEquals( answerIterator.next().getName(),"test3");
 		
 	}
 
@@ -3710,7 +3706,7 @@ public void testHarroldGuptaSoffaReduceUsingWalcottExampleLA2() {
 		
 		covered = cover.getPrioritizedSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nSet of Prioritized Tests for prioritizeUsingAdamSmithFirstExample:\n");
 
@@ -3723,12 +3719,12 @@ public void testHarroldGuptaSoffaReduceUsingWalcottExampleLA2() {
 		
 	//	System.out.println("*****\n\n");
 	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test5");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test2");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");
+	assertEquals( answerIterator.next().getName(),"test0");	
+	assertEquals( answerIterator.next().getName(),"test4");	
+	assertEquals( answerIterator.next().getName(),"test1");
+	assertEquals( answerIterator.next().getName(),"test5");	
+	assertEquals( answerIterator.next().getName(),"test2");
+	assertEquals( answerIterator.next().getName(),"test3");
 
 	}
 
@@ -3828,7 +3824,7 @@ public void testHarroldGuptaSoffaPrioritizeUsingWalcottExampleLA0() {
 		cover.prioritizeUsingHarroldGuptaSoffa("coverage",2);
 		covered = cover.getPrioritizedSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nSet of Prioritized Tests for prioritizeUsingWalcottExample:\n");
 		
@@ -3841,12 +3837,12 @@ public void testHarroldGuptaSoffaPrioritizeUsingWalcottExampleLA0() {
 	
 	//	System.out.println("*****\n\n");
 
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test5");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test2");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");
+	assertEquals( answerIterator.next().getName(),"test3");	
+	assertEquals( answerIterator.next().getName(),"test0");	
+	assertEquals( answerIterator.next().getName(),"test5");
+	assertEquals( answerIterator.next().getName(),"test2");	
+	assertEquals( answerIterator.next().getName(),"test4");
+	assertEquals( answerIterator.next().getName(),"test1");
 
 	}
 
@@ -3943,7 +3939,7 @@ public void testHarroldGuptaSoffaPrioritizeUsingWalcottExampleLA1() {
 		cover.prioritizeUsingHarroldGuptaSoffa("coverage",1);
 		covered = cover.getPrioritizedSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nSet of Prioritized Tests for prioritizeUsingWalcottExample:\n");
 		
@@ -3956,12 +3952,12 @@ public void testHarroldGuptaSoffaPrioritizeUsingWalcottExampleLA1() {
 	
 	//	System.out.println("*****\n\n");
 
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test5");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test2");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");
+	assertEquals( answerIterator.next().getName(),"test3");	
+	assertEquals( answerIterator.next().getName(),"test0");	
+	assertEquals( answerIterator.next().getName(),"test5");
+	assertEquals( answerIterator.next().getName(),"test2");	
+	assertEquals( answerIterator.next().getName(),"test4");
+	assertEquals( answerIterator.next().getName(),"test1");
 
 	}
 	
@@ -4059,7 +4055,7 @@ public void testHarroldGuptaSoffaPrioritizeUsingWalcottExampleLA1() {
 		cover.prioritizeUsingHarroldGuptaSoffa("coverage",2);
 		covered = cover.getPrioritizedSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nSet of Prioritized Tests for prioritizeUsingWalcottExample:\n");
 		
@@ -4072,12 +4068,12 @@ public void testHarroldGuptaSoffaPrioritizeUsingWalcottExampleLA1() {
 	
 	//	System.out.println("*****\n\n");
 
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test5");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test2");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");
+	assertEquals( answerIterator.next().getName(),"test3");	
+	assertEquals( answerIterator.next().getName(),"test0");	
+	assertEquals( answerIterator.next().getName(),"test5");
+	assertEquals( answerIterator.next().getName(),"test2");	
+	assertEquals( answerIterator.next().getName(),"test4");
+	assertEquals( answerIterator.next().getName(),"test1");
 
 	}
 
@@ -4152,7 +4148,7 @@ public void testHarroldGuptaSoffaPrioritizeUsingWalcottExampleLA1() {
 		cover.prioritizeUsingHarroldGuptaSoffa("coverage",0);
 		covered = cover.getPrioritizedSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nPrioritized Set for prioritizeUsingTallumGuptaExample:\n");
 		
@@ -4166,11 +4162,11 @@ public void testHarroldGuptaSoffaPrioritizeUsingWalcottExampleLA1() {
 	//	System.out.println("*****\n\n");
 	
 	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test2");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");
+	assertEquals( answerIterator.next().getName(),"test1");	
+	assertEquals( answerIterator.next().getName(),"test3");
+	assertEquals( answerIterator.next().getName(),"test2");	
+	assertEquals( answerIterator.next().getName(),"test0");
+	assertEquals( answerIterator.next().getName(),"test4");
 	
 	}	
 	
@@ -4243,7 +4239,7 @@ public void testHarroldGuptaSoffaPrioritizeUsingWalcottExampleLA1() {
 		cover.prioritizeUsingHarroldGuptaSoffa("coverage",1);
 		covered = cover.getPrioritizedSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nPrioritized Set for prioritizeUsingTallumGuptaExample:\n");
 		
@@ -4257,11 +4253,11 @@ public void testHarroldGuptaSoffaPrioritizeUsingWalcottExampleLA1() {
 	//	System.out.println("*****\n\n");
 	
 	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test2");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");
+	assertEquals( answerIterator.next().getName(),"test1");	
+	assertEquals( answerIterator.next().getName(),"test3");
+	assertEquals( answerIterator.next().getName(),"test2");	
+	assertEquals( answerIterator.next().getName(),"test0");
+	assertEquals( answerIterator.next().getName(),"test4");
 	
 	}	
 		public void testHarroldGuptaSoffaPrioritizeUsingTallamGuptaExampleLA2() {
@@ -4333,7 +4329,7 @@ public void testHarroldGuptaSoffaPrioritizeUsingWalcottExampleLA1() {
 		cover.prioritizeUsingHarroldGuptaSoffa("coverage",2);
 		covered = cover.getPrioritizedSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nPrioritized Set for prioritizeUsingTallumGuptaExample:\n");
 		
@@ -4347,11 +4343,11 @@ public void testHarroldGuptaSoffaPrioritizeUsingWalcottExampleLA1() {
 	//	System.out.println("*****\n\n");
 	
 	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test2");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");
+	assertEquals( answerIterator.next().getName(),"test1");	
+	assertEquals( answerIterator.next().getName(),"test3");
+	assertEquals( answerIterator.next().getName(),"test2");	
+	assertEquals( answerIterator.next().getName(),"test0");
+	assertEquals( answerIterator.next().getName(),"test4");
 	
 	}	
 
@@ -4451,7 +4447,7 @@ public void testHarroldGuptaSoffaPrioritizeUsingWalcottExampleLA1() {
 		cover.prioritizeUsingHarroldGuptaSoffa("coverage",0);
 		covered = cover.getPrioritizedSets();
 		
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 	//	System.out.println("*****\nPrioritized Set for PrioritizeUsingHarroldGuptaSoffaExample:\n");
 	//	while ( answerIterator.hasNext()){
 	
@@ -4462,13 +4458,13 @@ public void testHarroldGuptaSoffaPrioritizeUsingWalcottExampleLA1() {
 	//	System.out.println("*****\n\n");
 	
 	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test5");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test2");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test6");
+	assertEquals( answerIterator.next().getName(),"test4");	
+	assertEquals( answerIterator.next().getName(),"test5");
+	assertEquals( answerIterator.next().getName(),"test0");	
+	assertEquals( answerIterator.next().getName(),"test2");
+	assertEquals( answerIterator.next().getName(),"test1");
+	assertEquals( answerIterator.next().getName(),"test3");
+	assertEquals( answerIterator.next().getName(),"test6");
 	
 	}
 	
@@ -4566,7 +4562,7 @@ public void testHarroldGuptaSoffaPrioritizeUsingWalcottExampleLA1() {
 		cover.prioritizeUsingHarroldGuptaSoffa("coverage",1);
 		covered = cover.getPrioritizedSets();
 		
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 	//	System.out.println("*****\nPrioritized Set for PrioritizeUsingHarroldGuptaSoffaExample:\n");
 	//	while ( answerIterator.hasNext()){
 	
@@ -4577,13 +4573,13 @@ public void testHarroldGuptaSoffaPrioritizeUsingWalcottExampleLA1() {
 	//	System.out.println("*****\n\n");
 	
 	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test5");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test2");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test6");
+	assertEquals( answerIterator.next().getName(),"test4");	
+	assertEquals( answerIterator.next().getName(),"test5");
+	assertEquals( answerIterator.next().getName(),"test0");	
+	assertEquals( answerIterator.next().getName(),"test2");
+	assertEquals( answerIterator.next().getName(),"test1");
+	assertEquals( answerIterator.next().getName(),"test3");
+	assertEquals( answerIterator.next().getName(),"test6");
 	
 	}
 	
@@ -4681,7 +4677,7 @@ public void testHarroldGuptaSoffaPrioritizeUsingWalcottExampleLA1() {
 		cover.prioritizeUsingHarroldGuptaSoffa("coverage",2);
 		covered = cover.getPrioritizedSets();
 		
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 	//	System.out.println("*****\nPrioritized Set for PrioritizeUsingHarroldGuptaSoffaExample:\n");
 	//	while ( answerIterator.hasNext()){
 	
@@ -4692,13 +4688,13 @@ public void testHarroldGuptaSoffaPrioritizeUsingWalcottExampleLA1() {
 	//	System.out.println("*****\n\n");
 	
 	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test4");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test5");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test3");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test0");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test2");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test1");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"test6");
+	assertEquals( answerIterator.next().getName(),"test4");	
+	assertEquals( answerIterator.next().getName(),"test5");
+	assertEquals( answerIterator.next().getName(),"test3");	
+	assertEquals( answerIterator.next().getName(),"test0");
+	assertEquals( answerIterator.next().getName(),"test2");
+	assertEquals( answerIterator.next().getName(),"test1");
+	assertEquals( answerIterator.next().getName(),"test6");
 	
 	}
 	
@@ -4715,7 +4711,7 @@ public void testHarroldGuptaSoffaReduceUsingTallamGuptaExampleTimeLA0() {
 		cover.reduceUsingHarroldGuptaSoffa("time",0);
 		covered = cover.getCoverPickSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nCovering Set for reduceUsingTallumGuptaExample:\n");
 		
@@ -4728,9 +4724,9 @@ public void testHarroldGuptaSoffaReduceUsingTallamGuptaExampleTimeLA0() {
 		
 	//	System.out.println("*****\n\n");
 
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest1");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest3");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest2");
+	assertEquals( answerIterator.next().getName(),"SingleTest1");
+	assertEquals( answerIterator.next().getName(),"SingleTest3");	
+	assertEquals( answerIterator.next().getName(),"SingleTest2");
 	}	
 
 public void testHarroldGuptaSoffaReduceUsingHarroldGuptaSoffaExampleTimeLA0() {
@@ -4739,7 +4735,7 @@ public void testHarroldGuptaSoffaReduceUsingHarroldGuptaSoffaExampleTimeLA0() {
 		cover.reduceUsingHarroldGuptaSoffa("time",0);
 		covered = cover.getCoverPickSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 		//System.out.println("*****\nCovering Set for reduceUsingTallumGuptaExample:\n");
 		
@@ -4752,10 +4748,10 @@ public void testHarroldGuptaSoffaReduceUsingHarroldGuptaSoffaExampleTimeLA0() {
 		
 	//	System.out.println("*****\n\n");
 
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest4");
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest2");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest3");	
-	assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest5");
+	assertEquals( answerIterator.next().getName(),"SingleTest4");
+	assertEquals( answerIterator.next().getName(),"SingleTest2");	
+	assertEquals( answerIterator.next().getName(),"SingleTest3");	
+	assertEquals( answerIterator.next().getName(),"SingleTest5");
 	}		
 	
 	public void testHarroldGuptaSoffaPrioritizeUsingHarroldGuptaSoffaExampleTimeLA0() {
@@ -4764,7 +4760,7 @@ public void testHarroldGuptaSoffaReduceUsingHarroldGuptaSoffaExampleTimeLA0() {
 		cover.prioritizeUsingHarroldGuptaSoffa("time",0);
 		covered = cover.getPrioritizedSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//		System.out.println("*****\nCovering Set for prioritizeUsingHarroldGuptaSoffaExample:\n");
 		
@@ -4781,13 +4777,13 @@ public void testHarroldGuptaSoffaReduceUsingHarroldGuptaSoffaExampleTimeLA0() {
 	
 		assertTrue(cover.coversRequirementSubsetUniverse(covered));
 
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest4");
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest2");	
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest3");	
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest5");
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest0");
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest6");	
-		assertEquals( ( (SingleTest) answerIterator.next()).getName(),"SingleTest1");
+		assertEquals( answerIterator.next().getName(),"SingleTest4");
+		assertEquals( answerIterator.next().getName(),"SingleTest2");	
+		assertEquals( answerIterator.next().getName(),"SingleTest3");	
+		assertEquals( answerIterator.next().getName(),"SingleTest5");
+		assertEquals( answerIterator.next().getName(),"SingleTest0");
+		assertEquals( answerIterator.next().getName(),"SingleTest6");	
+		assertEquals( answerIterator.next().getName(),"SingleTest1");
 	}				
 	
 public void testHarroldGuptaSoffaReduceUsingHugeExampleRatioLA0() {
@@ -4800,7 +4796,7 @@ public void testHarroldGuptaSoffaReduceUsingHugeExampleRatioLA0() {
 		
 		assertTrue(cover.coversRequirementSubsetUniverse(covered));
 		
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	/*	System.out.println("*****\nCovering Set for reduceUsingHugeExample:\n");
 		
@@ -4900,7 +4896,7 @@ public void testHarroldGuptaSoffaReduceUsingHugeExampleRatioLA0() {
 		cover.reduceUsing2Optimal("coverage");
 		covered = cover.getCoverPickSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nCovering Set for reduceUsingTallumGuptaExample:\n");
 		
@@ -4913,10 +4909,10 @@ public void testHarroldGuptaSoffaReduceUsingHugeExampleRatioLA0() {
 		
 	//	System.out.println("*****\n\n");
 
-	assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test0"));
-	assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test1"));
-	assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test2"));
-	assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test3"));
+	assertTrue( answerIterator.next().getName().equals("test0"));
+	assertTrue( answerIterator.next().getName().equals("test1"));
+	assertTrue( answerIterator.next().getName().equals("test2"));
+	assertTrue( answerIterator.next().getName().equals("test3"));
 	}	
 
 
@@ -5018,7 +5014,7 @@ public void testHarroldGuptaSoffaReduceUsingHugeExampleRatioLA0() {
 		cover.reduceUsing2Optimal("coverage");
 		covered = cover.getCoverPickSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 	//	System.out.println("*****\nCovering Set for reduceUsingHarroldGuptaSoffa:\n");
 	//	while ( answerIterator.hasNext()){
 	
@@ -5028,10 +5024,10 @@ public void testHarroldGuptaSoffaReduceUsingHugeExampleRatioLA0() {
 	//	}
 	//	System.out.println("*****\n\n");
 	
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test0"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test2"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test1"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test4"));
+		assertTrue( answerIterator.next().getName().equals("test0"));
+		assertTrue( answerIterator.next().getName().equals("test2"));
+		assertTrue( answerIterator.next().getName().equals("test1"));
+		assertTrue( answerIterator.next().getName().equals("test4"));
 	} 
 	
 	public void test2OptimalReduceUsingWalcottExampleCoverage() {
@@ -5130,7 +5126,7 @@ public void testHarroldGuptaSoffaReduceUsingHugeExampleRatioLA0() {
 		covered = cover.getCoverPickSets();
 
 		
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nSet of Covering Tests For Walcott Reduction Example:\n");
 
@@ -5142,8 +5138,8 @@ public void testHarroldGuptaSoffaReduceUsingHugeExampleRatioLA0() {
 	//	}
 	//	System.out.println("*****\n\n");
 	
-	assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test0"));
-	assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test3"));
+	assertTrue( answerIterator.next().getName().equals("test0"));
+	assertTrue( answerIterator.next().getName().equals("test3"));
 
 	}
 
@@ -5238,7 +5234,7 @@ public void testHarroldGuptaSoffaReduceUsingHugeExampleRatioLA0() {
 		cover.reduceUsing2Optimal("coverage");
 		covered = cover.getCoverPickSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nSet of Covering Tests for reduceUsingAdamSmithFirstExample:\n");
 
@@ -5251,10 +5247,10 @@ public void testHarroldGuptaSoffaReduceUsingHugeExampleRatioLA0() {
 		
 	//	System.out.println("*****\n\n");
 	
-	assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test1"));
-	assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test4"));
-	assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test0"));
-	assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test2"));
+	assertTrue( answerIterator.next().getName().equals("test1"));
+	assertTrue( answerIterator.next().getName().equals("test4"));
+	assertTrue( answerIterator.next().getName().equals("test0"));
+	assertTrue( answerIterator.next().getName().equals("test2"));
 	}
 	
 
@@ -5348,7 +5344,7 @@ public void testHarroldGuptaSoffaReduceUsingHugeExampleRatioLA0() {
 		cover.prioritizeUsing2Optimal("coverage");
 		covered = cover.getPrioritizedSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nSet of Prioritized Tests for prioritizeUsingAdamSmithFirstExample:\n");
 
@@ -5361,12 +5357,12 @@ public void testHarroldGuptaSoffaReduceUsingHugeExampleRatioLA0() {
 		
 	//	System.out.println("*****\n\n");
 
-	assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test1"));
-	assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test4"));
-	assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test0"));
-	assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test2"));
-	assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test3"));
-	assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test5"));
+	assertTrue( answerIterator.next().getName().equals("test1"));
+	assertTrue( answerIterator.next().getName().equals("test4"));
+	assertTrue( answerIterator.next().getName().equals("test0"));
+	assertTrue( answerIterator.next().getName().equals("test2"));
+	assertTrue( answerIterator.next().getName().equals("test3"));
+	assertTrue( answerIterator.next().getName().equals("test5"));
 
 	}
 
@@ -5465,7 +5461,7 @@ public void test2OptimalPrioritizeUsingWalcottExampleCoverage() {
 		covered = cover.getPrioritizedSets();
 
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 	//	System.out.println("*****\nSet of Prioritized Tests for prioritizeUsingWalcottExample:\n");
 		
@@ -5478,12 +5474,12 @@ public void test2OptimalPrioritizeUsingWalcottExampleCoverage() {
 	
 	//	System.out.println("*****\n\n");
 
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test0"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test3"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test2"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test4"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test1"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test5"));
+		assertTrue( answerIterator.next().getName().equals("test0"));
+		assertTrue( answerIterator.next().getName().equals("test3"));
+		assertTrue( answerIterator.next().getName().equals("test2"));
+		assertTrue( answerIterator.next().getName().equals("test4"));
+		assertTrue( answerIterator.next().getName().equals("test1"));
+		assertTrue( answerIterator.next().getName().equals("test5"));
 
 	}
 
@@ -5557,7 +5553,7 @@ public void test2OptimalPrioritizeUsingWalcottExampleCoverage() {
 		cover.prioritizeUsing2Optimal("coverage");
 		covered = cover.getPrioritizedSets();
 
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 		//System.out.println("*****\nPrioritized Set for prioritizeUsingTallumGuptaExample:\n");
 		
@@ -5571,11 +5567,11 @@ public void test2OptimalPrioritizeUsingWalcottExampleCoverage() {
 	//	System.out.println("*****\n\n");
 
 
-	assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test0"));
-	assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test1"));
-	assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test2"));
-	assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test3"));
-	assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test4"));
+	assertTrue( answerIterator.next().getName().equals("test0"));
+	assertTrue( answerIterator.next().getName().equals("test1"));
+	assertTrue( answerIterator.next().getName().equals("test2"));
+	assertTrue( answerIterator.next().getName().equals("test3"));
+	assertTrue( answerIterator.next().getName().equals("test4"));
 
 	}	
 
@@ -5675,7 +5671,7 @@ public void test2OptimalPrioritizeUsingWalcottExampleCoverage() {
 		cover.prioritizeUsing2Optimal("coverage");
 		covered = cover.getPrioritizedSets();
 		
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 	//	System.out.println("*****\nPrioritized Set for PrioritizeUsingHarroldGuptaSoffaExample:\n");
 	//	while ( answerIterator.hasNext()){
 	
@@ -5685,13 +5681,13 @@ public void test2OptimalPrioritizeUsingWalcottExampleCoverage() {
 	//	}
 	//	System.out.println("*****\n\n");
 	
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test0"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test2"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test1"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test4"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test3"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test5"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("test6"));
+		assertTrue( answerIterator.next().getName().equals("test0"));
+		assertTrue( answerIterator.next().getName().equals("test2"));
+		assertTrue( answerIterator.next().getName().equals("test1"));
+		assertTrue( answerIterator.next().getName().equals("test4"));
+		assertTrue( answerIterator.next().getName().equals("test3"));
+		assertTrue( answerIterator.next().getName().equals("test5"));
+		assertTrue( answerIterator.next().getName().equals("test6"));
 	}
 /////////////////////////////////////END COVERAGE TESTS///////////////////////////////////////////////////
 	public void test2OptimalReduceUsingTallamGuptaExampleRatio()
@@ -5702,7 +5698,7 @@ public void test2OptimalPrioritizeUsingWalcottExampleCoverage() {
 			cover.reduceUsing2Optimal("ratio");
 			covered = cover.getCoverPickSets();
 	
-			Iterator answerIterator = covered.iterator();
+			Iterator<SingleTest> answerIterator = covered.iterator();
 
 		//	System.out.println("*****\nCovering Set for reduceUsingTallumGuptaExample:\n");
 			
@@ -5715,10 +5711,10 @@ public void test2OptimalPrioritizeUsingWalcottExampleCoverage() {
 			
 		//	System.out.println("*****\n\n");
 
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest1"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest4"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest2"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest3"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest1"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest4"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest2"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest3"));
 	}
 	
 	public void test2OptimalReduceUsingHarroldGuptaSoffaExampleRatio() 
@@ -5729,7 +5725,7 @@ public void test2OptimalPrioritizeUsingWalcottExampleCoverage() {
 		cover.reduceUsing2Optimal("ratio");
 			covered = cover.getCoverPickSets();
 	
-			Iterator answerIterator = covered.iterator();
+			Iterator<SingleTest> answerIterator = covered.iterator();
 
 			//System.out.println("*****\nCovering Set for reduceUsingTallumGuptaExample:\n");
 			
@@ -5742,10 +5738,10 @@ public void test2OptimalPrioritizeUsingWalcottExampleCoverage() {
 			
 		//	System.out.println("*****\n\n");
 
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest2"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest5"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest3"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest4"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest2"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest5"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest3"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest4"));
 	}
 
 /////////////////////////////////////////////END OF RATIO TESTS////////////////////////////////////////////////
@@ -5757,7 +5753,7 @@ public void test2OptimalPrioritizeUsingWalcottExampleCoverage() {
 		cover.reduceUsing2Optimal("time");
 		covered = cover.getCoverPickSets();
 	
-		Iterator answerIterator = covered.iterator();
+		Iterator<SingleTest> answerIterator = covered.iterator();
 
 		//System.out.println("*****\nCovering Set for reduceUsingTallumGuptaExample:\n");
 			
@@ -5770,11 +5766,11 @@ public void test2OptimalPrioritizeUsingWalcottExampleCoverage() {
 			
 		//	System.out.println("*****\n\n");
 
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest2"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest4"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest0"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest1"));
-		assertTrue( ((SingleTest) answerIterator.next()).getName().equals("SingleTest3"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest2"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest4"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest0"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest1"));
+		assertTrue( answerIterator.next().getName().equals("SingleTest3"));
 	}
 	
 public void test2OptimalReduceUsing2OptimalayHugeExampleRatio() {
@@ -5803,12 +5799,12 @@ public void test2OptimalReduceUsing2OptimalayHugeExampleRatio() {
 		*/
 	}	
 
-	public void testConstructFromCoverageAndTime()
+	public void testConstructFromCoverageAndTimeSameNumberOfTestsAndRequirements()
 	{
 
 		// This will only work if includeNonCoveringTests == false at the beginning o constructSetCoverFromCoverageAndTime
 		
-		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/DSCoverage.dat","data/raise/reduce/setCovers/DSTime.dat");
+		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/DSCoverage.dat","data/raise/reduce/setCovers/DSTime.dat",false);
 		cover2 = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/DSMatrix.dat","data/raise/reduce/setCovers/DSTime.dat");
 	
 		// Using Matrix files creates different indexes than Coverage files so I can't compare
@@ -5818,7 +5814,15 @@ public void test2OptimalReduceUsing2OptimalayHugeExampleRatio() {
 		
 		assertEquals(cover.getRequirementSubsetUniverse().size(), cover2.getRequirementSubsetUniverse().size());
 		assertEquals(cover.getTestSubsets().size(), cover2.getTestSubsets().size());
+	}
+	
+	public void testConstructFromCoverageAndTimeTestsCoverSameNumberOfRequirements()
+	{
+		// This will only work if includeNonCoveringTests == false at the beginning o constructSetCoverFromCoverageAndTime
 		
+		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/DSCoverage.dat","data/raise/reduce/setCovers/DSTime.dat", false);
+		cover2 = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/DSMatrix.dat","data/raise/reduce/setCovers/DSTime.dat");
+	
 		Iterator testIt1 = cover.getTestSubsets().iterator();
 		Iterator testIt2 = cover2.getTestSubsets().iterator();
 		
@@ -5832,8 +5836,182 @@ public void test2OptimalReduceUsing2OptimalayHugeExampleRatio() {
 			assertEquals(firstTest.getRequirementSubsetSet().size(),secondTest.getRequirementSubsetSet().size());
 		}
 		
-		// System.out.println(cover.toString() + "\n\n\n");
-		// System.out.println(cover2.toString() + "\n\n\n");
 	}
 	
+	public void testConstructFromCoverageAndTimeSameNumberOfRequirements()
+	{
+		// This will only work if includeNonCoveringTests == false at the beginning o constructSetCoverFromCoverageAndTime
+		
+		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/DSCoverage.dat","data/raise/reduce/setCovers/DSTime.dat", false);
+		cover2 = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/DSMatrix.dat","data/raise/reduce/setCovers/DSTime.dat");
+	
+		 
+		assertEquals(cover.getRequirementSubsetUniverse().size(),cover2.getRequirementSubsetUniverse().size());
+		 
+		
+	}
+	
+	public void testConstructFromCoverageAndTimeRequirementsCoveredBySameNumberOfTests()
+	{
+		
+		// This will only work if includeNonCoveringTests == false at the beginning o constructSetCoverFromCoverageAndTime
+		
+		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/ADCoverage.dat","data/raise/reduce/setCovers/ADTime.dat", false);
+		cover2 = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/ADMatrix.dat","data/raise/reduce/setCovers/ADTime.dat");
+	
+		RequirementSubset[] one = (RequirementSubset[]) (cover.getRequirementSubsetUniverse()).toArray(new RequirementSubset[0]); 
+		RequirementSubset[] two = (RequirementSubset[]) (cover2.getRequirementSubsetUniverse()).toArray(new RequirementSubset[0]);
+		
+		Arrays.sort(one);
+		Arrays.sort(two);
+		
+		for(int i = 0;i<one.length;i++)
+		{
+			assertEquals(one[i].getIndex(), two[i].getIndex()+1);
+		}
+	}
+	
+	public void testConstructFromCoverageAndTimeTestsCoverAllRequirements()
+	{
+		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/ADCoverage.dat","data/raise/reduce/setCovers/ADTime.dat", false);
+	
+		assertTrue(cover.coversRequirementSubsetUniverse(cover.getSingleTests()));
+			
+	}
+	
+	public void testConstructFromCoverageAndTimeIdenticalTimeFileOutput()
+	{
+		String tempTime1Name = "./tempTime1";
+		String tempTime2Name = "./tempTime2";
+		
+		File tempTime1 = new File(tempTime1Name);
+		File tempTime2 = new File(tempTime2Name);
+	
+		if(tempTime1.exists())
+			tempTime1.delete();
+		if(tempTime2.exists())
+			tempTime2.delete();
+		
+		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/DSCoverage.dat","data/raise/reduce/setCovers/DSTime.dat", false);
+		cover2 = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/DSMatrix.dat","data/raise/reduce/setCovers/DSTime.dat");
+
+		GenerateCoverageEffectivenessData g1 = new GenerateCoverageEffectivenessData(cover);
+		GenerateCoverageEffectivenessData g2 = new GenerateCoverageEffectivenessData(cover2);
+	
+		g1.saveTimingData(tempTime1Name);
+		g2.saveTimingData(tempTime2Name);
+		
+		Scanner inTime1 = null;
+		Scanner inTime2 = null;
+		try
+		{
+			inTime1 = new Scanner(tempTime1);
+			inTime2 = new Scanner(tempTime2);
+		}
+		catch(FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+
+		int flip = 1;
+		
+		// Skip the labels
+		inTime1.nextLine();
+		inTime2.nextLine();		
+		
+		while(inTime1.hasNext())
+		{
+			
+			if(flip > 0)
+			{
+				inTime1.nextInt();
+				inTime2.nextInt();
+			}
+			else
+				assertEquals(inTime1.nextDouble(), inTime2.nextDouble());
+			
+			flip *= -1;
+		}
+		
+		tempTime1.delete();
+		tempTime2.delete();	
+	}
+	/*
+	
+	public void testConstructFromCoverageAndTimeIdenticalMatrixOutput()
+	{
+		String tempCov1Name = "./tempCov1";
+		String tempCov2Name = "./tempCov2";
+		
+		File tempCov1 = new File(tempCov1Name);
+		File tempCov2 = new File(tempCov2Name);
+		
+		if(tempCov1.exists())
+			tempCov1.delete();
+		if(tempCov2.exists())
+			tempCov2.delete();
+		
+		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/DSCoverage.dat","data/raise/reduce/setCovers/DSTime.dat", false);
+		cover2 = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/DSMatrix.dat","data/raise/reduce/setCovers/DSTime.dat");
+
+		RequirementSubset[] reqs = (RequirementSubset[]) cover.getRequirementSubsetUniverse().toArray(new RequirementSubset[0]);
+		
+		LinkedHashSet reqHS = cover.getRequirementSubsetUniverse();
+		reqHS.clear();
+		System.out.println("REQS: "+cover.getRequirementSubsetUniverse().size());
+		
+		Arrays.sort(reqs);
+		
+		for(int i = 0; i < reqs.length; i++)
+		{
+			cover.addRequirementSubset(reqs[i]);
+		}
+		
+		GenerateCoverageEffectivenessData g1 = new GenerateCoverageEffectivenessData(cover);
+		GenerateCoverageEffectivenessData g2 = new GenerateCoverageEffectivenessData(cover2);
+		
+		g1.saveMatrixData(tempCov1Name);
+		g2.saveMatrixData(tempCov2Name);
+		
+		Scanner inCov1 = null;
+		Scanner inCov2 = null;
+		try
+		{
+			inCov1 = new Scanner(tempCov1);
+			inCov2 = new Scanner(tempCov2);
+		}
+		catch(FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+
+		int flip = 1;
+		
+		
+		while(inCov1.hasNext())
+		{
+			assertEquals(inCov1.next(), inCov2.next());
+		}
+		
+		
+		tempCov1.delete();
+		tempCov2.delete();
+	}
+	*/
+	
+	public void testrandom()
+	{
+		
+		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/DSMatrix.dat","data/raise/reduce/setCovers/DSTime.dat" );
+	
+		int[] order;
+		
+		for(int i = 0; i < 100; i++)
+		{
+			cover.prioritizeUsingRandom();
+			order = cover.getPrioritizedOrderArray();
+			
+			System.out.println(cover.getCE(order));
+		}
+	}
 }
