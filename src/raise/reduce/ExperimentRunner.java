@@ -18,10 +18,53 @@ public class ExperimentRunner
 		//runAlgExperiment("data/raise/reduce/setCovers/ADMatrix.dat","data/raise/reduce/setCovers/ADTime.dat",
 		//					"results/raise/reduce/IST/ADResults.dat", metrics, techniques);
 		
+		/*************************  ALGORITHMS *********************/
+		/*
+		runAlgExperiment("data/raise/reduce/setCovers/ADMatrix.dat","data/raise/reduce/setCovers/ADTime.dat",
+				"results/raise/reduce/IST/ADResults.dat",50);
+		runAlgExperiment("data/raise/reduce/setCovers/LFMatrix.dat","data/raise/reduce/setCovers/LFTime.dat",
+				"results/raise/reduce/IST/LFResults.dat",50);
+		runAlgExperiment("data/raise/reduce/setCovers/RPMatrix.dat","data/raise/reduce/setCovers/RPTime.dat",
+				"results/raise/reduce/IST/RPResults.dat",50);
+		runAlgExperiment("data/raise/reduce/setCovers/DSMatrix.dat","data/raise/reduce/setCovers/DSTime.dat",
+				"results/raise/reduce/IST/DSResults.dat",50);
+		runAlgExperiment("data/raise/reduce/setCovers/GBMatrix.dat","data/raise/reduce/setCovers/GBTime.dat",
+				"results/raise/reduce/IST/GBResults.dat",50);
+		runAlgExperiment("data/raise/reduce/setCovers/JDMatrix.dat","data/raise/reduce/setCovers/JDTime.dat",
+				"results/raise/reduce/IST/JDResults.dat",50);
+		runAlgExperiment("data/raise/reduce/setCovers/RMMatrix.dat","data/raise/reduce/setCovers/RMTime.dat",
+				"results/raise/reduce/IST/RMResults.dat",50);
+		runAlgExperiment("data/raise/reduce/setCovers/SKMatrix.dat","data/raise/reduce/setCovers/SKTime.dat",
+				"results/raise/reduce/IST/SKResults.dat",50);
+		runAlgExperiment("data/raise/reduce/setCovers/TMMatrix.dat","data/raise/reduce/setCovers/TMTime.dat",
+				"results/raise/reduce/IST/TMResults.dat",50);
+		*/
+		
+		// *******************  RANDOM ************************
+		/*
 		runRandomExperiment("data/raise/reduce/setCovers/ADMatrix.dat","data/raise/reduce/setCovers/ADTime.dat",
 				"results/raise/reduce/IST/ADRandomResults.dat",50);
+		runRandomExperiment("data/raise/reduce/setCovers/LFMatrix.dat","data/raise/reduce/setCovers/LFTime.dat",
+				"results/raise/reduce/IST/LFRandomResults.dat",50);
+		runRandomExperiment("data/raise/reduce/setCovers/RPMatrix.dat","data/raise/reduce/setCovers/RPTime.dat",
+				"results/raise/reduce/IST/RPRandomResults.dat",50);
+		runRandomExperiment("data/raise/reduce/setCovers/DSMatrix.dat","data/raise/reduce/setCovers/DSTime.dat",
+				"results/raise/reduce/IST/DSRandomResults.dat",50);
+		runRandomExperiment("data/raise/reduce/setCovers/GBMatrix.dat","data/raise/reduce/setCovers/GBTime.dat",
+				"results/raise/reduce/IST/GBRandomResults.dat",50);
+		runRandomExperiment("data/raise/reduce/setCovers/JDMatrix.dat","data/raise/reduce/setCovers/JDTime.dat",
+				"results/raise/reduce/IST/JDRandomResults.dat",50);
+		runRandomExperiment("data/raise/reduce/setCovers/RMMatrix.dat","data/raise/reduce/setCovers/RMTime.dat",
+				"results/raise/reduce/IST/RMRandomResults.dat",50);
+		runRandomExperiment("data/raise/reduce/setCovers/SKMatrix.dat","data/raise/reduce/setCovers/SKTime.dat",
+				"results/raise/reduce/IST/SKRandomResults.dat",50);
+		runRandomExperiment("data/raise/reduce/setCovers/TMMatrix.dat","data/raise/reduce/setCovers/TMTime.dat",
+				"results/raise/reduce/IST/TMRandomResults.dat",50);
+		*/
 	}		
 
+	
+	
 	public static void runRandomExperiment(String coverageFile, String timeFile, String resultsFile, int samples)
 	{
 		PrintStream out = null;

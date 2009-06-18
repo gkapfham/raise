@@ -5936,8 +5936,9 @@ public void test2OptimalReduceUsing2OptimalayHugeExampleRatio() {
 		tempTime1.delete();
 		tempTime2.delete();	
 	}
-	/*
 	
+	/*
+	  This doesn't work because the requirements are not in any particular order.
 	public void testConstructFromCoverageAndTimeIdenticalMatrixOutput()
 	{
 		String tempCov1Name = "./tempCov1";
@@ -5999,19 +6000,187 @@ public void test2OptimalReduceUsing2OptimalayHugeExampleRatio() {
 	}
 	*/
 	
-	public void testrandom()
+	public void testConstructFromCoverageAndTimeFileCompleteCoveringTestReference()
 	{
+		boolean completeCoveringTestReference = true;
 		
-		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/DSMatrix.dat","data/raise/reduce/setCovers/DSTime.dat" );
-	
-		int[] order;
+		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/ADCoverage.dat","data/raise/reduce/setCovers/ADTime.dat", false);
 		
-		for(int i = 0; i < 100; i++)
+		Iterator<RequirementSubset> reqIt = cover.getRequirementSubsetUniverse().iterator();
+		
+		while(reqIt.hasNext())  
 		{
-			cover.prioritizeUsingRandom();
-			order = cover.getPrioritizedOrderArray();
+			RequirementSubset currentReq = reqIt.next(); 
 			
-			System.out.println(cover.getCE(order));
+			Iterator<SingleTest> testIt = currentReq.getCoveringTests().iterator();		
+			while(testIt.hasNext())
+			{
+				SingleTest currentTest = testIt.next();
+	
+				Iterator<SingleTestSubset> STSIT = cover.getTestSubsets().iterator();
+				boolean singleTestSubsetExists = false;
+				
+				while(STSIT.hasNext())
+				{
+					SingleTestSubset currentSTS = STSIT.next();
+					
+					if(currentSTS.getTest().getIndex() == currentTest.getIndex())
+					{
+						singleTestSubsetExists = true;
+						
+						boolean foundRequirement = false;
+						Iterator<RequirementSubset> coveredReqsIt = currentSTS.getRequirementSubsetSet().iterator();
+						
+						while(coveredReqsIt.hasNext())
+						{
+							if(coveredReqsIt.next().getIndex() == currentReq.getIndex())
+							{
+								foundRequirement = true;
+								break;
+							}							
+						}
+
+						if(foundRequirement == false)
+							completeCoveringTestReference = false;
+					}
+					
+				}
+				assertTrue(singleTestSubsetExists);
+			}
 		}
+		
+		assertTrue(completeCoveringTestReference);
+		
+	}
+	
+	public void testConstructFromCoverageAndTimeFileCompleteCoveredRequirementReferences()
+	{
+		boolean completeCoveredRequirementReference = true;
+		
+		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/ADCoverage.dat","data/raise/reduce/setCovers/ADTime.dat", false);
+		
+		Iterator<SingleTestSubset> testIt = cover.getTestSubsets().iterator();
+		
+		while(testIt.hasNext())  
+		{
+			SingleTestSubset currentTest = testIt.next(); 
+			
+			Iterator<RequirementSubset> coveredReqIt = currentTest.getRequirementSubsetSet().iterator();		
+			while(coveredReqIt.hasNext())
+			{
+				RequirementSubset currentCoveredReq = coveredReqIt.next();
+	
+				Iterator<RequirementSubset> reqIT = cover.getRequirementSubsetUniverse().iterator();
+				boolean requirementSubsetExists = false;
+				
+				while(reqIT.hasNext())
+				{
+					RequirementSubset currentReq = reqIT.next();
+					
+					if(currentReq.getIndex() == currentCoveredReq.getIndex())
+					{
+						requirementSubsetExists = true;
+						
+						boolean foundTest = false;
+						Iterator<SingleTest> coveringSingleTestIt = currentReq.getCoveringTests().iterator();
+						
+						while(coveringSingleTestIt.hasNext())
+						{
+							if(coveringSingleTestIt.next().getIndex() == currentTest.getTest().getIndex())
+							{
+								foundTest = true;
+								break;
+							}							
+						}
+
+						if(foundTest == false)
+							completeCoveredRequirementReference = false;
+					}
+					
+				}
+				assertTrue(requirementSubsetExists);
+			}
+		}
+		
+		assertTrue(completeCoveredRequirementReference);	
+	}
+
+	/**
+	 * This tests whether the coveringTests list of a RequirementSubset in a SingleTestSubset's 
+	 * requirementSubsetSet contains the SingleTest corresponding to that SingleTestSubset.
+	 * 
+	 */
+	
+	public void testConstructFromCoverageAndTimeFileCompleteCoveredRequirementInternalReferences()
+	{
+		boolean completeCoveredRequirementReference = true;
+		
+		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/ADCoverage.dat","data/raise/reduce/setCovers/ADTime.dat", false);
+		
+		Iterator<SingleTestSubset> testIt = cover.getTestSubsets().iterator();
+		
+		while(testIt.hasNext())  
+		{
+			SingleTestSubset currentTest = testIt.next(); 
+			
+			Iterator<RequirementSubset> coveredReqIt = currentTest.getRequirementSubsetSet().iterator();		
+			while(coveredReqIt.hasNext())
+			{
+				RequirementSubset currentCoveredReq = coveredReqIt.next();
+
+				boolean foundTest = false;
+				Iterator<SingleTest> coveringSingleTestIt = currentCoveredReq.getCoveringTests().iterator();
+				
+				while(coveringSingleTestIt.hasNext())
+				{
+					if(coveringSingleTestIt.next().getIndex() == currentTest.getTest().getIndex())
+					{
+						foundTest = true;
+						break;
+					}							
+				}
+
+				if(foundTest == false)
+					completeCoveredRequirementReference = false;
+			}
+		}
+		
+		assertTrue(completeCoveredRequirementReference);	
+	}
+
+	
+	/**
+	 *  This tests whether or not the RequirementSubsets in the RequirementSubsetUniverse that
+	 *  have the same index as RequirementSubsets in the covered requirement lists in the 
+	 *  SingleTestSubset objects are the same object.
+	 */
+	public void testConstructSetCoverFromCoverageAndTimeFileRequirementSubsetsSameObject()
+	{		
+		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/ADCoverage.dat","data/raise/reduce/setCovers/ADTime.dat", false);
+		
+		Iterator<SingleTestSubset> testIt = cover.getTestSubsets().iterator();
+		
+		while(testIt.hasNext())  
+		{
+			SingleTestSubset currentTest = testIt.next(); 
+			
+			Iterator<RequirementSubset> coveredReqIt = currentTest.getRequirementSubsetSet().iterator();		
+			while(coveredReqIt.hasNext())
+			{
+				RequirementSubset currentCoveredReq = coveredReqIt.next();
+				Iterator<RequirementSubset> reqIT = cover.getRequirementSubsetUniverse().iterator();
+				
+				while(reqIT.hasNext())
+				{
+					RequirementSubset currentReq = reqIT.next();
+					
+					if(currentReq.getIndex() == currentCoveredReq.getIndex())
+					{
+						assertTrue(currentReq == currentCoveredReq);
+					}
+				}
+			}
+		}	
 	}
 }
+
