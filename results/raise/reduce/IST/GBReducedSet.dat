@@ -1,0 +1,13 @@
+alg	metric	app	redSet
+GRD	coverage	data/raise/reduce/setCovers/GBCoverage.dat	39 34 21 44 42 55 7 10 11 13 25 28 29 31 35 49 50 26 2 3 4 5 14 18 23 27 33 36 37 52
+GRD	time	data/raise/reduce/setCovers/GBCoverage.dat	8 7 31 35 51 6 20 13 19 28 41 10 16 18 25 24 29 11 37 55 4 53 36 2 38 33 27 14 15 17 48 23 46 1 21 42 43 54 52 34 50 26 49 45 5 32 30 44 3 39
+GRD	ratio	data/raise/reduce/setCovers/GBCoverage.dat	7 31 35 13 28 10 25 29 55 11 23 21 18 50 54 37 4 53 2 33 1 49 27 14 42 44 34 52 39 5 3
+2OPT	coverage	data/raise/reduce/setCovers/GBCoverage.dat	44 50 21 39 42 55 7 10 11 13 25 28 29 31 35 49 26 34 2 3 4 5 14 18 23 27 33 36 37 52
+2OPT	time	data/raise/reduce/setCovers/GBCoverage.dat	7 8 31 35 6 51 13 20 19 28 10 41 16 18 24 25 11 29 37 55 4 53 2 36 33 38 14 27 15 17 23 48 1 46 21 42 43 54 34 52 26 50 45 49 5 32 30 44 3 39
+2OPT	ratio	data/raise/reduce/setCovers/GBCoverage.dat	7 31 13 35 10 28 25 29 11 55 8 23 18 21 37 50 4 54 2 53 1 33 27 49 14 42 44 51 6 34 20 52 19 39 5 41 3 16
+HGS	coverage	data/raise/reduce/setCovers/GBCoverage.dat	5 7 10 11 13 21 23 25 27 28 29 31 34 35 39 42 44 49 50 52 55 2 3 4 14 18 26 33 36 37
+HGS	time	data/raise/reduce/setCovers/GBCoverage.dat	5 7 10 11 13 21 23 25 27 28 29 31 34 35 39 42 44 49 50 52 55 2 3 4 14 18 54 33 53 37
+HGS	ratio	data/raise/reduce/setCovers/GBCoverage.dat	5 7 10 11 13 21 23 25 27 28 29 31 34 35 39 42 44 49 50 52 55 2 3 4 14 18 54 33 53 37
+DGR	coverage	data/raise/reduce/setCovers/GBCoverage.dat	39 2 3 4 5 7 28 10 11 13 14 25 18 29 21 23 31 54 27 44 33 34 35 36 37 42 49 50 52 55
+DGR	time	data/raise/reduce/setCovers/GBCoverage.dat	39 2 3 4 5 7 28 10 11 13 14 25 18 29 21 23 31 54 27 44 33 34 35 36 37 42 49 50 52 55
+DGR	ratio	data/raise/reduce/setCovers/GBCoverage.dat	39 2 3 4 5 7 28 10 11 13 14 25 18 29 21 23 31 54 27 44 33 34 35 36 37 42 49 50 52 55
