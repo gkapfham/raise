@@ -9,21 +9,18 @@
 package raise.reduce;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.LinkedHashSet;
 import java.util.Iterator;
-import java.util.ArrayList;
-import java.util.Vector;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 
-import junit.framework.TestSuite;
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestResult;
+import junit.framework.TestSuite;
+import junit.textui.*;
 
 /**
  *  Test suite for the SetCover class.
@@ -46,6 +43,23 @@ public class TestSetCover extends TestCase
     {
     	super(name);
 	 }
+    
+    public static void main(String[] args)
+    {
+    	TestSuite suite = new TestSuite(TestSetCover.class);
+    	
+    	System.out.println("Number of tests: "+ suite.countTestCases());
+    	TestResult result = new TestResult();
+    	
+    	for(int i = 0; i < args.length;i++)
+    	{
+    		System.out.println(suite.testAt(Integer.parseInt(args[i])));
+    		suite.runTest(suite.testAt(Integer.parseInt(args[i])), result);
+    		System.out.println(result.wasSuccessful());
+    	}
+    	
+    	
+    }
 
    /**
      *  Construct the fresh instance of the SetCover.
@@ -924,13 +938,13 @@ public class TestSetCover extends TestCase
 		cover.addSingleTestSubset(STS4);
 	 
 	 
-	 	LinkedHashSet ct = STS4.getRequirementSubsetSet();
+	 	LinkedHashSet<RequirementSubset> ct = STS4.getRequirementSubsetSet();
 	 	
-	 	Iterator r = ct.iterator();
+	 	Iterator<RequirementSubset> r = ct.iterator();
 	 	
 	 	RequirementSubset rs = (RequirementSubset) r.next();
 	 		 	
-	 	Iterator t4cri = rs.getCoveringTests().iterator();
+	 	Iterator<SingleTest> t4cri = rs.getCoveringTests().iterator();
 	 		 		 	
 	 	//System.out.println("Here are the covering tests from the RS in the STS before removal");
 	 	
@@ -941,7 +955,7 @@ public class TestSetCover extends TestCase
 		assertEquals( ((SingleTest) t4cri.next()).getName(),"test2");	 	
 		assertEquals( ((SingleTest) t4cri.next()).getName(),"test4");
 
-	 	Iterator r4i = req4.getCoveringTests().iterator();
+	 	Iterator<SingleTest> r4i = req4.getCoveringTests().iterator();
 
 	 	//System.out.println("Here are the covering tests directly from the RS before removal");
 	 	
@@ -952,7 +966,7 @@ public class TestSetCover extends TestCase
 	 	assertEquals( ((SingleTest) r4i.next()).getName(),"test2");	 	
 		assertEquals( ((SingleTest) r4i.next()).getName(),"test4");
 
-	 	Iterator newit = cover.getTestSubsets().iterator();
+	 	Iterator<SingleTestSubset> newit = cover.getTestSubsets().iterator();
 	 	SingleTestSubset thisSTS = null;
 	 	
 
@@ -973,7 +987,7 @@ public class TestSetCover extends TestCase
 	 	
 		//assertFalse(thisSTS.getTest().getName().equals("test4"));
 	 	
-	 	Iterator newnewit = thisSTS.getRequirementSubsetSet().iterator();
+	 	Iterator<RequirementSubset> newnewit = thisSTS.getRequirementSubsetSet().iterator();
 	 	
 	 	RequirementSubset thisreq = null;
 	 	
@@ -1989,7 +2003,7 @@ public void testDelayedGreedyPrioritizeUsingTallamGuptaExampleTime()
 
 	public void testLinkedHashSetSize0()
 	{
-		LinkedHashSet test = new LinkedHashSet();
+		LinkedHashSet<SingleTest> test = new LinkedHashSet<SingleTest>();
 		assertTrue(test.size()==0);
 	}
 
@@ -1997,7 +2011,7 @@ public void testDelayedGreedyPrioritizeUsingTallamGuptaExampleTime()
 	{
 		cover = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/matrix-rlll5","data/raise/reduce/setCovers/time-rlll5");
 		
-		Iterator testSubsetsIterator = cover.getTestSubsets().iterator();
+		Iterator<SingleTestSubset> testSubsetsIterator = cover.getTestSubsets().iterator();
 		
 		while (testSubsetsIterator.hasNext())
 		{
@@ -4796,10 +4810,11 @@ public void testHarroldGuptaSoffaReduceUsingHugeExampleRatioLA0() {
 		
 		assertTrue(cover.coversRequirementSubsetUniverse(covered));
 		
-		Iterator<SingleTest> answerIterator = covered.iterator();
+		
 
 	/*	System.out.println("*****\nCovering Set for reduceUsingHugeExample:\n");
-		
+
+		Iterator<SingleTest> answerIterator = covered.iterator();
 		while ( answerIterator.hasNext()){
 	
 			SingleTest currentTest = (SingleTest) answerIterator.next();
@@ -5823,8 +5838,8 @@ public void test2OptimalReduceUsing2OptimalayHugeExampleRatio() {
 		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/DSCoverage.dat","data/raise/reduce/setCovers/DSTime.dat", false);
 		cover2 = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/DSMatrix.dat","data/raise/reduce/setCovers/DSTime.dat");
 	
-		Iterator testIt1 = cover.getTestSubsets().iterator();
-		Iterator testIt2 = cover2.getTestSubsets().iterator();
+		Iterator<SingleTestSubset> testIt1 = cover.getTestSubsets().iterator();
+		Iterator<SingleTestSubset> testIt2 = cover2.getTestSubsets().iterator();
 		
 		// Here I see if every test covers the same number of requirements.
 		// This assumes that the test orders are the same, which they should be after they are built.
@@ -5844,8 +5859,7 @@ public void test2OptimalReduceUsing2OptimalayHugeExampleRatio() {
 		
 		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/DSCoverage.dat","data/raise/reduce/setCovers/DSTime.dat", false);
 		cover2 = SetCover.constructSetCoverFromMatrix("data/raise/reduce/setCovers/DSMatrix.dat","data/raise/reduce/setCovers/DSTime.dat");
-	
-		 
+			 
 		assertEquals(cover.getRequirementSubsetUniverse().size(),cover2.getRequirementSubsetUniverse().size());
 		 
 		

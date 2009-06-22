@@ -23,13 +23,18 @@ import java.io.Serializable;
 public class SingleTestSubset implements Cloneable, Serializable
 {
 
-    /** The test that is part of the SingleTestSubset */
+    /**
+	 * For Serializable
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/** The test that is part of the SingleTestSubset */
     private SingleTest test;
 
     /** The set of RequirementSubsets (in this case we are only really
 	interested in the names of the sets and not their contents, but
 	we are going to keep the entire contents around) */
-    private LinkedHashSet requirementSubsetsSet;
+    private LinkedHashSet<RequirementSubset> requirementSubsetsSet;
 
     /** Maximum redundancy for a test requirement */
 
@@ -42,7 +47,7 @@ public class SingleTestSubset implements Cloneable, Serializable
     {
 
 	this.test = test;
-	requirementSubsetsSet = new LinkedHashSet();
+	requirementSubsetsSet = new LinkedHashSet<RequirementSubset>();
 
     }
 
@@ -87,7 +92,7 @@ public class SingleTestSubset implements Cloneable, Serializable
     /**
      *  @author Gregory M. Kapfhammer 9/20/2005
      */
-    public void setRequirementSubsetSet(LinkedHashSet set)
+    public void setRequirementSubsetSet(LinkedHashSet<RequirementSubset> set)
     {
 
 	requirementSubsetsSet = set;
@@ -119,7 +124,7 @@ public class SingleTestSubset implements Cloneable, Serializable
      *  
      *  @author Gregory M. Kapfhammer 9/17/2005
      */
-    public LinkedHashSet getRequirementSubsetSet()
+    public LinkedHashSet<RequirementSubset> getRequirementSubsetSet()
     {
 
 	return requirementSubsetsSet;

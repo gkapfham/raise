@@ -25,8 +25,8 @@ package raise.reduce;
 
 import java.util.*;
 
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+//import java.util.regex.Pattern;
+//import java.util.regex.Matcher;
 
 import java.lang.Cloneable;
 
@@ -35,8 +35,8 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.io.Serializable;
 import java.io.IOException;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+//import java.io.ByteArrayInputStream;
+//import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream; 
 import java.io.File;
@@ -1114,7 +1114,7 @@ public class SetCover implements Cloneable, Serializable
      *  
      *  @author Gregory M. Kapfhammer 9/17/2005
      */
-    public LinkedHashSet getTestSubsets()
+    public LinkedHashSet<SingleTestSubset> getTestSubsets()
 	//public Set getTestSubsets()
     {
 
@@ -1126,9 +1126,9 @@ public class SetCover implements Cloneable, Serializable
      * Returns the LinkedHashSet of SingleTest objects
      * 
      */
-    public LinkedHashSet getSingleTests()
+    public LinkedHashSet<SingleTest> getSingleTests()
     {
-    	LinkedHashSet tests = new LinkedHashSet();
+    	LinkedHashSet<SingleTest> tests = new LinkedHashSet<SingleTest>();
     	
     	Iterator<SingleTestSubset> STSIt = this.getTestSubsets().iterator();
     	while(STSIt.hasNext())
