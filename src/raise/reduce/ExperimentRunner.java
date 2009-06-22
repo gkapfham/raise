@@ -14,30 +14,33 @@ public class ExperimentRunner
 		String[] metrics = {"coverage","time","ratio"};
 		String[] techniques = {"GRD","2OPT","HGS","DGR"};
 		
+	
+		//runAlgExperiment("data/raise/reduce/setCovers/ADMatrix.dat","data/raise/reduce/setCovers/ADTime.dat",
+		//					"results/raise/reduce/IST/ADResults.dat", metrics, techniques);
+		
 		/*************************  ALGORITHMS *********************/
-
-		/*	
+		/*
 		runAlgExperiment("data/raise/reduce/setCovers/ADMatrix.dat","data/raise/reduce/setCovers/ADTime.dat",
-				"results/raise/reduce/IST/ADResults.dat",metrics, techniques);
+				"results/raise/reduce/IST/ADResults.dat",50);
 		runAlgExperiment("data/raise/reduce/setCovers/LFMatrix.dat","data/raise/reduce/setCovers/LFTime.dat",
-				"results/raise/reduce/IST/LFResults.dat",metrics, techniques);
+				"results/raise/reduce/IST/LFResults.dat",50);
 		runAlgExperiment("data/raise/reduce/setCovers/RPMatrix.dat","data/raise/reduce/setCovers/RPTime.dat",
-				"results/raise/reduce/IST/RPResults.dat",metrics, techniques);
+				"results/raise/reduce/IST/RPResults.dat",50);
 		runAlgExperiment("data/raise/reduce/setCovers/DSMatrix.dat","data/raise/reduce/setCovers/DSTime.dat",
-				"results/raise/reduce/IST/DSResults.dat",metrics, techniques);
+				"results/raise/reduce/IST/DSResults.dat",50);
 		runAlgExperiment("data/raise/reduce/setCovers/GBMatrix.dat","data/raise/reduce/setCovers/GBTime.dat",
-				"results/raise/reduce/IST/GBResults.dat",metrics, techniques);
+				"results/raise/reduce/IST/GBResults.dat",50);
 		runAlgExperiment("data/raise/reduce/setCovers/JDMatrix.dat","data/raise/reduce/setCovers/JDTime.dat",
-				"results/raise/reduce/IST/JDResults.dat",metrics, techniques);
+				"results/raise/reduce/IST/JDResults.dat",50);
 		runAlgExperiment("data/raise/reduce/setCovers/RMMatrix.dat","data/raise/reduce/setCovers/RMTime.dat",
-				"results/raise/reduce/IST/RMResults.dat",metrics, techniques);
+				"results/raise/reduce/IST/RMResults.dat",50);
 		runAlgExperiment("data/raise/reduce/setCovers/SKMatrix.dat","data/raise/reduce/setCovers/SKTime.dat",
-				"results/raise/reduce/IST/SKResults.dat",metrics, techniques);
+				"results/raise/reduce/IST/SKResults.dat",50);
 		runAlgExperiment("data/raise/reduce/setCovers/TMMatrix.dat","data/raise/reduce/setCovers/TMTime.dat",
-				"results/raise/reduce/IST/TMResults.dat",metrics, techniques);
+				"results/raise/reduce/IST/TMResults.dat",50);
 		*/
 		
-		/*******************  RANDOM ************************/
+		// *******************  RANDOM ************************
 		/*
 		runRandomExperiment("data/raise/reduce/setCovers/ADMatrix.dat","data/raise/reduce/setCovers/ADTime.dat",
 				"results/raise/reduce/IST/ADRandomResults.dat",50);
@@ -58,26 +61,6 @@ public class ExperimentRunner
 		runRandomExperiment("data/raise/reduce/setCovers/TMMatrix.dat","data/raise/reduce/setCovers/TMTime.dat",
 				"results/raise/reduce/IST/TMRandomResults.dat",50);
 		*/
-		printRedSet("data/raise/reduce/setCovers/ADCoverage.dat","data/raise/reduce/setCovers/ADTime.dat",
-				"results/raise/reduce/IST/ADReducedSet.dat",metrics, techniques);
-		printRedSet("data/raise/reduce/setCovers/LFCoverage.dat","data/raise/reduce/setCovers/LFTime.dat",
-				"results/raise/reduce/IST/LFReducedSet.dat",metrics, techniques);
-		printRedSet("data/raise/reduce/setCovers/RPCoverage.dat","data/raise/reduce/setCovers/RPTime.dat",
-				"results/raise/reduce/IST/RPReducedSet.dat",metrics, techniques);
-		printRedSet("data/raise/reduce/setCovers/DSCoverage.dat","data/raise/reduce/setCovers/DSTime.dat",
-				"results/raise/reduce/IST/DSReducedSet.dat",metrics, techniques);
-		printRedSet("data/raise/reduce/setCovers/GBCoverage.dat","data/raise/reduce/setCovers/GBTime.dat",
-				"results/raise/reduce/IST/GBReducedSet.dat",metrics, techniques);
-		printRedSet("data/raise/reduce/setCovers/JDCoverage.dat","data/raise/reduce/setCovers/JDTime.dat",
-				"results/raise/reduce/IST/JDReducedSet.dat",metrics, techniques);
-		printRedSet("data/raise/reduce/setCovers/RMCoverage.dat","data/raise/reduce/setCovers/RMTime.dat",
-				"results/raise/reduce/IST/RMReducedSet.dat",metrics, techniques);
-		printRedSet("data/raise/reduce/setCovers/SKCoverage.dat","data/raise/reduce/setCovers/SKTime.dat",
-				"results/raise/reduce/IST/SKReducedSet.dat",metrics, techniques);
-		printRedSet("data/raise/reduce/setCovers/TMCoverage.dat","data/raise/reduce/setCovers/TMTime.dat",
-				"results/raise/reduce/IST/TMReducedSet.dat",metrics, techniques);
-	
-		System.out.println("Completed Experiments.");
 	}		
 	
 	public static void runRandomExperiment(String coverageFile, String timeFile, String resultsFile, int samples)
@@ -92,6 +75,7 @@ public class ExperimentRunner
 			e.printStackTrace();
 		}
 		
+		//"alg" "metric" "reduceTime" "priorTime" "CE" "RFFS" "RFFT" "origExecTime" "redExecTime" "totalSize" "redSize" "app"
 		out.println("alg\tsamples\tpriorTime\tCE\tapp");
 	
 		SetCover cover;
@@ -123,52 +107,6 @@ public class ExperimentRunner
 		}
 		
 		out.println("RND\t"+samples+"\t"+priorTime + "\t"+totalCE/samples+"\t"+ coverageFile);
-	}
-	
-	public static void printRedSet(String coverageFile, String timeFile, String resultsFile, 
-			String[] metrics, String[] techniques)
-	{
-		PrintStream out=null;
-			
-		try
-		{
-			out = new PrintStream(resultsFile);
-		}
-		catch(FileNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-		
-		out.println("alg\tmetric\tapp\tredSet");
-		
-		SetCover cover;
-		
-		for(String technique : techniques)
-		{
-			for(String metric : metrics)
-			{	
-				System.out.println("Test Suite: " + coverageFile + "\ntechnique: "+technique
-						+"\nmetric: "+metric);
-				
-				cover = SetCover.constructSetCoverFromCoverageAndTime(coverageFile, timeFile,false);
-				
-				System.out.println("reducing...");
-				
-				if(technique.equals("2OPT"))
-					cover.reduceUsing2Optimal(metric);
-				else if(technique.equals("GRD"))					
-					cover.reduceUsingGreedy(metric);
-				else if(technique.equals("DGR"))
-					cover.reduceUsingDelayedGreedy(metric);
-				else if(technique.equals("HGS"))
-					cover.reduceUsingHarroldGuptaSoffa(metric);
-				
-				System.out.println("writing to file...");
-				String redSet = cover.getCoveringTestSetStringNoAlter(" ");
-				out.println(technique+"\t"+metric+"\t"+coverageFile+"\t"+redSet);
-				System.out.println("completed current iteration.");
-			}
-		}	
 	}
 	
 	public static void runAlgExperiment(String coverageFile, String timeFile, String resultsFile, 
