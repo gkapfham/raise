@@ -359,8 +359,8 @@ public class CoverageEffectivenessVisualization extends JPanel implements MouseL
 	    
 	    // Draw the plot info
 	    g2d.setColor(new Color(0,0,0));
-	    g2d.drawString("Coverage: RPMatrix.dat", 17, 30);
-	    g2d.drawString("Timing: RPTime.dat", 17, 50);
+	    g2d.drawString("Coverage: "+matrixFile, 17, 30);
+	    g2d.drawString("Timing: "+timeFile, 17, 50);
 	    g2d.drawString("Test Cases: "+lines.get(0).getNumTests(), 17, 70);
 	    // g2d.drawString("Execution Time: " + lines.get(0).getExecutionTime()+ " ms", 17, 70);
 	    

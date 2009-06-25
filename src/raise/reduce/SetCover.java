@@ -5162,9 +5162,11 @@ public class SetCover implements Cloneable, Serializable
     public String toString()
     {
 
-		return "SetCover(U = " + requirementSubsetUniverse + 
-			" U.size = " + requirementSubsetUniverse.size() + ", S=" + 
-			testSubsets + " S.size = " + testSubsets.size() + ")";
+    	return "Tests: "+this.getTestSubsets().size() +"\nRequirements: " + this.getRequirementSubsetUniverse().size();
+    	
+		// return "SetCover(U = " + requirementSubsetUniverse + 
+		//	" U.size = " + requirementSubsetUniverse.size() + ", S=" + 
+		//	testSubsets + " S.size = " + testSubsets.size() + ")";
 
 	//  	return "SetCover(U = " + requirementSubsetUniverse +  ", S=" + 
 	//  	    testSubsets + ")";

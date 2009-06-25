@@ -1,0 +1,2 @@
+alg	samples	priorTime	CE	app
+RND	50	3.0	0.8940195953845977	data/raise/reduce/setCovers/LFMatrix.dat

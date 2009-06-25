@@ -1,0 +1,2 @@
+alg	samples	priorTime	CE	app
+RND	50	1.0	0.7931728741526604	data/raise/reduce/setCovers/TMMatrix.dat

@@ -1,0 +1,2 @@
+alg	samples	priorTime	CE	app
+RND	50	19.0	0.7559780466556549	data/raise/reduce/setCovers/RPMatrix.dat

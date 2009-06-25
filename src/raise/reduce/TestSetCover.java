@@ -9,19 +9,14 @@
 package raise.reduce;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.LinkedHashSet;
 import java.util.Iterator;
-import java.util.ArrayList;
-import java.util.Vector;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 
+import junit.framework.TestResult;
 import junit.framework.TestSuite;
 import junit.framework.TestCase;
 
@@ -46,6 +41,18 @@ public class TestSetCover extends TestCase
     {
     	super(name);
 	 }
+    
+    public static void main(String[] args)
+    {
+    	TestSuite suite = new TestSuite(TestSetCover.class);
+    	
+    	for(int i = 0; i < args.length; i++ )
+    		{
+    			TestResult result = new TestResult();
+    			suite.runTest(suite.testAt(Integer.parseInt(args[i])), result);
+    			System.out.println("Test "+args[i]+" successful: "+ result.wasSuccessful());
+    		}
+    }
 
    /**
      *  Construct the fresh instance of the SetCover.

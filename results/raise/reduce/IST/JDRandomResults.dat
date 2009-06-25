@@ -1,0 +1,2 @@
+alg	samples	priorTime	CE	app
+RND	50	1.0	0.6735019028186798	data/raise/reduce/setCovers/JDMatrix.dat

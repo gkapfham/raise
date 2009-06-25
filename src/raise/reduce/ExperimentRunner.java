@@ -27,7 +27,7 @@ public class ExperimentRunner
 		runAlgExperiment("data/raise/reduce/setCovers/RPMatrix.dat","data/raise/reduce/setCovers/RPTime.dat",
 				"results/raise/reduce/IST/RPResults.dat",50);
 		runAlgExperiment("data/raise/reduce/setCovers/DSMatrix.dat","data/raise/reduce/setCovers/DSTime.dat",
-				"results/raise/reduce/IST/DSResults.dat",50);
+				"results/raise/reduce/IST/DSResults.dat",metrics,techniques);
 		runAlgExperiment("data/raise/reduce/setCovers/GBMatrix.dat","data/raise/reduce/setCovers/GBTime.dat",
 				"results/raise/reduce/IST/GBResults.dat",50);
 		runAlgExperiment("data/raise/reduce/setCovers/JDMatrix.dat","data/raise/reduce/setCovers/JDTime.dat",
@@ -61,7 +61,44 @@ public class ExperimentRunner
 		runRandomExperiment("data/raise/reduce/setCovers/TMMatrix.dat","data/raise/reduce/setCovers/TMTime.dat",
 				"results/raise/reduce/IST/TMRandomResults.dat",50);
 		*/
+		
+		SetCover cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/ADCoverage.dat",
+				"data/raise/reduce/setCovers/ADTime.dat",false);
+		System.out.println("AD\n"+cover.toString());
+		
+		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/LFCoverage.dat",
+			"data/raise/reduce/setCovers/LFTime.dat",false);
+		System.out.println("LF\n"+cover.toString());
+		
+		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/DSCoverage.dat",
+			"data/raise/reduce/setCovers/DSTime.dat",false);
+		System.out.println("DS\n"+cover.toString());
+		
+		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/GBCoverage.dat",
+			"data/raise/reduce/setCovers/GBTime.dat",false);
+		System.out.println("GB\n"+cover.toString());
+		
+		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/SKCoverage.dat",
+			"data/raise/reduce/setCovers/SKTime.dat",false);
+		System.out.println("SK\n"+cover.toString());
+		
+		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/RPCoverage.dat",
+			"data/raise/reduce/setCovers/RPTime.dat",false);
+		System.out.println("RP\n"+cover.toString());
+		
+		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/JDCoverage.dat",
+			"data/raise/reduce/setCovers/JDTime.dat",false);
+		System.out.println("JD\n"+cover.toString());
+		
+		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/RMCoverage.dat",
+		"data/raise/reduce/setCovers/RMTime.dat",false);
+		System.out.println("RM\n"+cover.toString());
+		
+		cover = SetCover.constructSetCoverFromCoverageAndTime("data/raise/reduce/setCovers/TMCoverage.dat",
+		"data/raise/reduce/setCovers/TMTime.dat",false);
+		System.out.println("TM\n"+cover.toString());
 	}		
+	
 	
 	public static void runRandomExperiment(String coverageFile, String timeFile, String resultsFile, int samples)
 	{
