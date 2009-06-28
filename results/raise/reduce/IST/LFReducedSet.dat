@@ -1,13 +1,13 @@
-alg	metric	app	redSet
-GRD	coverage	data/raise/reduce/setCovers/LFCoverage.dat	1
-GRD	time	data/raise/reduce/setCovers/LFCoverage.dat	1
-GRD	ratio	data/raise/reduce/setCovers/LFCoverage.dat	1
-2OPT	coverage	data/raise/reduce/setCovers/LFCoverage.dat	1 2
-2OPT	time	data/raise/reduce/setCovers/LFCoverage.dat	1 3
-2OPT	ratio	data/raise/reduce/setCovers/LFCoverage.dat	1 3
-HGS	coverage	data/raise/reduce/setCovers/LFCoverage.dat	1
-HGS	time	data/raise/reduce/setCovers/LFCoverage.dat	1
-HGS	ratio	data/raise/reduce/setCovers/LFCoverage.dat	1
-DGR	coverage	data/raise/reduce/setCovers/LFCoverage.dat	1
-DGR	time	data/raise/reduce/setCovers/LFCoverage.dat	1
-DGR	ratio	data/raise/reduce/setCovers/LFCoverage.dat	1
+alg	metric	app	order
+GRD	coverage	LF	0
+GRD	time	LF	0
+GRD	ratio	LF	0
+2OPT	coverage	LF	0,1
+2OPT	time	LF	0,2
+2OPT	ratio	LF	0,2
+HGS	coverage	LF	0
+HGS	time	LF	0
+HGS	ratio	LF	0
+DGR	coverage	LF	0
+DGR	time	LF	0
+DGR	ratio	LF	0

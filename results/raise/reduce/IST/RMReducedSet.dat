@@ -1,13 +1,13 @@
-alg	metric	app	redSet
-GRD	coverage	data/raise/reduce/setCovers/RMCoverage.dat	10 16 8 1 6 11 15
-GRD	time	data/raise/reduce/setCovers/RMCoverage.dat	6 8 11 13 16 2 9 10 5 14 15 4 1
-GRD	ratio	data/raise/reduce/setCovers/RMCoverage.dat	10 6 16 8 11 15 1
-2OPT	coverage	data/raise/reduce/setCovers/RMCoverage.dat	10 16 1 8 6 11 2 15
-2OPT	time	data/raise/reduce/setCovers/RMCoverage.dat	6 8 11 13 2 16 9 10 5 14 4 15 1
-2OPT	ratio	data/raise/reduce/setCovers/RMCoverage.dat	6 10 8 16 11 13 2 15 1 9
-HGS	coverage	data/raise/reduce/setCovers/RMCoverage.dat	1 6 11 15 16 5 8
-HGS	time	data/raise/reduce/setCovers/RMCoverage.dat	1 6 11 15 16 10 8
-HGS	ratio	data/raise/reduce/setCovers/RMCoverage.dat	1 6 11 15 16 10 8
-DGR	coverage	data/raise/reduce/setCovers/RMCoverage.dat	1 10 6 8 11 15 16
-DGR	time	data/raise/reduce/setCovers/RMCoverage.dat	1 10 6 8 11 15 16
-DGR	ratio	data/raise/reduce/setCovers/RMCoverage.dat	1 10 6 8 11 15 16
+alg	metric	app	order
+GRD	coverage	RM	7,12,5,0,4,8,11
+GRD	time	RM	4,5,8,9,12,1,6,7,3,10,11,2,0
+GRD	ratio	RM	7,4,12,5,8,11,0
+2OPT	coverage	RM	7,12,0,5,4,8,1,11
+2OPT	time	RM	4,5,8,9,1,12,6,7,3,10,2,11,0
+2OPT	ratio	RM	4,7,5,12,8,9,1,11,0,6
+HGS	coverage	RM	12,11,8,0,4,3,5
+HGS	time	RM	12,11,8,0,4,7,5
+HGS	ratio	RM	12,11,8,0,4,7,5
+DGR	coverage	RM	12,7,11,5,8,0,4
+DGR	time	RM	12,7,11,5,8,0,4
+DGR	ratio	RM	12,7,11,5,8,0,4
