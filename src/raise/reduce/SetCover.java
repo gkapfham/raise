@@ -5191,7 +5191,7 @@ public class SetCover implements Cloneable, Serializable
 		int height = 0;
 		int sum = 0;
 		int totalTime = 0;
-		int[] covered = new int[requirementSubsetUniverse.size()];
+		int[] covered = new int[requirementSubsetUniverse.size()+1];
 		
 		for(int i = 0; i < order.length; i++)
 		{
