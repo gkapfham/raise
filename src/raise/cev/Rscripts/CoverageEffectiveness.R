@@ -1011,7 +1011,8 @@ DisplayCoverageEffectiveness = function(OrderList,Coverage, Timing, Graph = TRUE
 	  
 	 myplot =  plot.stepfun(KappaStepFunction,
 		   xlab = expression(paste("Testing Time  ", (italic(t)))),
-		   ylab = expression(paste("Covered Test Requirements  ",
+           ylab = expression(paste("Covered Test Requirements  ",
+               xmin=0,
 			   (C(T,t)))),
 			add=addvar,
 			main = OrderingLabelFinal,
@@ -1019,8 +1020,8 @@ DisplayCoverageEffectiveness = function(OrderList,Coverage, Timing, Graph = TRUE
 			col.hor=color,
 			col.vert=color,			
 		   cex.main=.975,
-		   font.main = 1
-		   )
+		   font.main = 1,
+           )
 		
 		addvar = TRUE
 	}

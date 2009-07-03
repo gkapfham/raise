@@ -1,12 +1,35 @@
 source("CoverageEffectiveness.R")
-coverage = ReadCoverageData("../../../results/raise/cev/RPRCoverage.dat")
-timing = ReadTestTimingData("../../../results/raise/cev/RPOriginalTime.dat")
+library(gtools)
 
-a = list(c(0:65))
+coverage = ReadCoverageData("../../../../data/raise/reduce/examples/CoverageData_IST.txt")
+timing = ReadTestTimingData("../../../../data/raise/reduce/examples/TestTimingData_IST.txt")
 
-for(i in 1:5)
-{
-	a = c(a,list(sample(c(0:65))))
-}
+#a = list(c(1:4))
+orderList = list()
+#for(i in 1:5)
+#{
+#	a = c(a,list(sample(c(1:4))))
+#}
 
-DisplayCoverageEffectiveness(a,coverage,timing)
+a = permutations(4,4,1:4)
+
+for ( i in 1:24)
+    {
+
+ #     CurrentCEValue =
+  #      CalculateCoverageEffectiveness(AllOrderings[i,],
+ #                                      Coverage, Timing,
+  #                                     Graph=AllGraphs)
+
+   #   TotalOrderingsJustNames =
+    #    c(TotalOrderingsJustNames, paste(AllOrderings[i,],
+#                                         collapse=", "))
+      
+     # AllOrderingsCoverageEffectiveness =
+      #  c(AllOrderingsCoverageEffectiveness, CurrentCEValue)
+
+      orderList = c(orderList,list(a[i,]))
+    }
+
+
+DisplayCoverageEffectiveness(orderList,coverage,timing)
