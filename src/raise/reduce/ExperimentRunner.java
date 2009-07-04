@@ -44,7 +44,7 @@ public class ExperimentRunner
 		//		"results/raise/reduce/IST/TMResults.dat", metrics, techniques);
 		
 		// GREEDY FOOLING
-		runAlgExperiment("data/raise/reduce/gf/GF_TRUE_10_Coverage.dat","data/raise/reduce/gf/GF_TRUE_10_Timing.dat",
+		/* runAlgExperiment("data/raise/reduce/gf/GF_TRUE_10_Coverage.dat","data/raise/reduce/gf/GF_TRUE_10_Timing.dat",
 				"results/raise/reduce/gf/GF_TRUE_10_results.dat", metrics, techniques);
 		runAlgExperiment("data/raise/reduce/gf/GF_FALSE_10_Coverage.dat","data/raise/reduce/gf/GF_FALSE_10_Timing.dat",
 				"results/raise/reduce/gf/GF_FALSE_10_results.dat", metrics, techniques);
@@ -52,6 +52,46 @@ public class ExperimentRunner
 				"results/raise/reduce/gf/GF_TRUE_20_results.dat", metrics, techniques);
 		runAlgExperiment("data/raise/reduce/gf/GF_FALSE_20_Coverage.dat","data/raise/reduce/gf/GF_FALSE_20_Timing.dat",
 				"results/raise/reduce/gf/GF_FALSE_20_results.dat", metrics, techniques);
+		*/
+		runAlgExperiment("data/raise/reduce/gf/GF_TRUE_30_Coverage.dat","data/raise/reduce/gf/GF_TRUE_30_Timing.dat",
+				"results/raise/reduce/gf/GF_TRUE_30_results.dat", metrics, techniques);
+		runAlgExperiment("data/raise/reduce/gf/GF_FALSE_30_Coverage.dat","data/raise/reduce/gf/GF_FALSE_30_Timing.dat",
+				"results/raise/reduce/gf/GF_FALSE_30_results.dat", metrics, techniques);
+		
+		runAlgExperiment("data/raise/reduce/gf/GF_TRUE_40_Coverage.dat","data/raise/reduce/gf/GF_TRUE_40_Timing.dat",
+				"results/raise/reduce/gf/GF_TRUE_40_results.dat", metrics, techniques);
+		runAlgExperiment("data/raise/reduce/gf/GF_FALSE_40_Coverage.dat","data/raise/reduce/gf/GF_FALSE_40_Timing.dat",
+				"results/raise/reduce/gf/GF_FALSE_40_results.dat", metrics, techniques);
+		
+		runAlgExperiment("data/raise/reduce/gf/GF_TRUE_50_Coverage.dat","data/raise/reduce/gf/GF_TRUE_50_Timing.dat",
+				"results/raise/reduce/gf/GF_TRUE_50_results.dat", metrics, techniques);
+		runAlgExperiment("data/raise/reduce/gf/GF_FALSE_50_Coverage.dat","data/raise/reduce/gf/GF_FALSE_50_Timing.dat",
+				"results/raise/reduce/gf/GF_FALSE_50_results.dat", metrics, techniques);
+		
+		runAlgExperiment("data/raise/reduce/gf/GF_TRUE_60_Coverage.dat","data/raise/reduce/gf/GF_TRUE_60_Timing.dat",
+				"results/raise/reduce/gf/GF_TRUE_60_results.dat", metrics, techniques);
+		runAlgExperiment("data/raise/reduce/gf/GF_FALSE_60_Coverage.dat","data/raise/reduce/gf/GF_FALSE_60_Timing.dat",
+				"results/raise/reduce/gf/GF_FALSE_60_results.dat", metrics, techniques);
+		
+		runAlgExperiment("data/raise/reduce/gf/GF_TRUE_70_Coverage.dat","data/raise/reduce/gf/GF_TRUE_70_Timing.dat",
+				"results/raise/reduce/gf/GF_TRUE_70_results.dat", metrics, techniques);
+		runAlgExperiment("data/raise/reduce/gf/GF_FALSE_70_Coverage.dat","data/raise/reduce/gf/GF_FALSE_70_Timing.dat",
+				"results/raise/reduce/gf/GF_FALSE_70_results.dat", metrics, techniques);
+		
+		runAlgExperiment("data/raise/reduce/gf/GF_TRUE_80_Coverage.dat","data/raise/reduce/gf/GF_TRUE_80_Timing.dat",
+				"results/raise/reduce/gf/GF_TRUE_80_results.dat", metrics, techniques);
+		runAlgExperiment("data/raise/reduce/gf/GF_FALSE_80_Coverage.dat","data/raise/reduce/gf/GF_FALSE_80_Timing.dat",
+				"results/raise/reduce/gf/GF_FALSE_80_results.dat", metrics, techniques);
+		/*
+		runAlgExperiment("data/raise/reduce/gf/GF_TRUE_90_Coverage.dat","data/raise/reduce/gf/GF_TRUE_90_Timing.dat",
+				"results/raise/reduce/gf/GF_TRUE_90_results.dat", metrics, techniques);
+		runAlgExperiment("data/raise/reduce/gf/GF_FALSE_90_Coverage.dat","data/raise/reduce/gf/GF_FALSE_90_Timing.dat",
+				"results/raise/reduce/gf/GF_FALSE_90_results.dat", metrics, techniques);
+		*/
+		runAlgExperiment("data/raise/reduce/gf/GF_TRUE_100_Coverage.dat","data/raise/reduce/gf/GF_TRUE_100_Timing.dat",
+				"results/raise/reduce/gf/GF_TRUE_100_results.dat", metrics, techniques);
+		runAlgExperiment("data/raise/reduce/gf/GF_FALSE_100_Coverage.dat","data/raise/reduce/gf/GF_FALSE_100_Timing.dat",
+				"results/raise/reduce/gf/GF_FALSE_100_results.dat", metrics, techniques);
 		
 		// *******************  RANDOM ************************
 	
@@ -410,7 +450,7 @@ public class ExperimentRunner
 				//out.println(technique+"\t"+metric+"\t"+redTime+"\t"+priorTime + "\t"+CE+"\t"+RFFS+"\t"+RFFT+"\t"+origExec+"\t"+redExec+"\t"+totalSize+"\t"+redSize+"\t"+ app);
 				out.println(technique+"\t"+metric+"\t"+redTime+"\t"+priorTime + "\t"+CE+"\t"+RFFS+"\t"+RFFT+"\t"+origExec+"\t"+redExec+"\t"+totalSize+"\t"+redSize+"\t"+ app + "\t" + prioritizedSet +"\t"+reducedSet+"\n");
 				//aggOut.write(technique+"\t"+metric+"\t"+redTime+"\t"+priorTime + "\t"+CE+"\t"+RFFS+"\t"+RFFT+"\t"+origExec+"\t"+redExec+"\t"+totalSize+"\t"+redSize+"\t"+ app + "\t" + prioritizedSet +"\t"+reducedSet+"\n");
-				//System.out.println("completed current iteration.");
+				System.out.println("completed current iteration.");
 			}
 		}
 	}
