@@ -43,8 +43,16 @@ public class ExperimentRunner
 		//runAlgExperiment("data/raise/reduce/setCovers/TMMatrix.dat","data/raise/reduce/setCovers/TMTime.dat",
 		//		"results/raise/reduce/IST/TMResults.dat", metrics, techniques);
 		
-		runAlgExperiment("data/raise/reduce/examples/GlobalCoverage_10.txt","data/raise/reduce/examples/GlobalTiming_10.txt",
-						"data/raise/reduce/examples/Global_10_results.dat", metrics, techniques);
+		// GREEDY FOOLING
+		runAlgExperiment("data/raise/reduce/gf/GF_TRUE_10_Coverage.dat","data/raise/reduce/gf/GF_TRUE_10_Timing.dat",
+				"results/raise/reduce/gf/GF_TRUE_10_results.dat", metrics, techniques);
+		runAlgExperiment("data/raise/reduce/gf/GF_FALSE_10_Coverage.dat","data/raise/reduce/gf/GF_FALSE_10_Timing.dat",
+				"results/raise/reduce/gf/GF_FALSE_10_results.dat", metrics, techniques);
+		runAlgExperiment("data/raise/reduce/gf/GF_TRUE_20_Coverage.dat","data/raise/reduce/gf/GF_TRUE_20_Timing.dat",
+				"results/raise/reduce/gf/GF_TRUE_20_results.dat", metrics, techniques);
+		runAlgExperiment("data/raise/reduce/gf/GF_FALSE_20_Coverage.dat","data/raise/reduce/gf/GF_FALSE_20_Timing.dat",
+				"results/raise/reduce/gf/GF_FALSE_20_results.dat", metrics, techniques);
+		
 		// *******************  RANDOM ************************
 	
 	/*
@@ -241,10 +249,7 @@ public class ExperimentRunner
 			CE = cover.getCE(order);
 			
 			out.println("RND"+"\t"+priorTime + "\t"+CE+"\t"+ app);
-			
 		}
-		
-		
 	}
 	
 	public static void runAlgExperiment(String coverageFile, String timeFile, String resultsFile, 
@@ -270,18 +275,21 @@ public class ExperimentRunner
 			e.printStackTrace();
 		}
 		
-		
+		/*
 		Scanner fScanner = new Scanner(resultsFile).useDelimiter("/");
 		String fileName = "";
 		while(fScanner.hasNext())
 			fileName = fScanner.next();
 		
 		String app = fileName.substring(0, 2);
-	
+		*
+		*/
+		
+		String app = resultsFile;
 		
 		//"alg" "metric" "reduceTime" "priorTime" "CE" "RFFS" "RFFT" "origExecTime" "redExecTime" "totalSize" "redSize" "app"
-		out.println("alg\tmetric\treduceTime\tpriorTime\tCE\tRFFS\tRFFT\torigExecTime\tredExecTime\ttotalSize\tredSize\tapp");
-		//aggOut.write("alg\tmetric\treduceTime\tpriorTime\tCE\tRFFS\tRFFT\torigExecTime\tredExecTime\ttotalSize\tredSize\tapp\tprioritizedSet, reducedSet\n");
+		//out.println("alg\tmetric\treduceTime\tpriorTime\tCE\tRFFS\tRFFT\torigExecTime\tredExecTime\ttotalSize\tredSize\tapp");
+		out.println("alg\tmetric\treduceTime\tpriorTime\tCE\tRFFS\tRFFT\torigExecTime\tredExecTime\ttotalSize\tredSize\tapp\tprioritizedSet, reducedSet\n");
 		SetCover cover;
 		
 		double start = -1;
@@ -298,18 +306,18 @@ public class ExperimentRunner
 			for(String metric : metrics)
 			{	
 				
-				System.out.println("Test Suite: " + coverageFile + "\ntechnique: "+technique
-						+"\nmetric: "+metric);
+				//System.out.println("Test Suite: " + coverageFile + "\ntechnique: "+technique
+				//		+"\nmetric: "+metric);
 				
-				System.out.println("constructing object...");
+				//System.out.println("constructing object...");
 				cover = SetCover.constructSetCoverFromCoverageAndTime(coverageFile, timeFile,false);
 				//cover = SetCover.constructSetCoverFromMatrix(coverageFile, timeFile);
-				System.out.println("calculating original execution...");
+				//System.out.println("calculating original execution...");
 				origExec = SetCover.getExecutionTimeSingleTestSubsetList(cover.getTestSubsets());
-				System.out.println("calculating original size...");
+				//System.out.println("calculating original size...");
 				totalSize = cover.getTestSubsets().size();
 				
-				System.out.println("reducing...");
+				//System.out.println("reducing...");
 				if(technique.equals("2OPT"))
 				{
 					start = System.currentTimeMillis();
@@ -334,26 +342,26 @@ public class ExperimentRunner
 					cover.reduceUsingHarroldGuptaSoffa(metric);
 					stop = System.currentTimeMillis();
 				}
-				System.out.println("calculating runtime...");
+				//System.out.println("calculating runtime...");
 				redTime = stop-start;
 		
 				reducedSet = cover.getCoveringTestSetStringNoAlter(",");
 				
-				System.out.println("calculating size of reduced suite...");
+				//System.out.println("calculating size of reduced suite...");
 				redSize = cover.getCoverPickSets().size();
-				System.out.println("calculating execution time of reduce suite...");
+				//System.out.println("calculating execution time of reduce suite...");
 				redExec = SetCover.getExecutionTimeSingleTestList(cover.getCoverPickSets());
 				
-				System.out.println("calculating RFFS and RFFT...");
+				//System.out.println("calculating RFFS and RFFT...");
 				RFFS = (totalSize-redSize)/totalSize;
 				RFFT = (origExec-redExec)/origExec;
 				
-				System.out.println("reconstructing object...");
+				//System.out.println("reconstructing object...");
 				
 				cover = SetCover.constructSetCoverFromCoverageAndTime(coverageFile, timeFile,false);
 				//cover = SetCover.constructSetCoverFromMatrix(coverageFile, timeFile);
 				
-				System.out.println("prioritizing...");
+				//System.out.println("prioritizing...");
 				if(technique.equals("2OPT"))
 				{
 					start = System.currentTimeMillis();
@@ -384,24 +392,25 @@ public class ExperimentRunner
 					System.exit(0);
 				}
 				
-				System.out.println("calculating prioritization time");
+				//System.out.println("calculating prioritization time");
 				priorTime = stop-start;
 				
 				prioritizedSet = cover.getPrioritizedSetStringNoAlter(",");				
 				int[] order = cover.getPrioritizedOrderArray();
 				
-				System.out.println("reconstructing object...");
+				//System.out.println("reconstructing object...");
 				cover = SetCover.constructSetCoverFromCoverageAndTime(coverageFile,timeFile,false);
 				//cover = SetCover.constructSetCoverFromMatrix(coverageFile, timeFile);
 
-				System.out.println("calculating coverage effectiveness");
+				//System.out.println("calculating coverage effectiveness");
 				CE = cover.getCE(order);
 			
 		
-				System.out.println("writing to file...");
-				out.println(technique+"\t"+metric+"\t"+redTime+"\t"+priorTime + "\t"+CE+"\t"+RFFS+"\t"+RFFT+"\t"+origExec+"\t"+redExec+"\t"+totalSize+"\t"+redSize+"\t"+ app);
-				aggOut.write(technique+"\t"+metric+"\t"+redTime+"\t"+priorTime + "\t"+CE+"\t"+RFFS+"\t"+RFFT+"\t"+origExec+"\t"+redExec+"\t"+totalSize+"\t"+redSize+"\t"+ app + "\t" + prioritizedSet +"\t"+reducedSet+"\n");
-				System.out.println("completed current iteration.");
+				//System.out.println("writing to file...");
+				//out.println(technique+"\t"+metric+"\t"+redTime+"\t"+priorTime + "\t"+CE+"\t"+RFFS+"\t"+RFFT+"\t"+origExec+"\t"+redExec+"\t"+totalSize+"\t"+redSize+"\t"+ app);
+				out.println(technique+"\t"+metric+"\t"+redTime+"\t"+priorTime + "\t"+CE+"\t"+RFFS+"\t"+RFFT+"\t"+origExec+"\t"+redExec+"\t"+totalSize+"\t"+redSize+"\t"+ app + "\t" + prioritizedSet +"\t"+reducedSet+"\n");
+				//aggOut.write(technique+"\t"+metric+"\t"+redTime+"\t"+priorTime + "\t"+CE+"\t"+RFFS+"\t"+RFFT+"\t"+origExec+"\t"+redExec+"\t"+totalSize+"\t"+redSize+"\t"+ app + "\t" + prioritizedSet +"\t"+reducedSet+"\n");
+				//System.out.println("completed current iteration.");
 			}
 		}
 	}

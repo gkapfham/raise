@@ -1007,18 +1007,17 @@ DisplayCoverageEffectiveness = function(OrderList,Coverage, Timing, Graph = TRUE
 	  # plot the step function that corresponds to kappa, or the
 	  # requirement coverage function
 	  
-	  color =  colors()[sample(c(1:655))[1]]
+	  color =  colors()[sample(c(153:225))[1]]
 	  
 	 myplot =  plot.stepfun(KappaStepFunction,
 		   xlab = expression(paste("Testing Time  ", (italic(t)))),
-           ylab = expression(paste("Covered Test Requirements  ",
-               xmin=0,
-			   (C(T,t)))),
-			add=addvar,
-			main = OrderingLabelFinal,
-			do.points=FALSE,
-			col.hor=color,
-			col.vert=color,			
+                   ylab = expression(paste("Covered Test Requirements  ",(C(T,t)))),
+                   xlim=c(0,9),
+    		   add=addvar,
+		   main = OrderingLabelFinal,
+		   do.points=FALSE,
+		   col.hor=color,
+		   col.vert=color,			
 		   cex.main=.975,
 		   font.main = 1,
            )

@@ -1114,7 +1114,7 @@ public class SetCover implements Cloneable, Serializable
      *  
      *  @author Gregory M. Kapfhammer 9/17/2005
      */
-    public LinkedHashSet getTestSubsets()
+    public LinkedHashSet<SingleTestSubset> getTestSubsets()
 	//public Set getTestSubsets()
     {
 
@@ -1126,9 +1126,9 @@ public class SetCover implements Cloneable, Serializable
      * Returns the LinkedHashSet of SingleTest objects
      * 
      */
-    public LinkedHashSet getSingleTests()
+    public LinkedHashSet<SingleTest> getSingleTests()
     {
-    	LinkedHashSet tests = new LinkedHashSet();
+    	LinkedHashSet<SingleTest> tests = new LinkedHashSet<SingleTest>();
     	
     	Iterator<SingleTestSubset> STSIt = this.getTestSubsets().iterator();
     	while(STSIt.hasNext())
@@ -1140,7 +1140,7 @@ public class SetCover implements Cloneable, Serializable
     /**
      *  @author Gregory M. Kapfhammer 9/20/2005
      */
-    public void setTestSubsetsSet(LinkedHashSet set)
+    public void setTestSubsetsSet(LinkedHashSet<SingleTestSubset> set)
     {
 
 	testSubsets = set;
@@ -1303,63 +1303,69 @@ public class SetCover implements Cloneable, Serializable
      */
     public void prioritizeUsingRandom()
     {
-
-	// take the timing before
-	long prioritizationTimeBefore = System.currentTimeMillis();
-
-	prioritizedSets = new LinkedHashSet();
+    	long seed = 1830284295;
+    	this.prioritizeUsingRandom(seed);
+    }
+    
+    public void prioritizeUsingRandom(long seed)
+    {
+	    	
+		// take the timing before
+		long prioritizationTimeBefore = System.currentTimeMillis();
 	
-	// produce an ArrayList from the set of the testSubsets
-	ArrayList testSubsetsList = new ArrayList(this.getTestSubsets());
-
-	//System.out.println("ChosenSeed = " + chosenSeed);
-
-	// initialize the randomizer 
-	randomizer = new Random();
-		// This was creating problems for batch random prioritization
-		// I could create a random object for each SC...
-		//randomizer = new Random(System.currentTimeMillis());
+		prioritizedSets = new LinkedHashSet<SingleTest>();
 		
-	// shuffle the array using our randomizer that has been 
-	// initialized with a specifc random seed
-	Collections.shuffle(testSubsetsList, randomizer);
-
-	// comment out for now!
-
-	// add everything inside of the shuffled list
-// 	coverPickSets.addAll(testSubsetsList);
-
-// 	// added by gmk on march 6
-// 	reducedSingleTestSubsets.
-// 	    addAll( testSubsetsList );
-
-	// extract an Iterator of the shuffled testSubsetsList
-	// and then select the first targetSize tests and 
-	// place them inside of coverPickSets
-	Iterator testSubsetsIterator = testSubsetsList.iterator();
-	while( testSubsetsIterator.hasNext() )
-	    {
-
-// 		SingleTestSubset currentTestSubset = 
-// 		    (SingleTestSubset) testSubsetsIterator.next();
-
-// 		coverPickSets.add(currentTestSubset.getTest());
-
-		SingleTestSubset stsJerk = 
-		    (SingleTestSubset) testSubsetsIterator.next();
-
-		this.prioritizedSets.add( stsJerk.getTest() );
-
-		// added by gmk on march 6
-		//reducedSingleTestSubsets.
-		  //  add( stsJerk );
-
-	    }
-
-	// take the timing after
-	long prioritizationTimeAfter = System.currentTimeMillis();
-	prioritizationTime = (prioritizationTimeAfter -
-			      prioritizationTimeBefore);
+		// produce an ArrayList from the set of the testSubsets
+		ArrayList<SingleTestSubset> testSubsetsList = new ArrayList<SingleTestSubset>(this.getTestSubsets());
+	
+		//System.out.println("ChosenSeed = " + chosenSeed);
+	
+		// initialize the randomizer 
+		randomizer = new Random(seed);
+			// This was creating problems for batch random prioritization
+			// I could create a random object for each SC...
+			//randomizer = new Random(System.currentTimeMillis());
+			
+		// shuffle the array using our randomizer that has been 
+		// initialized with a specifc random seed
+		Collections.shuffle(testSubsetsList, randomizer);
+	
+		// comment out for now!
+	
+		// add everything inside of the shuffled list
+	// 	coverPickSets.addAll(testSubsetsList);
+	
+	// 	// added by gmk on march 6
+	// 	reducedSingleTestSubsets.
+	// 	    addAll( testSubsetsList );
+	
+		// extract an Iterator of the shuffled testSubsetsList
+		// and then select the first targetSize tests and 
+		// place them inside of coverPickSets
+		Iterator testSubsetsIterator = testSubsetsList.iterator();
+		while( testSubsetsIterator.hasNext() )
+		    {
+	
+	// 		SingleTestSubset currentTestSubset = 
+	// 		    (SingleTestSubset) testSubsetsIterator.next();
+	
+	// 		coverPickSets.add(currentTestSubset.getTest());
+	
+			SingleTestSubset stsJerk = 
+			    (SingleTestSubset) testSubsetsIterator.next();
+	
+			this.prioritizedSets.add( stsJerk.getTest() );
+	
+			// added by gmk on march 6
+			//reducedSingleTestSubsets.
+			  //  add( stsJerk );
+	
+		    }
+	
+		// take the timing after
+		long prioritizationTimeAfter = System.currentTimeMillis();
+		prioritizationTime = (prioritizationTimeAfter -
+				      prioritizationTimeBefore);
 
     }
 
@@ -5522,12 +5528,15 @@ public class SetCover implements Cloneable, Serializable
 				{	
 					if ( ratio(competitorTest) > ratio(bestTestSoFar) )
 					{
+						//System.out.println(ratio(competitorTest) + " > " + ratio(bestTestSoFar));
 						bestTestSoFar = competitorTest;
+						
 					}
 				}
 			}
 			
 			testsToCheck.remove(bestTestSoFar);
+			//System.out.println("I choose" + bestTestSoFar.getTest().getIndex());
 			selectTest(bestTestSoFar);
 		} // Closes outermost loop
 		
