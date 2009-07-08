@@ -22,7 +22,6 @@ public class ExperimentRunner
 		//					"results/raise/reduce/IST/ADResults.dat", metrics, techniques);
 		
 		/*************************  ALGORITHMS *********************/
-		/*
 		runAlgExperiment("data/raise/reduce/setCovers/ADMatrix.dat","data/raise/reduce/setCovers/ADTime.dat",
 				"results/raise/reduce/IST/ADResults.dat", metrics, techniques);
 		runAlgExperiment("data/raise/reduce/setCovers/LFMatrix.dat","data/raise/reduce/setCovers/LFTime.dat",
@@ -39,9 +38,8 @@ public class ExperimentRunner
 				"results/raise/reduce/IST/RMResults.dat", metrics, techniques);
 		runAlgExperiment("data/raise/reduce/setCovers/SKMatrix.dat","data/raise/reduce/setCovers/SKTime.dat",
 				"results/raise/reduce/IST/SKResults.dat", metrics, techniques);
-				*/
-		//runAlgExperiment("data/raise/reduce/setCovers/TMMatrix.dat","data/raise/reduce/setCovers/TMTime.dat",
-		//		"results/raise/reduce/IST/TMResults.dat", metrics, techniques);
+		runAlgExperiment("data/raise/reduce/setCovers/TMMatrix.dat","data/raise/reduce/setCovers/TMTime.dat",
+			"results/raise/reduce/IST/TMResults.dat", metrics, techniques);
 		
 		// GREEDY FOOLING
 		/* runAlgExperiment("data/raise/reduce/gf/GF_TRUE_10_Coverage.dat","data/raise/reduce/gf/GF_TRUE_10_Timing.dat",
@@ -53,6 +51,8 @@ public class ExperimentRunner
 		runAlgExperiment("data/raise/reduce/gf/GF_FALSE_20_Coverage.dat","data/raise/reduce/gf/GF_FALSE_20_Timing.dat",
 				"results/raise/reduce/gf/GF_FALSE_20_results.dat", metrics, techniques);
 		*/
+		
+		/*
 		runAlgExperiment("data/raise/reduce/gf/GF_TRUE_30_Coverage.dat","data/raise/reduce/gf/GF_TRUE_30_Timing.dat",
 				"results/raise/reduce/gf/GF_TRUE_30_results.dat", metrics, techniques);
 		runAlgExperiment("data/raise/reduce/gf/GF_FALSE_30_Coverage.dat","data/raise/reduce/gf/GF_FALSE_30_Timing.dat",
@@ -82,17 +82,17 @@ public class ExperimentRunner
 				"results/raise/reduce/gf/GF_TRUE_80_results.dat", metrics, techniques);
 		runAlgExperiment("data/raise/reduce/gf/GF_FALSE_80_Coverage.dat","data/raise/reduce/gf/GF_FALSE_80_Timing.dat",
 				"results/raise/reduce/gf/GF_FALSE_80_results.dat", metrics, techniques);
-		/*
+	
 		runAlgExperiment("data/raise/reduce/gf/GF_TRUE_90_Coverage.dat","data/raise/reduce/gf/GF_TRUE_90_Timing.dat",
 				"results/raise/reduce/gf/GF_TRUE_90_results.dat", metrics, techniques);
 		runAlgExperiment("data/raise/reduce/gf/GF_FALSE_90_Coverage.dat","data/raise/reduce/gf/GF_FALSE_90_Timing.dat",
 				"results/raise/reduce/gf/GF_FALSE_90_results.dat", metrics, techniques);
-		*/
+	
 		runAlgExperiment("data/raise/reduce/gf/GF_TRUE_100_Coverage.dat","data/raise/reduce/gf/GF_TRUE_100_Timing.dat",
 				"results/raise/reduce/gf/GF_TRUE_100_results.dat", metrics, techniques);
 		runAlgExperiment("data/raise/reduce/gf/GF_FALSE_100_Coverage.dat","data/raise/reduce/gf/GF_FALSE_100_Timing.dat",
 				"results/raise/reduce/gf/GF_FALSE_100_results.dat", metrics, techniques);
-		
+		*/
 		// *******************  RANDOM ************************
 	
 	/*
@@ -315,17 +315,15 @@ public class ExperimentRunner
 			e.printStackTrace();
 		}
 		
-		/*
+		
 		Scanner fScanner = new Scanner(resultsFile).useDelimiter("/");
 		String fileName = "";
 		while(fScanner.hasNext())
 			fileName = fScanner.next();
 		
 		String app = fileName.substring(0, 2);
-		*
-		*/
 		
-		String app = resultsFile;
+		//String app = resultsFile;
 		
 		//"alg" "metric" "reduceTime" "priorTime" "CE" "RFFS" "RFFT" "origExecTime" "redExecTime" "totalSize" "redSize" "app"
 		//out.println("alg\tmetric\treduceTime\tpriorTime\tCE\tRFFS\tRFFT\torigExecTime\tredExecTime\ttotalSize\tredSize\tapp");
@@ -350,8 +348,8 @@ public class ExperimentRunner
 				//		+"\nmetric: "+metric);
 				
 				//System.out.println("constructing object...");
-				cover = SetCover.constructSetCoverFromCoverageAndTime(coverageFile, timeFile,false);
-				//cover = SetCover.constructSetCoverFromMatrix(coverageFile, timeFile);
+				//cover = SetCover.constructSetCoverFromCoverageAndTime(coverageFile, timeFile,false);
+				cover = SetCover.constructSetCoverFromMatrix(coverageFile, timeFile);
 				//System.out.println("calculating original execution...");
 				origExec = SetCover.getExecutionTimeSingleTestSubsetList(cover.getTestSubsets());
 				//System.out.println("calculating original size...");
@@ -385,7 +383,8 @@ public class ExperimentRunner
 				//System.out.println("calculating runtime...");
 				redTime = stop-start;
 		
-				reducedSet = cover.getCoveringTestSetStringNoAlter(",");
+				//reducedSet = cover.getCoveringTestSetStringNoAlter(",");
+				reducedSet = cover.getCoveringTestSetString(",");
 				
 				//System.out.println("calculating size of reduced suite...");
 				redSize = cover.getCoverPickSets().size();
@@ -398,8 +397,8 @@ public class ExperimentRunner
 				
 				//System.out.println("reconstructing object...");
 				
-				cover = SetCover.constructSetCoverFromCoverageAndTime(coverageFile, timeFile,false);
-				//cover = SetCover.constructSetCoverFromMatrix(coverageFile, timeFile);
+				//cover = SetCover.constructSetCoverFromCoverageAndTime(coverageFile, timeFile,false);
+				cover = SetCover.constructSetCoverFromMatrix(coverageFile, timeFile);
 				
 				//System.out.println("prioritizing...");
 				if(technique.equals("2OPT"))
@@ -435,12 +434,13 @@ public class ExperimentRunner
 				//System.out.println("calculating prioritization time");
 				priorTime = stop-start;
 				
-				prioritizedSet = cover.getPrioritizedSetStringNoAlter(",");				
+				//prioritizedSet = cover.getPrioritizedSetStringNoAlter(",");
+				prioritizedSet = cover.getPrioritizedSetString(",");
 				int[] order = cover.getPrioritizedOrderArray();
 				
 				//System.out.println("reconstructing object...");
-				cover = SetCover.constructSetCoverFromCoverageAndTime(coverageFile,timeFile,false);
-				//cover = SetCover.constructSetCoverFromMatrix(coverageFile, timeFile);
+				//cover = SetCover.constructSetCoverFromCoverageAndTime(coverageFile,timeFile,false);
+				cover = SetCover.constructSetCoverFromMatrix(coverageFile, timeFile);
 
 				//System.out.println("calculating coverage effectiveness");
 				CE = cover.getCE(order);
