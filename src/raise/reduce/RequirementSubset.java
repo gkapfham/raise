@@ -8,7 +8,6 @@
 
 package raise.reduce;
 
-import java.util.Set;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 
@@ -25,7 +24,12 @@ import java.lang.Cloneable;
 public class RequirementSubset implements Cloneable, Serializable, Comparable<RequirementSubset>
 {
 
-    /** The name of the requirement subset; this is just the name
+    /**
+	 * For serializable
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/** The name of the requirement subset; this is just the name
      of the requirement itself (i.e., a DUA, DIA, DB entity, ...) */
     private String name;
 
@@ -33,7 +37,7 @@ public class RequirementSubset implements Cloneable, Serializable, Comparable<Re
     private int index;
 
     /** The set of the SingleTests that cover this requirement */
-    private LinkedHashSet coveringTestSet;
+    private LinkedHashSet<SingleTest> coveringTestSet;
 
     /** The frequency of this requirement.  This is the number 
 	of tests that actually cover this same requirement */
@@ -46,12 +50,10 @@ public class RequirementSubset implements Cloneable, Serializable, Comparable<Re
      */
     public RequirementSubset()
     {
-
-	name = "RequirementSubset";
-	index = 0;
-	coveringTestSet = new LinkedHashSet();
-	frequency = 0;
-
+		name = "RequirementSubset";
+		index = 0;
+		coveringTestSet = new LinkedHashSet<SingleTest>();
+		frequency = 0;
     }
 
     /**
@@ -61,12 +63,10 @@ public class RequirementSubset implements Cloneable, Serializable, Comparable<Re
      */
     public RequirementSubset(String name, int index)
     {
-
-	this.name = name;
-	this.index = index;
-	coveringTestSet = new LinkedHashSet();
-	frequency = 0;
-
+		this.name = name;
+		this.index = index;
+		coveringTestSet = new LinkedHashSet<SingleTest>();
+		frequency = 0;
     }
 
     /**
@@ -130,7 +130,7 @@ public class RequirementSubset implements Cloneable, Serializable, Comparable<Re
     /**
      *  @author Gregory M. Kapfhammer 9/20/2005
      */
-    public void setCoveringTestSet(LinkedHashSet coveringSet)
+    public void setCoveringTestSet(LinkedHashSet<SingleTest> coveringSet)
     {
 
 	coveringTestSet = coveringSet;
@@ -145,7 +145,7 @@ public class RequirementSubset implements Cloneable, Serializable, Comparable<Re
     public void clearCoveringTestSet()
     {
 
-	coveringTestSet = new LinkedHashSet();
+	coveringTestSet = new LinkedHashSet<SingleTest>();
 
     }
 
@@ -164,7 +164,7 @@ public class RequirementSubset implements Cloneable, Serializable, Comparable<Re
      *  
      *  @author Gregory M. Kapfhammer 9/17/2005
      */
-    public LinkedHashSet getCoveringTests()
+    public LinkedHashSet<SingleTest> getCoveringTests()
     {
 
 	return coveringTestSet;
@@ -237,15 +237,15 @@ public class RequirementSubset implements Cloneable, Serializable, Comparable<Re
 	// 				(this.getCoveringTests().clone()) );
 
 		// doing the deep copy
-		LinkedHashSet deepSet = new LinkedHashSet();
-		Iterator coveringIterator = this.getCoveringTests().iterator();
+		LinkedHashSet<SingleTest> deepSet = new LinkedHashSet<SingleTest>();
+		Iterator<SingleTest> coveringIterator = this.getCoveringTests().iterator();
 		while( coveringIterator.hasNext() )
 	    {
 
 			SingleTest currentTest = 
 				(SingleTest) coveringIterator.next();
 
-			deepSet.add( currentTest.clone() );
+			deepSet.add( (SingleTest) currentTest.clone() );
 
 	    }
 
@@ -260,14 +260,14 @@ public class RequirementSubset implements Cloneable, Serializable, Comparable<Re
      */ 
     public String longToString()
     {
-
-	// do not print out the details about the covering test set
-	// because this makes the debugging output very difficult
-	// to read when we convert to hitting set instance to a
-	// set cover instance
-
-	return "RequirementSubset(" + name + ", " + index + ")" + "," +
-	     coveringTestSet.toString() + ")";
+	
+		// do not print out the details about the covering test set
+		// because this makes the debugging output very difficult
+		// to read when we convert to hitting set instance to a
+		// set cover instance
+	
+		return "RequirementSubset(" + name + ", " + index + ")" + "," +
+		     coveringTestSet.toString() + ")";
 
     }
 
