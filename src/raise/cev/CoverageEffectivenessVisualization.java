@@ -18,7 +18,6 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-
 import raise.reduce.SetCover;
 
 import java.awt.Font;
